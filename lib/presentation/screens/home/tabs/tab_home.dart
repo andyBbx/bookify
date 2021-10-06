@@ -85,7 +85,7 @@ class _HomeTabState extends State<HomeTab> {
           flexibleSpace: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 4,
@@ -114,7 +114,8 @@ class _HomeTabState extends State<HomeTab> {
                             BlocBuilder<SignupCubit, SignupState>(
                               builder: (context, state) {
                                 return Text(
-                                  "Hola, ${state}",
+                                  // "Hola, ${state}",
+                                  'Hola, nombre',
                                   style: TextStyle(
                                       fontSize: 29,
                                       fontWeight: FontWeight.bold,
@@ -131,7 +132,7 @@ class _HomeTabState extends State<HomeTab> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text("Calle Don José 3",
+                                Text("Av. de Barcelona 3",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
@@ -217,7 +218,7 @@ class _HomeTabState extends State<HomeTab> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     SizedBox(
                         height: 120,
                         child: ReservarItem(title: "Ahora", isWhite: false)),
@@ -231,11 +232,11 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 width: widhth,
                 child: Text(
                   "¿Qué estás buscando?",
@@ -245,13 +246,13 @@ class _HomeTabState extends State<HomeTab> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
                 width: widhth,
-                padding: EdgeInsets.only(left: 20),
                 child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(left: 20),
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -272,11 +273,11 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               currentFiler == 0 ? const Offers() : Restaurantes(),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
             ],

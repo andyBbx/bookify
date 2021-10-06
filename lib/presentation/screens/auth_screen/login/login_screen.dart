@@ -36,14 +36,10 @@ class LoginScreen extends StatelessWidget {
               ))),
       child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Stack(
-            children: [
-              BlocProvider(
-                  create: (context) => LoginBloc(authRepo: AuthRepository()),
-                  child: FormLogin(
-                      formKey: _formKey, height: height, widht: widht))
-            ],
-          )),
+          body: BlocProvider(
+              create: (context) => LoginBloc(authRepo: AuthRepository()),
+              child:
+                  FormLogin(formKey: _formKey, height: height, widht: widht))),
     );
   }
 }
@@ -151,10 +147,8 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (conect, state) => state.formStatus is FormSubmitting
-          ? Container(
-              width: 50,
-              height: 50,
-              child: const CircularProgressIndicator(),
+          ? const Center(
+              child: CircularProgressIndicator(),
             )
           : SizedBox(
               width: widht / 1.2,
@@ -187,11 +181,13 @@ class pass_fielld extends StatelessWidget {
       return SizedBox(
         width: widht / 1.5,
         child: TextFormField(
+          textInputAction: TextInputAction.done,
+          keyboardType: TextInputType.visiblePassword,
           obscureText: true,
           validator: (val) =>
               BuildContext.read<LoginBloc>().state.isValidPassword
                   ? null
-                  : "Not a valid password",
+                  : "Introduce una contraseña vailida",
           onChanged: (val) => context
               .read<LoginBloc>()
               .add(LoginPasswordChanged(password: val)),
@@ -231,6 +227,8 @@ class email_field extends StatelessWidget {
       width: widht / 1.5,
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (conect, state) => TextFormField(
+          textInputAction: TextInputAction.next,
+          keyboardType: TextInputType.emailAddress,
           onChanged: (value) {
             context
                 .read<LoginBloc>()
@@ -238,7 +236,7 @@ class email_field extends StatelessWidget {
           },
           validator: (val) => context.read<LoginBloc>().state.isValidUsername
               ? null
-              : "Not valid user name",
+              : "Introduce un correo valido",
           decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: splash_background),
