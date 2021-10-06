@@ -82,7 +82,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
           SliverAppBar(
             leading: Icon(Icons.keyboard_arrow_left, color: Colors.white),
 
-            actions: [
+            actions: const [
               Icon(Icons.favorite_border, color: Colors.white),
               SizedBox(
                 width: 20,
@@ -135,7 +135,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white,
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Colors.black12,
                                 blurRadius: 4,
@@ -241,7 +241,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
@@ -263,7 +263,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
@@ -285,7 +285,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
@@ -307,7 +307,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
@@ -356,7 +356,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(11)),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 4,
@@ -460,7 +460,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.all(Radius.circular(11)),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Colors.black12,
                                 blurRadius: 4,

@@ -56,6 +56,8 @@ class _HomeTabState extends State<HomeTab> {
     ]);
   }
 
+  bool nowActive = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -197,7 +199,7 @@ class _HomeTabState extends State<HomeTab> {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -211,24 +213,42 @@ class _HomeTabState extends State<HomeTab> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                         height: 120,
-                        child: ReservarItem(title: "Ahora", isWhite: false)),
-                    SizedBox(
+                        child: InkWell(
+                            onTap: () {
+                              if (!nowActive) {
+                                setState(() {
+                                  nowActive = !nowActive;
+                                });
+                              }
+                            },
+                            child: ReservarItem(
+                                title: "Ahora", isWhite: !nowActive))),
+                    const SizedBox(
                       width: 20,
                     ),
                     SizedBox(
                         height: 120,
-                        child: ReservarItem(
-                            title: "Cualquier\nmomento", isWhite: true)),
+                        child: InkWell(
+                          onTap: () {
+                            if (nowActive) {
+                              setState(() {
+                                nowActive = !nowActive;
+                              });
+                            }
+                          },
+                          child: ReservarItem(
+                              title: "Cualquier\nmomento", isWhite: nowActive),
+                        )),
                   ],
                 ),
               ),
