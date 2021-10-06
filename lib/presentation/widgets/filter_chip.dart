@@ -90,3 +90,33 @@ class _FilterChipItemState extends State<FilterChipItem> {
           );
   }
 }
+
+class FilterChipHour extends StatefulWidget {
+  const FilterChipHour({Key? key, required this.cheapItem}) : super(key: key);
+
+  final CheapItem cheapItem;
+
+  @override
+  _FilterChipHourState createState() => _FilterChipHourState();
+}
+
+class _FilterChipHourState extends State<FilterChipHour> {
+  @override
+  Widget build(BuildContext context) {
+    return widget.cheapItem.seleted
+        ? Center(
+            child: Text(
+            widget.cheapItem.text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 19, fontWeight: FontWeight.w300),
+          ))
+        : Center(
+            child: Text(
+            widget.cheapItem.text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: textBold, fontSize: 19, fontWeight: FontWeight.w500),
+          ));
+  }
+}

@@ -36,6 +36,16 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
     _scrollController.addListener(() {
       print(_scrollController.position.pixels);
 
+      if (_scrollController.position.pixels < 150) {
+        setState(() {
+          radius = 60;
+        });
+      } else {
+        setState(() {
+          radius = 20;
+        });
+      }
+
       // if (_scrollController.position.pixels < 100 && radius == 0) {
       //   setState(() {
       //     radius = 60;
@@ -48,6 +58,8 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
     });
   }
 
+  int count = 3;
+
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
@@ -58,8 +70,6 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
     final List<Map> myProducts =
         List.generate(4, (index) => {"id": index, "name": "Product $index"})
             .toList();
-
-    int count = 3;
 
     final List<String> times = [
       "10:30",
@@ -80,7 +90,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
         controller: _scrollController,
         slivers: [
           SliverAppBar(
-            leading: Icon(Icons.keyboard_arrow_left, color: Colors.white),
+            leading: const Icon(Icons.keyboard_arrow_left, color: Colors.white),
 
             actions: const [
               Icon(Icons.favorite_border, color: Colors.white),
@@ -93,7 +103,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
             expandedHeight: 320,
             collapsedHeight: 60,
             // toolBarColor: Colors.transparent,
-            flexibleSpace: Container(
+            flexibleSpace: SizedBox(
               width: widhth,
               height: 350,
               child: Stack(
@@ -106,11 +116,9 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       itemCount: 3,
                       itemBuilder: (BuildContext context, int itemIndex,
                               int pageViewIndex) =>
-                          Container(
-                        child: Image.asset(
-                          widget.restaurante.images[0],
-                          fit: BoxFit.cover,
-                        ),
+                          Image.asset(
+                        widget.restaurante.images[0],
+                        fit: BoxFit.cover,
                       ),
                       options: CarouselOptions(
                         autoPlay: true,
@@ -122,16 +130,17 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                     ),
                   ),
                   Positioned(
-                      bottom: 0,
+                      bottom: 10,
                       right: 0,
                       left: 0,
                       child: CircleAvatar(
-                        radius:
-                            radius, // (70-_scrollController.position.pixels)>0?(70-_scrollController.position.pixels):70-_scrollController.position.pixels:10
-
+                        radius: radius,
+                        // radius: (70 - _scrollController.position.pixels) > 0
+                        //     ? (70 - _scrollController.position.pixels)
+                        //     : (70 - _scrollController.position.pixels),
                         backgroundColor: Colors.white,
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white,
@@ -347,16 +356,16 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             fontWeight: FontWeight.w700,
                             color: textDrkgray),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         height: 45,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(11)),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 4,
@@ -372,33 +381,31 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                                 color: textDrkgray.withOpacity(0.45),
                               ),
                               onTap: () {
-                                setState(() {
+                                if (count >= 2) {
                                   count--;
-
-                                  print("count " + count.toString());
-                                });
+                                  setState(() {});
+                                }
                               },
                             ),
-                            SizedBox(
-                              width: 20,
+                            const SizedBox(
+                              width: 17,
                             ),
                             Text(
-                              "${count.toString()}",
+                              count.toString(),
                               style: TextStyle(
                                   fontSize: 19,
                                   fontWeight: FontWeight.w700,
                                   color: textDrkgray),
                             ),
-                            SizedBox(
-                              width: 20,
+                            const SizedBox(
+                              width: 17,
                             ),
-                            IconButton(
-                              onPressed: () {
+                            InkWell(
+                              onTap: () {
                                 count++;
-                                print("count " + count.toString());
                                 setState(() {});
                               },
-                              icon: Icon(
+                              child: Icon(
                                 Icons.add,
                                 color: textDrkgray.withOpacity(0.45),
                               ),
@@ -510,23 +517,44 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             color: textDrkgray),
                       ),
                       GridView.count(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisCount: 3,
                           childAspectRatio: 3,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                           children: List.generate(times.length, (index) {
-                            return FilterChipItem(
-                              cheapItem: CheapItem(
-                                  text: times[index],
-                                  icon: "icon",
-                                  seleted: selextedIndex == index),
-                              func: () {
-                                setState(() {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: selextedIndex == index
+                                      ? textBold
+                                      : Colors.white,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  border: Border.all(
+                                    color: textBold,
+                                  )),
+                              child: InkWell(
+                                onTap: () {
                                   selextedIndex = index;
                                   print("selected " + selextedIndex.toString());
-                                });
-                              },
+                                  setState(() {});
+                                },
+                                child: FilterChipHour(
+                                  cheapItem: CheapItem(
+                                      text: times[index],
+                                      icon: "icon",
+                                      seleted: selextedIndex == index
+                                          ? true
+                                          : false),
+                                ),
+                              ),
                             );
                           })),
                       // Container(
@@ -612,28 +640,28 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                         color: textDrkgray),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   width: widhth,
                   height: 100,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xFFF2F2F2),
                       borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Escribe aquí",
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: textDrkgray),
-                    ),
-                  ),
+                  child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        textAlign: TextAlign.start,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            label: Text('Escribe aqui...')),
+                      )),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
