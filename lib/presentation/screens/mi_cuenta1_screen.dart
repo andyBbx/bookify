@@ -45,7 +45,7 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-              iconTheme: IconThemeData(
+              iconTheme: const IconThemeData(
                 color: Colors.transparent,
               ),
               collapsedHeight: isTab() ? height / 4 : widhth / 1.2,
@@ -53,16 +53,12 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
               pinned: true,
               flexibleSpace: Container(
                 width: widhth,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                  "assets/halfPattern.png",
+                ))),
                 child: Stack(children: [
-                  Positioned(
-                    top: 0,
-                    child: Image.asset(
-                      "assets/images/frame_confermation.png",
-                      width: widhth,
-                      fit: BoxFit.cover,
-                      color: frameColor.withOpacity(0.45),
-                    ),
-                  ),
                   Positioned(
                       top: 20,
                       left: 20,

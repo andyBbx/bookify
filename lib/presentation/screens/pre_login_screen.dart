@@ -23,67 +23,82 @@ class PreLoginScreen extends StatelessWidget {
       decoration: BoxDecoration(
           color: splash_background,
           image: DecorationImage(
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               alignment: Alignment.topCenter,
               image: AssetImage(
-                !isLandccape
-                    ? "assets/images/pre_login_bottom_frame.png"
-                    : "assets/images/pre_login_bottom_frame.png",
+                !isLandccape ? "assets/pattern.png" : "assets/pattern.png",
               ))),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: EdgeInsets.all(widht / 8),
-            height: height / 1.7,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                    child: SvgPicture.asset(
-                  "assets/logo_full.svg",
-                  width: widht / 2,
-                )),
-                SizedBox(
-                  height: height / 20,
-                ),
-                SizedBox(
-                  width: widht / 1.2,
-                  child: LargeButton(
-                    text: "Iniciar sesión",
-                    isWhite: false,
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LoginScreen()));
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: height / 40,
-                ),
-                SizedBox(
-                  width: widht / 1.2,
-                  child: LargeButton(
-                      text: "Regístrate",
-                      isWhite: false,
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RegisterScreen()));
-                      }
-                      //
-
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                padding: EdgeInsets.all(widht / 8),
+                height: height / 1.7,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: const Radius.circular(50))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        child: SvgPicture.asset(
+                      "assets/logo_full.svg",
+                      width: widht / 1.8,
+                    )),
+                    SizedBox(
+                      height: height / 20,
+                    ),
+                    SizedBox(
+                      width: widht / 1.2,
+                      child: LargeButton(
+                        text: "Iniciar sesión",
+                        isWhite: false,
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                        },
                       ),
+                    ),
+                    SizedBox(
+                      height: height / 40,
+                    ),
+                    SizedBox(
+                      width: widht / 1.2,
+                      child: LargeButton(
+                          text: "Regístrate",
+                          isWhite: false,
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => RegisterScreen()));
+                          }
+                          //
+
+                          ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Container(
+                height: 130,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.topCenter,
+                        image: AssetImage(
+                          !isLandccape
+                              ? "assets/halfPattern.png"
+                              : "assets/halfPattern.png",
+                        )),),
+              ),
+            ],
           ),
         ),
       ),

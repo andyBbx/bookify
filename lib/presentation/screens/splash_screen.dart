@@ -17,9 +17,12 @@ class SplashScreen extends StatelessWidget {
     bool isLandccape =
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
-    Future.delayed(Duration(milliseconds: 3000), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => PreLoginScreen()));
+    Future.delayed(Duration(milliseconds: 2000), () {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => PreLoginScreen()),
+          ModalRoute.withName('/'));
     });
 
     return Scaffold(
@@ -33,9 +36,7 @@ class SplashScreen extends StatelessWidget {
             bottom: 0,
             child: Container(
               child: Image.asset(
-                !isTab()
-                    ? "assets/images/splash_frame.png"
-                    : "assets/images/splash_frame.png",
+                !isTab() ? "assets/pattern.png" : "assets/pattern.png",
                 color: frameColor.withOpacity(0.45),
                 fit: isTab() ? BoxFit.cover : BoxFit.cover,
               ),

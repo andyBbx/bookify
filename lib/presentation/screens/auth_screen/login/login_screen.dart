@@ -1,4 +1,5 @@
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -24,22 +25,31 @@ class LoginScreen extends StatelessWidget {
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.bottomCenter,
-              image: AssetImage(
-                !isLandccape
-                    ? "assets/images/pre_login_bottom_frame.png"
-                    : "assets/images/pre_login_bottom_frame.png",
-              ))),
-      child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: BlocProvider(
-              create: (context) => LoginBloc(authRepo: AuthRepository()),
-              child:
-                  FormLogin(formKey: _formKey, height: height, widht: widht))),
+      color: Colors.white,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: 180,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.topCenter,
+                  image: AssetImage(
+                    !isLandccape
+                        ? "assets/halfPattern.png"
+                        : "assets/halfPattern.png",
+                  )),
+            ),
+          ),
+          Scaffold(
+              backgroundColor: Colors.transparent,
+              body: BlocProvider(
+                  create: (context) => LoginBloc(authRepo: AuthRepository()),
+                  child: FormLogin(
+                      formKey: _formKey, height: height, widht: widht))),
+        ],
+      ),
     );
   }
 }
@@ -68,64 +78,67 @@ class FormLogin extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const HomeScreen()));
         }
       },
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.all(widht / 8),
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: height / 20,
-            ),
-            logo(widht: widht),
-            SizedBox(
-              height: height / 14,
-            ),
-            const Text1(),
-            const SizedBox(
-              height: 10,
-            ),
-            email_field(widht: widht),
-            SizedBox(
-              height: height / 40,
-            ),
-            pass_fielld(widht: widht),
-            SizedBox(
-              height: height / 40,
-            ),
-            LoginButton(widht: widht, formKey: _formKey),
-            SizedBox(
-              height: height / 40,
-            ),
-            Text(
-              "¿Olvidaste tu contraseña?",
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(fontWeight: FontWeight.normal, color: textDrkgray),
-            ),
-            SizedBox(
-              height: height / 35,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "¿Aún no tienes cuenta?",
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal, color: textDrkgray),
-                ),
-                InkWell(
-                  onTap: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => RegisterScreen()));
-                  },
-                  child: Text(" Regístrate.",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: textDrkgray)),
-                ),
-              ],
-            ),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 60),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.all(widht / 8),
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: height / 20,
+              ),
+              logo(widht: 500),
+              SizedBox(
+                height: height / 14,
+              ),
+              const Text1(),
+              const SizedBox(
+                height: 10,
+              ),
+              email_field(widht: widht),
+              SizedBox(
+                height: height / 40,
+              ),
+              pass_fielld(widht: widht),
+              SizedBox(
+                height: height / 40,
+              ),
+              LoginButton(widht: widht, formKey: _formKey),
+              SizedBox(
+                height: height / 40,
+              ),
+              Text(
+                "¿Olvidaste tu contraseña?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, color: textDrkgray),
+              ),
+              SizedBox(
+                height: height / 35,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "¿Aún no tienes cuenta?",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal, color: textDrkgray),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => RegisterScreen()));
+                    },
+                    child: Text(" Regístrate.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: textDrkgray)),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

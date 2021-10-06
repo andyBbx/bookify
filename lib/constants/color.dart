@@ -24,7 +24,7 @@ Color frameColor = const Color(0xFFFFC68D);
 
 final LinearGradient appgradient = LinearGradient(
     colors: [gradient2, gradient1],
-    begin: const FractionalOffset(0.0, 0.0),
-    end: const FractionalOffset(0.5, 0.0),
+    begin: const FractionalOffset(-1.0, 0.0),
+    end: const FractionalOffset(1.0, 0.0),
     stops: const [0.0, 1.0],
     tileMode: TileMode.clamp);
