@@ -152,7 +152,7 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                         SizedBox(
                           height: 10,
-                          width: widhth / 2.5,
+                          width: widhth / 3,
                         ),
                         const SizedBox(
                           height: 30,
@@ -267,12 +267,12 @@ class _HomeTabState extends State<HomeTab> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
-              Container(
+              SizedBox(
                 width: widhth,
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 10),
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -294,7 +294,7 @@ class _HomeTabState extends State<HomeTab> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               currentFiler == 0 ? const Offers() : Restaurantes(),
               const SizedBox(

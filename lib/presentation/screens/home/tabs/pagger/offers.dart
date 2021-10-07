@@ -18,37 +18,37 @@ class Offers extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
-              Container(
-                child: Text(
-                  "Ofertas",
-                  style: TextStyle(
-                      color: textDrkgray,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                ),
+              Text(
+                "Ofertas",
+                style: TextStyle(
+                    color: textDrkgray,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              Container(
-                child: Text(
-                  "Lo mejor para ti",
-                  style: TextStyle(
-                      color: textDrkgray,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500),
-                ),
+              Text(
+                "Lo mejor para ti",
+                style: TextStyle(
+                    color: textDrkgray,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
         ),
+        const SizedBox(
+          height: 5,
+        ),
         GridView.count(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           crossAxisCount: isTab() ? 2 : 1,
           shrinkWrap: true,
           childAspectRatio: isTab() ? 2.5 : 3,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             offer_itemCard(
               widhth: widhth,
@@ -90,10 +90,47 @@ class Offers extends StatelessWidget {
               isWhite: false,
               image: "assets/buger.png",
             ),
+            offer_itemCard(
+              widhth: widhth,
+              height: height,
+              text1: "Solo por hoy",
+              text2: "45% off",
+              text3: "En JB´s Burguers",
+              text4: "*Aplican restricciones",
+              isWhite: false,
+              image: "assets/buger.png",
+            ),
+            offer_itemCard(
+              widhth: widhth,
+              height: height,
+              text1: "Solo por hoy",
+              text2: "45% off",
+              text3: "En JB´s Burguers",
+              text4: "*Aplican restricciones",
+              isWhite: true,
+              image: "assets/buger.png",
+            ),
+            offer_itemCard(
+              widhth: widhth,
+              height: height,
+              text1: "Solo por hoy",
+              text2: "45% off",
+              text3: "En JB´s Burguers",
+              text4: "*Aplican restricciones",
+              isWhite: false,
+              image: "assets/buger.png",
+            ),
+            offer_itemCard(
+              widhth: widhth,
+              height: height,
+              text1: "Solo por hoy",
+              text2: "45% off",
+              text3: "En JB´s Burguers",
+              text4: "*Aplican restricciones",
+              isWhite: false,
+              image: "assets/buger.png",
+            ),
           ],
-        ),
-        SizedBox(
-          height: 50,
         ),
       ],
     );
@@ -122,11 +159,11 @@ class offer_itemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      // margin: const EdgeInsets.symmetric(horizontal: 20),
       width: widhth,
       height: isTab() ? height / 7 : 50,
       decoration: isWhite
-          ? BoxDecoration(
+          ? const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(15)),
               boxShadow: [
@@ -140,7 +177,7 @@ class offer_itemCard extends StatelessWidget {
           : BoxDecoration(
               gradient: appgradient,
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 4,
@@ -161,25 +198,25 @@ class offer_itemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${text1}",
+                Text("$text1",
                     style: TextStyle(
                       color: isWhite ? textDrkgray : Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     )),
-                Text("${text2}",
+                Text("$text2",
                     style: TextStyle(
                       color: isWhite ? textDrkgray : Colors.white,
                       fontSize: 27,
                       fontWeight: FontWeight.bold,
                     )),
-                Text("${text3}",
+                Text(text3,
                     style: TextStyle(
                       color: isWhite ? textDrkgray : Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     )),
-                Text("${text4}",
+                Text("$text4",
                     style: TextStyle(
                       color: isWhite ? textDrkgray : Colors.white,
                       fontSize: 6,
@@ -190,10 +227,8 @@ class offer_itemCard extends StatelessWidget {
           ),
           Expanded(
             flex: isTab() ? 1 : 3,
-            child: Container(
-              child: Image.asset(
-                "${image}",
-              ),
+            child: Image.asset(
+              "$image",
             ),
           )
         ],
