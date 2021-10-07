@@ -20,10 +20,10 @@ class _FilterChipItemState extends State<FilterChipItem> {
   Widget build(BuildContext context) {
     return widget.cheapItem.seleted
         ? Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
             child: Center(
@@ -34,13 +34,15 @@ class _FilterChipItemState extends State<FilterChipItem> {
                         widget.cheapItem.icon,
                         color: Colors.white,
                       )
-                    : SizedBox.shrink(),
-                SizedBox(
-                  width: 10,
-                ),
+                    : const SizedBox.shrink(),
+                widget.cheapItem.icon.isNotEmpty
+                    ? const SizedBox(
+                        width: 10,
+                      )
+                    : Container(),
                 Text(
                   widget.cheapItem.text,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 19,
                       fontWeight: FontWeight.w300),
@@ -50,14 +52,14 @@ class _FilterChipItemState extends State<FilterChipItem> {
             height: 50,
             decoration: BoxDecoration(
               color: textBold,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
           )
         : Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
             child: Center(
@@ -69,21 +71,23 @@ class _FilterChipItemState extends State<FilterChipItem> {
                         color: textBold,
                       )
                     : Container(),
-                SizedBox(
-                  width: 10,
-                ),
+                widget.cheapItem.icon.isNotEmpty
+                    ? const SizedBox(
+                        width: 10,
+                      )
+                    : Container(),
                 Text(
                   widget.cheapItem.text,
                   style: TextStyle(
                       color: textBold,
-                      fontSize: 19,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500),
                 ),
               ],
             )),
             height: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 border: Border.all(
                   color: textBold,
                 )),

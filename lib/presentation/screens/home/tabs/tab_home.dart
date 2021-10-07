@@ -71,23 +71,21 @@ class _HomeTabState extends State<HomeTab> {
 
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool isLandccape =
-        (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Scaffold(
       backgroundColor: backgroundColor,
       body: CustomScrollView(slivers: [
         SliverAppBar(
           pinned: true,
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.transparent,
           ),
           expandedHeight: isTab() ? height / 7 : widhth / 1.7,
           collapsedHeight: isTab() ? height / 7 : widhth / 1.7,
           flexibleSpace: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 4,
@@ -203,7 +201,7 @@ class _HomeTabState extends State<HomeTab> {
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 width: widhth,
                 child: Text(
                   "Reservar",

@@ -3,8 +3,6 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/presentation/widgets/resturants_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Restaurantes extends StatelessWidget {
   Restaurantes({Key? key}) : super(key: key);
@@ -47,40 +45,40 @@ class Restaurantes extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
-              Container(
-                child: Text(
-                  "Restaurantes",
-                  style: TextStyle(
-                      color: textDrkgray,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                ),
+              Text(
+                "Restaurantes",
+                style: TextStyle(
+                    color: textDrkgray,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              Container(
-                child: Text(
-                  "para ti",
-                  style: TextStyle(
-                      color: textDrkgray,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500),
-                ),
+              Text(
+                "para ti",
+                style: TextStyle(
+                    color: textDrkgray,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
         ),
+        const SizedBox(
+          height: 10,
+        ),
         GridView.count(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           crossAxisCount: isTab() ? 2 : 1,
           shrinkWrap: true,
           childAspectRatio: isTab() ? 2.5 : 2,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             ResturantListItem(restaurante: _resturants[0]),
             ResturantListItem(restaurante: _resturants[1]),

@@ -39,7 +39,7 @@ class Offers extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 5,
+          height: 10,
         ),
         GridView.count(
           padding: const EdgeInsets.symmetric(horizontal: 20),

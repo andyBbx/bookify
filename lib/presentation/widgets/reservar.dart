@@ -13,16 +13,13 @@ class ReservarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool isLandccape =
-        (MediaQuery.of(context).orientation == Orientation.landscape);
     double bocwidth = 2.5;
     double heoght = 3.5;
 
     return isWhite
         ? Container(
-            height: widhth / heoght,
             width: widhth / bocwidth,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [
@@ -42,8 +39,9 @@ class ReservarItem extends StatelessWidget {
                   bottom: 0,
                   child: Image.asset(
                     "assets/home/box_frame2.png",
-                    color: Color(0xFFFFC68D).withAlpha(70),
-                    fit: BoxFit.cover,
+                    alignment: Alignment.centerRight,
+                    color: const Color(0xFFFFC68D).withAlpha(70),
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
                 Center(
@@ -62,8 +60,8 @@ class ReservarItem extends StatelessWidget {
             width: widhth / bocwidth,
             decoration: BoxDecoration(
               gradient: appgradient,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 4,
@@ -80,14 +78,15 @@ class ReservarItem extends StatelessWidget {
                   bottom: 0,
                   child: Image.asset(
                     "assets/home/frame_box.png",
+                    alignment: Alignment.centerRight,
                     color: Colors.white.withAlpha(70),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
                 Center(
                     child: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
