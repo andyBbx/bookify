@@ -1,3 +1,4 @@
+import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/reservation.dart';
 
@@ -23,8 +24,8 @@ class ResturantionItem extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          decoration: BoxDecoration(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          decoration: const BoxDecoration(
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
@@ -38,7 +39,7 @@ class ResturantionItem extends StatelessWidget {
               Container(
                 width: widhth,
                 height: 150,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
@@ -54,12 +55,12 @@ class ResturantionItem extends StatelessWidget {
                           height: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.black12.withOpacity(0.02),
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 bottomLeft: Radius.circular(0)),
                           ),
                           child: Container(
-                            margin: EdgeInsets.all(20),
+                            margin: const EdgeInsets.all(20),
                             child: Image.asset(
                               reservation.restaurantesData.logo,
                               fit: BoxFit.scaleDown,
@@ -71,23 +72,22 @@ class ResturantionItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(reservation.restaurantesData.name,
-                                    style: TextStyle(
-                                      color: textDrkgray,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                              ],
+                            Flexible(
+                              child: Text(reservation.restaurantesData.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: textDrkgray,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  )),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             RatingBarIndicator(
                               rating: 5,
                               itemBuilder: (context, index) => Icon(
@@ -106,7 +106,7 @@ class ResturantionItem extends StatelessWidget {
                                   width: 20,
                                   color: textBold,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
@@ -118,10 +118,9 @@ class ResturantionItem extends StatelessWidget {
                                     )),
                               ],
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SvgPicture.asset(
                                   "assets/images/icons/calender.svg",
@@ -129,19 +128,20 @@ class ResturantionItem extends StatelessWidget {
                                   width: 20,
                                   color: textBold,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                Text("${reservation.time.toString()}",
-                                    style: TextStyle(
-                                      color: textDrkgray,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w700,
-                                    )),
+                                Flexible(
+                                  child: Text(reservation.time.toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        color: textDrkgray,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
                               ],
-                            ),
-                            SizedBox(
-                              height: 5,
                             ),
                             Row(
                               children: [
@@ -151,10 +151,7 @@ class ResturantionItem extends StatelessWidget {
                                   width: 20,
                                   color: textBold,
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("${reservation.info.toString()}",
+                                Text(reservation.info.toString(),
                                     style: TextStyle(
                                       color: textDrkgray,
                                       fontSize: 10,
@@ -169,17 +166,28 @@ class ResturantionItem extends StatelessWidget {
                   ],
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: textBold,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15))),
-                  child: Center(
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: textBold,
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15))),
+                child: InkWell(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDialogBox(
+                            restaurant: reservation.restaurantesData,
+                          );
+                        });
+                  },
+                  child: const Center(
                     child: Text(
                       "Calificar",
                       style: TextStyle(
@@ -191,6 +199,127 @@ class ResturantionItem extends StatelessWidget {
                 ),
               )
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CustomDialogBox extends StatefulWidget {
+  final dynamic restaurant;
+
+  const CustomDialogBox({Key? key, required this.restaurant}) : super(key: key);
+
+  @override
+  _CustomDialogBoxState createState() => _CustomDialogBoxState();
+}
+
+class _CustomDialogBoxState extends State<CustomDialogBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: EdgeInsets.symmetric(
+          horizontal: isTab() ? MediaQuery.of(context).size.width / 4 : 30),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: contentBox(context),
+    );
+  }
+
+  contentBox(context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding:
+              const EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 20),
+          margin: const EdgeInsets.only(top: 50),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+              ]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Califica a ${widget.restaurant.name}',
+                textAlign: TextAlign.center,
+                style:
+                    const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              // Text(
+              //   widget.descriptions,
+              //   style: TextStyle(fontSize: 14),
+              //   textAlign: TextAlign.center,
+              // ),
+              RatingBar.builder(
+                onRatingUpdate: (value) {},
+                initialRating: 0,
+                itemSize: 35,
+                minRating: 1,
+                direction: Axis.horizontal,
+                itemCount: 5,
+                unratedColor: Colors.grey.withOpacity(0.5),
+                glow: false,
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: splash_background,
+                ),
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Calificar',
+                      style: TextStyle(fontSize: 15),
+                    )),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 50,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(2, 2), // Shadow position
+                  ),
+                ],
+                image: DecorationImage(
+                    fit: BoxFit.scaleDown,
+                    image: AssetImage(
+                      widget.restaurant.logo,
+                    )),
+              ),
+            ),
+            // child: ClipRRect(
+            //     borderRadius: const BorderRadius.all(Radius.circular(20)),
+            //     child: Image.asset(widget.img.toString())),
           ),
         ),
       ],

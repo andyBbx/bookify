@@ -74,8 +74,12 @@ class FormLogin extends StatelessWidget {
         print("login scrcess" + state1.formStatus.toString());
         final statusform = state1.formStatus;
         if (statusform is SubmissionSuccess) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              (route) => false);
+          // Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(builder: (context) => const HomeScreen()));
         }
       },
       child: Padding(
@@ -89,7 +93,7 @@ class FormLogin extends StatelessWidget {
               SizedBox(
                 height: height / 20,
               ),
-              logo(widht: 500),
+              const logo(widht: 500),
               SizedBox(
                 height: height / 14,
               ),

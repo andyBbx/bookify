@@ -94,8 +94,10 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
         controller: _scrollController,
         slivers: [
           SliverAppBar(
-            leading: const Icon(Icons.keyboard_arrow_left, color: Colors.white),
-
+            // leading: const Icon(Icons.keyboard_arrow_left, color: Colors.white),
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
             actions: const [
               Icon(Icons.favorite_border, color: Colors.white),
               SizedBox(

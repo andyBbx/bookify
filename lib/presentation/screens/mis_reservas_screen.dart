@@ -101,8 +101,8 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-              iconTheme: IconThemeData(
-                color: Colors.transparent,
+              iconTheme: const IconThemeData(
+                color: Colors.white,
               ),
               collapsedHeight: isTab() ? height / 7 : widhth / 3,
               backgroundColor: Colors.white,
@@ -122,19 +122,19 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       color: frameColor.withOpacity(0.45),
                     ),
                   ),
-                  Positioned(
-                      top: 20,
-                      left: 20,
-                      child: SafeArea(
-                          child: Row(
-                        children: [
-                          Icon(
-                            Icons.keyboard_arrow_left,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ],
-                      ))),
+                  // Positioned(
+                  //     top: 20,
+                  //     left: 20,
+                  //     child: SafeArea(
+                  //         child: Row(
+                  //       children: [
+                  //         Icon(
+                  //           Icons.keyboard_arrow_left,
+                  //           color: Colors.white,
+                  //           size: 30,
+                  //         ),
+                  //       ],
+                  //     ))),
                   Positioned(
                     child: SafeArea(
                       child: Container(
@@ -142,7 +142,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text(
                               "Mis reservas",
                               style: TextStyle(
@@ -166,63 +166,119 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                 ]),
               )),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text("Próximas Reservaciones",
-                      style: TextStyle(
-                          fontSize: 21,
-                          color: textDrkgray,
-                          fontWeight: FontWeight.w700)),
-                ),
-              ],
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: isTab() ? widhth / 8 : 0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text("Próximas Reservaciones",
+                        style: TextStyle(
+                            fontSize: 21,
+                            color: textDrkgray,
+                            fontWeight: FontWeight.w700)),
+                  ),
+                  Column(
+                      children: List.generate(
+                          1,
+                          (index) => ResturantionItem(
+                                reservation: resuvations[index],
+                              ))),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: widhth / 5,
+                        height: 1,
+                        color: devicerColor,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text("Historial",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: textDrkgray,
+                              fontWeight: FontWeight.w700)),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        width: widhth / 5,
+                        height: 1,
+                        color: devicerColor,
+                      ),
+                    ],
+                  ),
+                  Column(
+                      children: List.generate(
+                          resuvations.length - 1,
+                          (index) => ResturantionItem(
+                                reservation: resuvations[index + 1],
+                              ))),
+                ],
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-                children: List.generate(
-                    1,
-                    (index) => ResturantionItem(
-                          reservation: resuvations[index],
-                        ))),
-          ),
-          SliverToBoxAdapter(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: widhth / 5,
-                  height: 1,
-                  color: devicerColor,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text("Historial",
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: textDrkgray,
-                        fontWeight: FontWeight.w700)),
-                SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  width: widhth / 5,
-                  height: 1,
-                  color: devicerColor,
-                ),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-                children: List.generate(
-                    resuvations.length - 1,
-                    (index) => ResturantionItem(
-                          reservation: resuvations[index + 1],
-                        ))),
-          ),
+          )
+          // SliverToBoxAdapter(
+          //   child: Column(
+          //     children: [
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 20),
+          //   child: Text("Próximas Reservaciones",
+          //       style: TextStyle(
+          //           fontSize: 21,
+          //           color: textDrkgray,
+          //           fontWeight: FontWeight.w700)),
+          // ),
+          //     ],
+          //   ),
+          // ),
+          // SliverToBoxAdapter(
+          //   child: Column(
+          // children: List.generate(
+          //     1,
+          //     (index) => ResturantionItem(
+          //           reservation: resuvations[index],
+          //         ))),
+          // ),
+          // SliverToBoxAdapter(
+          // child: Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Container(
+          //       width: widhth / 5,
+          //       height: 1,
+          //       color: devicerColor,
+          //     ),
+          //    const SizedBox(
+          //       width: 20,
+          //     ),
+          //     Text("Historial",
+          //         style: TextStyle(
+          //             fontSize: 14,
+          //             color: textDrkgray,
+          //             fontWeight: FontWeight.w700)),
+          //    const SizedBox(
+          //       width: 20,
+          //     ),
+          //     Container(
+          //       width: widhth / 5,
+          //       height: 1,
+          //       color: devicerColor,
+          //     ),
+          //   ],
+          // ),
+          // ),
+          // SliverToBoxAdapter(
+          // child: Column(
+          //     children: List.generate(
+          //         resuvations.length - 1,
+          //         (index) => ResturantionItem(
+          //               reservation: resuvations[index + 1],
+          //             ))),
+          // ),
         ],
       ),
     );

@@ -56,7 +56,7 @@ class VerificarReservaScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 70,
                       backgroundColor: Colors.white,
                       backgroundImage: AssetImage(

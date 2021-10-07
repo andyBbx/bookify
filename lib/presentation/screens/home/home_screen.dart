@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         indicatorColor: Colors.transparent,
         labelColor: Colors.black,
         unselectedLabelColor: Colors.grey,
+        indicatorSize: TabBarIndicatorSize.label,
         tabs: [
           Tab(
             text: "Inicio",
@@ -66,10 +67,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ],
       ),
-      body: Container(
-          child: TabBarView(
+      body: TabBarView(
         controller: _tabController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           HomeTab(),
           MisReservasScreen(),
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           ProfileTab(),
         ],
-      )),
+      ),
     );
   }
 }
