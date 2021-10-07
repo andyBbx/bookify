@@ -168,7 +168,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
           SliverToBoxAdapter(
             child: Padding(
               padding:
-                  EdgeInsets.symmetric(horizontal: isTab() ? widhth / 8 : 0),
+                  EdgeInsets.symmetric(horizontal: isTab() ? widhth / 10 : 0),
               child: Column(
                 children: [
                   Padding(

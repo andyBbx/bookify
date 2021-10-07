@@ -42,258 +42,202 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-              iconTheme: const IconThemeData(
-                color: Colors.transparent,
+              iconTheme: IconThemeData(
+                color: splash_background,
               ),
-              collapsedHeight: isTab() ? height / 4 : widhth / 1.2,
+              collapsedHeight: isTab() ? height / 5 : height / 4,
               backgroundColor: Colors.white,
               pinned: true,
               flexibleSpace: Container(
                 width: widhth,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
+                        fit: BoxFit.cover,
                         image: AssetImage(
-                  "assets/halfPattern.png",
-                ))),
-                child: Stack(children: [
-                  Positioned(
-                      top: 20,
-                      left: 20,
-                      child: SafeArea(
-                          child: Row(
-                        children: [
-                          Icon(
-                            Icons.keyboard_arrow_left,
-                            color: textBold,
-                            size: 30,
-                          ),
-                        ],
-                      ))),
-                  Positioned(
-                    top: 20,
-                    left: 0,
-                    child: SafeArea(
-                      child: Container(
-                        width: widhth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Mi cuenta",
-                              style: TextStyle(
-                                  fontSize: 26,
-                                  color: textDrkgray,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            SizedBox(
-                              height: 45,
-                            ),
-                            CircleAvatar(
-                              radius: 70,
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage(
-                                "assets/images/profile.png",
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("Toca para cambiar tu foto",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: textDrkgray,
-                                    fontWeight: FontWeight.w100)),
-                          ],
+                          "assets/halfPattern.png",
+                        ))),
+                child: SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Mi cuenta",
+                        style: TextStyle(
+                            fontSize: 26,
+                            color: textDrkgray,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const CircleAvatar(
+                        radius: 55,
+                        backgroundColor: Colors.white,
+                        backgroundImage: AssetImage(
+                          "assets/images/profile.png",
                         ),
                       ),
-                    ),
-                  )
-                ]),
+                      Text("Toca para cambiar tu foto",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: textDrkgray,
+                              fontWeight: FontWeight.w100)),
+                    ],
+                  ),
+                ),
               )),
           SliverToBoxAdapter(
             child: Container(
-              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+              padding: EdgeInsets.symmetric(
+                  horizontal: isTab() ? widhth / 5 : 30, vertical: 20),
               constraints: BoxConstraints(
                 maxWidth: isLandccape ? widhth / 2 : widhth,
                 minWidth: widhth,
               ),
-              decoration: BoxDecoration(
-                color: splash_Logo,
-              ),
+              decoration: BoxDecoration(),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 300,
-                    child: TextField(
-                      controller: nombres,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        fillColor: Colors.red,
-                        label: Text("Nombre(s)",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        hintText: "Nombre(s)",
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                  TextField(
+                    controller: nombres,
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      fillColor: Colors.red,
+                      label: Text("Nombre(s)",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 11, color: textDrkgray)),
+                      hintText: "Nombre(s)",
+                      prefixIcon: SvgPicture.asset(
+                        "assets/images/icons/profile.svg",
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                      controller: primer_apellido,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        fillColor: Colors.red,
-                        label: Text("Primer apellido",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        hintText: "Primer apellido",
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                  TextField(
+                    controller: primer_apellido,
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      fillColor: Colors.red,
+                      label: Text("Primer apellido",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 11, color: textDrkgray)),
+                      hintText: "Primer apellido",
+                      prefixIcon: SvgPicture.asset(
+                        "assets/images/icons/profile.svg",
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                      controller: segundo_apellido,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        fillColor: Colors.red,
-                        hintText: "Segundo apellido",
-                        label: Text("Segundo apellido",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                  TextField(
+                    controller: segundo_apellido,
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      fillColor: Colors.red,
+                      hintText: "Segundo apellido",
+                      label: Text("Segundo apellido",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 11, color: textDrkgray)),
+                      prefixIcon: SvgPicture.asset(
+                        "assets/images/icons/profile.svg",
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                      controller: telefono,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        fillColor: Colors.red,
-                        hintText: "Teléfono",
-                        label: Text("Teléfono",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/phone.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                  TextField(
+                    controller: telefono,
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      fillColor: Colors.red,
+                      hintText: "Teléfono",
+                      label: Text("Teléfono",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 11, color: textDrkgray)),
+                      prefixIcon: SvgPicture.asset(
+                        "assets/images/icons/phone.svg",
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                      controller: correo,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        fillColor: Colors.red,
-                        hintText: "Correo",
-                        label: Text("Correo",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/mail.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                  TextField(
+                    controller: correo,
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      fillColor: Colors.red,
+                      hintText: "Correo",
+                      label: Text("Correo",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 11, color: textDrkgray)),
+                      prefixIcon: SvgPicture.asset(
+                        "assets/images/icons/mail.svg",
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                      controller: ubicacion,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        hintText: "Ubicación",
-                        label: Text("Ubicación",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/location.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                  TextField(
+                    controller: ubicacion,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: splash_background),
+                      ),
+                      hintText: "Ubicación",
+                      label: Text("Ubicación",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 11, color: textDrkgray)),
+                      prefixIcon: SvgPicture.asset(
+                        "assets/images/icons/location.svg",
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
@@ -318,9 +262,6 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ConfirmandoScreen()));
                           })),
-                  SizedBox(
-                    height: 100,
-                  ),
                 ],
               ),
             ),
