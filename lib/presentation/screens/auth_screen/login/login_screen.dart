@@ -82,67 +82,64 @@ class FormLogin extends StatelessWidget {
           //     MaterialPageRoute(builder: (context) => const HomeScreen()));
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.only(top: 60),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            padding: EdgeInsets.all(widht / 8),
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: height / 20,
-              ),
-              const logo(widht: 500),
-              SizedBox(
-                height: height / 14,
-              ),
-              const Text1(),
-              const SizedBox(
-                height: 10,
-              ),
-              email_field(widht: widht),
-              SizedBox(
-                height: height / 40,
-              ),
-              pass_fielld(widht: widht),
-              SizedBox(
-                height: height / 40,
-              ),
-              LoginButton(widht: widht, formKey: _formKey),
-              SizedBox(
-                height: height / 40,
-              ),
-              Text(
-                "¿Olvidaste tu contraseña?",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, color: textDrkgray),
-              ),
-              SizedBox(
-                height: height / 35,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "¿Aún no tienes cuenta?",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal, color: textDrkgray),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => RegisterScreen()));
-                    },
-                    child: Text(" Regístrate.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: textDrkgray)),
-                  ),
-                ],
-              ),
-            ],
-          ),
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: widht / 8, vertical: 80),
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: height / 20,
+            ),
+            const logo(widht: 500),
+            SizedBox(
+              height: height / 14,
+            ),
+            const Text1(),
+            const SizedBox(
+              height: 10,
+            ),
+            email_field(widht: widht),
+            SizedBox(
+              height: height / 40,
+            ),
+            pass_fielld(widht: widht),
+            SizedBox(
+              height: height / 40,
+            ),
+            LoginButton(widht: widht, formKey: _formKey),
+            SizedBox(
+              height: height / 40,
+            ),
+            Text(
+              "¿Olvidaste tu contraseña?",
+              textAlign: TextAlign.center,
+              style:
+                  TextStyle(fontWeight: FontWeight.normal, color: textDrkgray),
+            ),
+            SizedBox(
+              height: height / 35,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "¿Aún no tienes cuenta?",
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal, color: textDrkgray),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => RegisterScreen()));
+                  },
+                  child: Text(" Regístrate.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: textDrkgray)),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

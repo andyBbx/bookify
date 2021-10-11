@@ -52,6 +52,13 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
               collapsedHeight: isTab() ? height / 5 : height / 4,
               backgroundColor: Colors.white,
               pinned: true,
+              title: Text(
+                "Mi cuenta",
+                style: TextStyle(
+                    fontSize: 26,
+                    color: textDrkgray,
+                    fontWeight: FontWeight.w700),
+              ),
               flexibleSpace: Container(
                 width: widhth,
                 decoration: const BoxDecoration(
@@ -63,20 +70,10 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                 child: SafeArea(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        "Mi cuenta",
-                        style: TextStyle(
-                            fontSize: 26,
-                            color: textDrkgray,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       const CircleAvatar(
-                        radius: 55,
+                        radius: 50,
                         backgroundColor: Colors.white,
                         backgroundImage: AssetImage(
                           "assets/images/profile.png",

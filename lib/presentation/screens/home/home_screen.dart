@@ -1,4 +1,5 @@
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/presentation/screens/home/tabs/favorites_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -70,12 +71,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
+        children: const [
           HomeTab(),
           MisReservasScreen(),
-          Container(
-            color: Colors.orange,
-          ),
+          FavTab(),
           ProfileTab(),
         ],
       ),

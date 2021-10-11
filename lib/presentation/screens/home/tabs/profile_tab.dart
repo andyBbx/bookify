@@ -23,13 +23,12 @@ class ProfileTab extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            iconTheme: IconThemeData(color: Colors.transparent),
-            collapsedHeight: isTab() ? height / 4 : height / 3,
+            collapsedHeight: isTab() ? height / 4 : height / 4,
             pinned: true,
             flexibleSpace: Stack(
               alignment: Alignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: widht,
                   child: SvgPicture.asset(
                     isLandccape
@@ -39,45 +38,47 @@ class ProfileTab extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: isTab() ? 70 : 55.0,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/tab/profile_image.png'),
-                        radius: isTab() ? 65 : 50.0,
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: isTab() ? 70 : 55.0,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/tab/profile_image.png'),
+                          radius: isTab() ? 65 : 50.0,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Hola, ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: isTab() ? 29 : 19,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        SizedBox(
-                          width: 1,
-                        ),
-                        Text(
-                          "Andy",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: isTab() ? 29 : 19,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    )
-                  ],
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Hola, ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: isTab() ? 29 : 19,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          const SizedBox(
+                            width: 1,
+                          ),
+                          Text(
+                            "Andy",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: isTab() ? 29 : 19,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -90,33 +91,29 @@ class ProfileTab extends StatelessWidget {
               childAspectRatio: isTab() ? 5 : 5,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               children: [
-                Container(
-                  // margin: EdgeInsets.symmetric(
-                  //     vertical: height / 80, horizontal: 20),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MiCuenta1Screen()));
-                        },
-                        title: Text(
-                          "Mi cuenta",
-                          style: TextStyle(
-                              color: textDrkgray,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        leading: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          color: textBold,
-                        ),
+                Column(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MiCuenta1Screen()));
+                      },
+                      title: Text(
+                        "Mi cuenta",
+                        style: TextStyle(
+                            color: textDrkgray,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                       ),
-                      Container(height: 1, color: devicerColor),
-                    ],
-                  ),
+                      leading: SvgPicture.asset(
+                        "assets/images/icons/profile.svg",
+                        color: textBold,
+                      ),
+                    ),
+                    Container(height: 1, color: devicerColor),
+                  ],
                 ),
                 Column(
                   children: [

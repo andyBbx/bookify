@@ -17,6 +17,14 @@ class VerificarReservaScreen extends StatelessWidget {
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text("Confirmar reservación",
+            style: TextStyle(
+                fontSize: 15, color: textDrkgray, fontWeight: FontWeight.w700)),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           Image.asset(
@@ -26,209 +34,180 @@ class VerificarReservaScreen extends StatelessWidget {
             fit: BoxFit.cover,
             color: frameColor,
           ),
-          Positioned(
-              top: 20,
-              left: 20,
-              child: SafeArea(
-                  child: Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              const CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                backgroundImage: AssetImage(
+                  "assets/images/resutrant_logo1.png",
+                ),
+              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              Text("Nakama",
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: textDrkgray,
+                      fontWeight: FontWeight.w700)),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // SizedBox(
+              //   height: 5,
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.keyboard_arrow_left,
-                    color: textBold,
-                    size: 30,
+                  SvgPicture.asset(
+                    "assets/images/icons/location.svg",
+                    fit: BoxFit.scaleDown,
+                    width: 11,
                   ),
-                  Text(
-                    "Confirmar reservación",
-                    style: TextStyle(
-                        fontSize: 19,
-                        color: textBlack,
-                        fontWeight: FontWeight.w700),
-                  )
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text("C/ Sagasta 23. Madrid",
+                      style: TextStyle(
+                        color: textDrkgray,
+                        fontSize: 11,
+                        fontWeight: FontWeight.normal,
+                      )),
                 ],
-              ))),
-          Positioned(
-              top: height / 12,
-              left: 0,
-              child: SafeArea(
-                  child: Container(
+              ),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              Text("Verifica los datos tu reserva",
+                  style: TextStyle(
+                      fontSize: 19,
+                      color: textDrkgray,
+                      fontWeight: FontWeight.w700)),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              Container(
                 width: widhth,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                height: 3,
+                color: textBold,
+              ),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Reservación para",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: textDrkgray,
+                          fontWeight: FontWeight.w100)),
+                  // SizedBox(
+                  //   width: 2,
+                  // ),
+                  Text(" 2 Personas",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: textBold,
+                          fontWeight: FontWeight.w700)),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Hoy 07 de Septiembre de 2021",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: textBold,
+                          fontWeight: FontWeight.w700)),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Con horario de las",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: textDrkgray,
+                          fontWeight: FontWeight.w100)),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Text("10:30 hrs",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: textBold,
+                          fontWeight: FontWeight.w700)),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 50),
+                width: widhth,
+                height: 1,
+                color: textDrkgray.withOpacity(0.3),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Text(
+                    "*Al confirmar la reservación aceptas los términos y condiciones, así como las políticas de cancelación y reembolsos.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: textDrkgray,
+                        fontWeight: FontWeight.w300)),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Positioned(
+                bottom: 40,
+                right: 0,
+                left: 0,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(
-                        "assets/images/resutrant_logo1.png",
-                      ),
+                    SizedBox(
+                        width: widhth / 2.5,
+                        child: LargeButton2(
+                            text: "Cancelar",
+                            isRed: true,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            })),
+                    SizedBox(
+                      width: 30,
                     ),
                     SizedBox(
-                      height: 20,
-                    ),
-                    Text("Nakama",
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: textDrkgray,
-                            fontWeight: FontWeight.w700)),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text("Confirmar reservación",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: textDrkgray,
-                            fontWeight: FontWeight.w700)),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/images/icons/location.svg",
-                          fit: BoxFit.scaleDown,
-                          width: 11,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("C/ Sagasta 23. Madrid",
-                            style: TextStyle(
-                              color: textDrkgray,
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text("Verifica los datos tu reserva",
-                        style: TextStyle(
-                            fontSize: 19,
-                            color: textDrkgray,
-                            fontWeight: FontWeight.w700)),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      width: widhth,
-                      height: 3,
-                      color: textBold,
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Reservación para",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: textDrkgray,
-                                fontWeight: FontWeight.w100)),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Text(" 2 Personas",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: textBold,
-                                fontWeight: FontWeight.w700)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Hoy 07 de Septiembre de 2021",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: textBold,
-                                fontWeight: FontWeight.w700)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Con horario de las",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: textDrkgray,
-                                fontWeight: FontWeight.w100)),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Text("10:30 hrs",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: textBold,
-                                fontWeight: FontWeight.w700)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 50),
-                      width: widhth,
-                      height: 1,
-                      color: textDrkgray.withOpacity(0.3),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Text(
-                          "*Al confirmar la reservación aceptas los términos y condiciones, así como las políticas de cancelación y reembolsos.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: textDrkgray,
-                              fontWeight: FontWeight.w300)),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
+                        width: widhth / 2.5,
+                        child: LargeButton2(
+                            text: "Aceptar",
+                            isRed: false,
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ConfirmandoScreen()));
+                            })),
                   ],
                 ),
-              ))),
-          Positioned(
-            bottom: 40,
-            right: 0,
-            left: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                    width: widhth / 2.5,
-                    child: LargeButton2(
-                        text: "Cancelar",
-                        isRed: true,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        })),
-                SizedBox(
-                  width: 30,
-                ),
-                SizedBox(
-                    width: widhth / 2.5,
-                    child: LargeButton2(
-                        text: "Aceptar",
-                        isRed: false,
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ConfirmandoScreen()));
-                        })),
-              ],
-            ),
+              )
+            ],
           )
         ],
       ),

@@ -17,6 +17,7 @@ class LargeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return !isWhite
         ? InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(34)),
             onTap: () {
               onTap();
             },
@@ -33,6 +34,7 @@ class LargeButton extends StatelessWidget {
             ),
           )
         : InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(34)),
             onTap: () {
               onTap();
             },

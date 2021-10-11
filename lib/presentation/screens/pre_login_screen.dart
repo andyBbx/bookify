@@ -1,8 +1,10 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -32,73 +34,83 @@ class PreLoginScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: Align(
           alignment: Alignment.bottomCenter,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                padding: EdgeInsets.all(widht / 8),
-                height: height / 1.7,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: const Radius.circular(50))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        child: SvgPicture.asset(
-                      "assets/logo_full.svg",
-                      width: widht / 1.8,
-                    )),
-                    SizedBox(
-                      height: height / 20,
+          child: Container(
+            //
+            height: height / 1.7,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50))),
+            child: Stack(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 130,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.topCenter,
+                          image: AssetImage(
+                            !isLandccape
+                                ? "assets/halfPattern.png"
+                                : "assets/halfPattern.png",
+                          )),
                     ),
-                    SizedBox(
-                      width: widht / 1.2,
-                      child: LargeButton(
-                        text: "Iniciar sesión",
-                        isWhite: false,
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                        },
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(widht / 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Icon(
+                        Icons.food_bank,
+                        color: splash_background,
+                        size: widht / 4,
+                      )),
+                      SizedBox(
+                        height: height / 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: height / 40,
-                    ),
-                    SizedBox(
-                      width: widht / 1.2,
-                      child: LargeButton(
-                          text: "Regístrate",
+                      SizedBox(
+                        width: widht / 1.2,
+                        child: LargeButton(
+                          text: "Iniciar sesión",
                           isWhite: false,
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => RegisterScreen()));
-                          }
-                          //
+                                builder: (context) => LoginScreen()));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: height / 40,
+                      ),
+                      SizedBox(
+                        width: widht / 1.2,
+                        child: LargeButton(
+                            text: "Regístrate",
+                            isWhite: false,
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => RegisterScreen()));
+                            }
+                            //
 
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 130,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.topCenter,
-                        image: AssetImage(
-                          !isLandccape
-                              ? "assets/halfPattern.png"
-                              : "assets/halfPattern.png",
-                        )),),
-              ),
-            ],
+                            ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

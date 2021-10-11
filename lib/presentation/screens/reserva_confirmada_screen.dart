@@ -16,133 +16,116 @@ class ReservaConfirmadaScreen extends StatelessWidget {
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           Image.asset(
             "assets/images/confermation_2.png",
             width: widhth,
             height: height,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
             color: frameColor.withOpacity(0.45),
           ),
-          Positioned(
-              top: 20,
-              left: 20,
-              child: SafeArea(
-                  child: Row(
-                children: [
-                  Icon(
-                    Icons.keyboard_arrow_left,
-                    color: textBold,
-                    size: 30,
-                  ),
-                ],
-              ))),
-          Positioned(
-              top: 40,
-              left: 0,
-              child: SafeArea(
-                  child: Container(
-                width: widhth,
+          SizedBox(
+            height: height - height / 3,
+            child: Positioned(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // SizedBox(
+                //   child: Image.asset(
+                //     "assets/images/icons/logo_holloow.png",
+                //   ),
+                // ),
+                Icon(
+                  Icons.food_bank,
+                  size: 80,
+                  color: splash_background,
+                ),
+                Text('Reserva confirmada',
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: splash_background,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  width: 100,
+                  height: 60,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: Image.asset(
+                          "assets/images/resturant_logoTest.png",
+                          height: 60,
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Image.asset(
+                          "assets/images/icons/check_mark.png",
+                          height: 60,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text("Nakama",
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: textDrkgray,
+                        fontWeight: FontWeight.w700)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                  child: Text("Restaurante japonés ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: textDrkgray,
+                          fontWeight: FontWeight.w700)),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      child: Image.asset(
-                        "assets/images/icons/logo_holloow.png",
-                      ),
+                    SvgPicture.asset(
+                      "assets/images/icons/location.svg",
+                      fit: BoxFit.scaleDown,
+                      width: 11,
                     ),
-                    SizedBox(
-                      height: 20,
+                    const SizedBox(
+                      width: 5,
                     ),
-                    SizedBox(
-                      width: 100,
-                      height: 60,
-                      child: Container(
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: Image.asset(
-                                "assets/images/resturant_logoTest.png",
-                                height: 60,
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Image.asset(
-                                "assets/images/icons/check_mark.png",
-                                height: 60,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Nakama",
+                    Text("C/ Sagasta 23. Madrid",
                         style: TextStyle(
-                            fontSize: 28,
-                            color: textDrkgray,
-                            fontWeight: FontWeight.w700)),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100),
-                      child: Text("Restaurante japonés ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: textDrkgray,
-                              fontWeight: FontWeight.w700)),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/images/icons/location.svg",
-                          fit: BoxFit.scaleDown,
-                          width: 11,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("C/ Sagasta 23. Madrid",
-                            style: TextStyle(
-                              color: textDrkgray,
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                        width: widhth / 2.6,
-                        child: LargeButton(
-                            text: "¿Cómo llegar?",
-                            isWhite: true,
-                            onTap: () {})),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                        width: widhth / 2.6,
-                        child: LargeButton(
-                            text: "Llamar", isWhite: true, onTap: () {})),
+                          color: textDrkgray,
+                          fontSize: 11,
+                          fontWeight: FontWeight.normal,
+                        )),
                   ],
                 ),
-              ))),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                SizedBox(
+                    width: widhth / 2.6,
+                    child: LargeButton(
+                        text: "¿Cómo llegar?", isWhite: true, onTap: () {})),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                SizedBox(
+                    width: widhth / 2.6,
+                    child: LargeButton(
+                        text: "Llamar", isWhite: true, onTap: () {}))
+              ],
+            )),
+          ),
           Positioned(
               bottom: 0,
               child: Stack(

@@ -17,30 +17,21 @@ class ConfirmandoScreen extends StatelessWidget {
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           Image.asset(
             "assets/images/confermation_2.png",
             width: widhth,
             height: height,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
             color: frameColor.withOpacity(0.45),
           ),
           Positioned(
-              top: 20,
-              left: 20,
-              child: SafeArea(
-                  child: Row(
-                children: [
-                  Icon(
-                    Icons.keyboard_arrow_left,
-                    color: textBold,
-                    size: 30,
-                  ),
-                ],
-              ))),
-          Positioned(
-              top: height / 10,
               left: 0,
               child: SafeArea(
                   child: Container(
@@ -49,7 +40,7 @@ class ConfirmandoScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 70,
                       backgroundColor: Colors.white,
                       backgroundImage: AssetImage(
