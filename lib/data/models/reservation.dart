@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // To parse this JSON data, do
 //
 //     final reservsaModel = reservsaModelFromJson(jsonString);
@@ -67,4 +68,18 @@ class ReservationModel {
         "updated_at": updatedAt!.toIso8601String(),
         "quantity": quantity
       };
+=======
+import 'resturant.dart';
+
+class Reservation {
+  late RestaurantModel restaurantesData;
+  late int person;
+  late String time, info;
+
+  Reservation(
+      {required this.restaurantesData,
+      required this.person,
+      required this.info,
+      required this.time});
+>>>>>>> restaurant bloc
 }
