@@ -7,33 +7,33 @@ import 'package:flutter/material.dart';
 class Restaurantes extends StatelessWidget {
   Restaurantes({Key? key}) : super(key: key);
 
-  final List<ReturantData> _resturants = [
-    ReturantData(
-        name: "Restaurante japonés",
-        adress: "C/ Sagasta 23. Madrid",
-        stars: 5,
-        images: ["assets/images/resrturant1.png"],
-        logo: "assets/images/resutrant_logo1.png",
-        isFavv: true,
-        description: "Restaurante japonés de la más alta calidad."),
-    ReturantData(
-        name: "Ikigai",
-        adress: "C/ Flor Baja, 5. Madrid",
-        stars: 5,
-        logo: "assets/images/resturant_logo3.png",
-        isFavv: false,
-        images: ["assets/images/resturant2.png"],
-        description:
-            "Restaurante especializado en cocina japonesa de alta calidad."),
-    ReturantData(
-        name: "Azurmendi",
-        adress: "Barrio Leguina, s/n, 48195 \nLarrabetzu, Biscay, España",
-        stars: 5,
-        logo: "assets/images/resturant_logo2.png",
-        images: ["assets/images/resturant2.png"],
-        isFavv: true,
-        description: "Cocina vasca de autor"),
-  ];
+  // final List<ReturantData> _resturants = [
+  //   ReturantData(
+  //       name: "Restaurante japonés",
+  //       adress: "C/ Sagasta 23. Madrid",
+  //       stars: 5,
+  //       images: ["assets/images/resrturant1.png"],
+  //       logo: "assets/images/resutrant_logo1.png",
+  //       isFavv: true,
+  //       description: "Restaurante japonés de la más alta calidad."),
+  //   ReturantData(
+  //       name: "Ikigai",
+  //       adress: "C/ Flor Baja, 5. Madrid",
+  //       stars: 5,
+  //       logo: "assets/images/resturant_logo3.png",
+  //       isFavv: false,
+  //       images: ["assets/images/resturant2.png"],
+  //       description:
+  //           "Restaurante especializado en cocina japonesa de alta calidad."),
+  //   ReturantData(
+  //       name: "Azurmendi",
+  //       adress: "Barrio Leguina, s/n, 48195 \nLarrabetzu, Biscay, España",
+  //       stars: 5,
+  //       logo: "assets/images/resturant_logo2.png",
+  //       images: ["assets/images/resturant2.png"],
+  //       isFavv: true,
+  //       description: "Cocina vasca de autor"),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +80,10 @@ class Restaurantes extends StatelessWidget {
           mainAxisSpacing: 20,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            ResturantListItem(restaurante: _resturants[0]),
-            ResturantListItem(restaurante: _resturants[1]),
-            ResturantListItem(restaurante: _resturants[2]),
-            ResturantListItem(restaurante: _resturants[1]),
+            // ResturantListItem(restaurante: _resturants[0]),
+            // ResturantListItem(restaurante: _resturants[1]),
+            // ResturantListItem(restaurante: _resturants[2]),
+            // ResturantListItem(restaurante: _resturants[1]),
           ],
         ),
       ],

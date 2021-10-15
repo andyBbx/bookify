@@ -62,7 +62,7 @@ class ResturantionItem extends StatelessWidget {
                           child: Container(
                             margin: const EdgeInsets.all(20),
                             child: Image.asset(
-                              reservation.restaurantesData.logo,
+                              reservation.restaurantesData.cover,
                               fit: BoxFit.scaleDown,
                             ),
                           )),

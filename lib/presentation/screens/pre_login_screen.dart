@@ -1,11 +1,14 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
+import 'package:bookify/presentation/screens/restaurant/view/restaurant_view.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'auth_screen/login/login_screen.dart';
@@ -88,6 +91,17 @@ class PreLoginScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => LoginScreen()));
+
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             MultiBlocProvider(providers: [
+                            //               BlocProvider(
+                            //                 create: (context) =>
+                            //                     RestaurantBloc(context),
+                            //               ),
+                            //             ], child: RestaurantCardView())));
                           },
                         ),
                       ),

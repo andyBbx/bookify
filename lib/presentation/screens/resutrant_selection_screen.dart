@@ -18,7 +18,7 @@ import 'package:jiffy/jiffy.dart';
 class ResturantSelectionScreen extends StatefulWidget {
   const ResturantSelectionScreen({Key? key, required this.restaurante})
       : super(key: key);
-  final ReturantData restaurante;
+  final RestaurantModel restaurante;
 
   @override
   State<ResturantSelectionScreen> createState() =>
@@ -114,27 +114,27 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
               height: 350,
               child: Stack(
                 children: [
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    child: CarouselSlider.builder(
-                      itemCount: 3,
-                      itemBuilder: (BuildContext context, int itemIndex,
-                              int pageViewIndex) =>
-                          Image.asset(
-                        widget.restaurante.images[0],
-                        fit: BoxFit.cover,
-                      ),
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        // enlargeCenterPage: true,
-                        viewportFraction: 1,
-                        aspectRatio: 1.4,
-                        initialPage: 1,
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   top: 0,
+                  //   right: 0,
+                  //   left: 0,
+                  //   child: CarouselSlider.builder(
+                  //     itemCount: 3,
+                  //     itemBuilder: (BuildContext context, int itemIndex,
+                  //             int pageViewIndex) =>
+                  //         Image.asset(
+                  //       widget.restaurante.images[0],
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //     options: CarouselOptions(
+                  //       autoPlay: true,
+                  //       // enlargeCenterPage: true,
+                  //       viewportFraction: 1,
+                  //       aspectRatio: 1.4,
+                  //       initialPage: 1,
+                  //     ),
+                  //   ),
+                  // ),
                   Positioned(
                       bottom: 10,
                       right: 0,
@@ -155,7 +155,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             image: DecorationImage(
                                 fit: BoxFit.scaleDown,
                                 image: AssetImage(
-                                  widget.restaurante.logo,
+                                  widget.restaurante.cover,
                                 )),
                           ),
                         ),
@@ -222,7 +222,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(widget.restaurante.adress,
+                    Text(widget.restaurante.address,
                         style: TextStyle(
                           color: textDrkgray,
                           fontSize: 11,
