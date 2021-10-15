@@ -1,11 +1,16 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
+<<<<<<< HEAD
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/user.dart';
 <<<<<<< HEAD
 import 'package:bookify/presentation/screens/miCuenta/bloc/micuenta_bloc.dart';
 =======
+<<<<<<< HEAD
+=======
+import 'package:bookify/data/models/user.dart';
+>>>>>>> Register form working
 >>>>>>> Register form working
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,9 +23,13 @@ import '../../pre_login_screen.dart';
 
 class ProfileTab extends StatefulWidget {
   final User user;
+<<<<<<< HEAD
   final List<ReservationModel> reservations;
   const ProfileTab({Key? key, required this.user, required this.reservations})
       : super(key: key);
+=======
+  const ProfileTab({Key? key, required this.user}) : super(key: key);
+>>>>>>> Register form working
 
   @override
   State<ProfileTab> createState() => _ProfileTab();
