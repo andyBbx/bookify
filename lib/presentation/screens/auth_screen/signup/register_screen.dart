@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
@@ -7,12 +10,38 @@ import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
-  Userr userr = Userr();
+  @override
+  _RegisterScreen createState() => _RegisterScreen();
+}
+
+class _RegisterScreen extends State<RegisterScreen> {
+  User user = User();
   final _formKey = new GlobalKey<FormState>();
+
+  /* bool isManager = false;
+  String name = "";
+  String firstLastname = "";
+  String secondLastName = "";
+  String mail = "";
+  String password = ""; */
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Utils().startSharedPreferences();
+    user.firstname = "Test";
+    user.middlename = "Test";
+    user.lastname = "Test";
+    user.email = "test@gmail.com";
+    user.password = "12345678";
+    user.isManager = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +90,9 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     width: widht / 1.5,
                     child: TextFormField(
+                      initialValue: user.firstname,
                       onChanged: (val) {
-                        userr.username = val;
+                        user.firstname = val;
                       },
                       validator: (val) => val.toString().length > 3
                           ? null
@@ -92,8 +122,9 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     width: widht / 1.5,
                     child: TextFormField(
+                      initialValue: user.middlename,
                       onChanged: (val) {
-                        userr.secondname = val;
+                        user.middlename = val;
                       },
                       validator: (val) => val.toString().length > 3
                           ? null
@@ -123,8 +154,9 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     width: widht / 1.5,
                     child: TextFormField(
+                      initialValue: user.lastname,
                       onChanged: (val) {
-                        userr.secondname = val;
+                        user.lastname = val;
                       },
                       // validator: (val) => val.toString().length > 3
                       //     ? null
@@ -151,7 +183,7 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     height: height / 40,
                   ),
-                  SizedBox(
+                  /* SizedBox(
                     width: widht / 1.5,
                     child: TextFormField(
                       onChanged: (val) {
@@ -179,15 +211,13 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: height / 40,
-                  ),
+                  ), */
                   SizedBox(
                     width: widht / 1.5,
                     child: TextFormField(
+                      initialValue: user.email,
                       onChanged: (val) {
-                        userr.email = val;
+                        user.email = val;
                       },
                       validator: (val) => val.toString().length > 3 &&
                               val.toString().contains("@")
@@ -219,8 +249,9 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     width: widht / 1.5,
                     child: TextFormField(
+                      initialValue: user.password,
                       onChanged: (val) {
-                        userr.location?.adresss = val;
+                        user.location?.adresss = val;
                       },
                       obscureText: false,
                       validator: (val) => val.toString().length > 3
@@ -237,13 +268,23 @@ class RegisterScreen extends StatelessWidget {
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: splash_background),
                         ),
-                        hintText: "Ubicación",
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/location.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                        hintText: "Contraseña",
+                        prefixIcon:
+                            const Icon(Icons.lock, color: Color(0xFFDB7714)),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: height / 40,
+                  ),
+                  CheckboxListTile(
+                    title: const Text('Quiero registrarme como manager'),
+                    value: user.isManager,
+                    onChanged: (value) {
+                      setState(() {
+                        user.isManager = value!;
+                      });
+                    },
                   ),
                   SizedBox(
                     height: height / 40,
@@ -252,9 +293,10 @@ class RegisterScreen extends StatelessWidget {
                     listener: (context, state) {
                       print(state.toString());
                       if (state is SignupSuccess) {
-                        Navigator.pushNamed(context, "/home");
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "/home", (Route route) => false);
                       }
-                      if (state is SignupFaield) {
+                      if (state is SignupFailed) {
                         // Navigator.popAndPushNamed(context, "\home");
                         Scaffold.of(context).showSnackBar(
                           SnackBar(
@@ -268,7 +310,7 @@ class RegisterScreen extends StatelessWidget {
                           ? Container(
                               width: 50,
                               height: 50,
-                              child: CircularProgressIndicator(),
+                              child: Center(child: CircularProgressIndicator()),
                             )
                           : SizedBox(
                               width: widht / 1.5,
@@ -278,7 +320,7 @@ class RegisterScreen extends StatelessWidget {
                                 onTap: () {
                                   if (_formKey.currentState!.validate()) {
                                     BlocProvider.of<SignupCubit>(context)
-                                        .signup(userr);
+                                        .signup(user);
 
                                     // context.Bloc<SignupCubit>.
                                   }

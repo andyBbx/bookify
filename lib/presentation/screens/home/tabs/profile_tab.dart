@@ -1,5 +1,7 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,9 +10,15 @@ import '../../mi_cuenta1_screen.dart';
 import '../../mis_reservas_screen.dart';
 import '../../pre_login_screen.dart';
 
-class ProfileTab extends StatelessWidget {
-  const ProfileTab({Key? key}) : super(key: key);
+class ProfileTab extends StatefulWidget {
+  final User user;
+  const ProfileTab({Key? key, required this.user}) : super(key: key);
 
+  @override
+  State<ProfileTab> createState() => _ProfileTab();
+}
+
+class _ProfileTab extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     double widht = MediaQuery.of(context).size.width;
@@ -69,7 +77,7 @@ class ProfileTab extends StatelessWidget {
                             width: 1,
                           ),
                           Text(
-                            "Andy",
+                            widget.user.firstname.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: isTab() ? 29 : 19,
@@ -195,8 +203,12 @@ class ProfileTab extends StatelessWidget {
                   children: [
                     ListTile(
                       onTap: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => PreLoginScreen()));
+                        Utils().startSharedPreferences().then((prefs) {
+                          prefs.clear();
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => PreLoginScreen()));
+                        });
                       },
                       title: Text(
                         "Cerrar sesión",

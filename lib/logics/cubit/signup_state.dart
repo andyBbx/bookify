@@ -4,33 +4,38 @@ part of 'signup_cubit.dart';
 abstract class SignupState {}
 
 class SignupInitial extends SignupState {
-  Userr? userr;
+  User? userr;
   SignupInitial({
     this.userr,
   });
 }
 
 class SignupSugmitted extends SignupState {
-  Userr? userr;
+  User? userr;
   SignupSugmitted({
     this.userr,
   });
 }
 
-class SignupFaield extends SignupState {
+class SignupFailed extends SignupState {
   Exception? exception;
   String? message;
 
-  SignupFaield({
+  SignupFailed({
     this.exception,
     this.message,
   });
 }
 
-class SignupSuccess extends SignupState {}
+class SignupSuccess extends SignupState {
+  User? userr;
+  SignupSuccess({
+    this.userr,
+  });
+}
 
 class SignupSubmiting extends SignupState {
-  Userr? userr;
+  User? userr;
   SignupSubmiting({
     this.userr,
   });

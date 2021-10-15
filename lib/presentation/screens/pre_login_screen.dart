@@ -71,11 +71,12 @@ class PreLoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Center(
-                          child: Icon(
-                        Icons.food_bank,
-                        color: splash_background,
-                        size: widht / 4,
-                      )),
+                        child: SvgPicture.asset(
+                          "assets/logo.svg",
+                          fit: BoxFit.scaleDown,
+                          width: 130,
+                        ),
+                      ),
                       SizedBox(
                         height: height / 20,
                       ),

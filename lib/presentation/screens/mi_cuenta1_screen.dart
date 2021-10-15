@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,16 +26,27 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
   TextEditingController correo = TextEditingController();
   TextEditingController ubicacion = TextEditingController();
 
+  User user = User();
   @override
   void initState() {
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        user = user.fromJson(jsonDecode(userModelString!));
+        if ((user.id)!.isEmpty) {
+          //logout;
+        } else {
+          nombres.text = user.firstname.toString();
+          primer_apellido.text = user.middlename.toString();
+          segundo_apellido.text = user.lastname.toString();
+          telefono.text = user.phone.toString();
+          correo.text = user.email.toString();
+          ubicacion.text = "Calle Don José 3";
+        }
+      }
+    });
     // TODO: implement initState
     super.initState();
-    nombres.text = "Andy Sandoval";
-    primer_apellido.text = "Sandoval";
-    segundo_apellido.text = "Gómez";
-    telefono.text = "123 456 7890";
-    correo.text = "andi@correo.com";
-    ubicacion.text = "Calle Don José 3";
   }
 
   @override
@@ -211,29 +226,6 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                           style: TextStyle(fontSize: 11, color: textDrkgray)),
                       prefixIcon: SvgPicture.asset(
                         "assets/images/icons/mail.svg",
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    controller: ubicacion,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: splash_background),
-                      ),
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: splash_background),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: splash_background),
-                      ),
-                      hintText: "Ubicación",
-                      label: Text("Ubicación",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 11, color: textDrkgray)),
-                      prefixIcon: SvgPicture.asset(
-                        "assets/images/icons/location.svg",
                         fit: BoxFit.scaleDown,
                       ),
                     ),

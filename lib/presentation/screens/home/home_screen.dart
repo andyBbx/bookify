@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/home/tabs/favorites_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,12 +19,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  User user = User();
   late TabController _tabController;
   int seletcedTab = 0;
 
   @override
   void initState() {
     // TODO: implement initState
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        setState(() {
+          user = user.fromJson(jsonDecode(userModelString!));
+        });
+        if ((user.id)!.isEmpty) {
+          //logout;
+        }
+      }
+    });
     super.initState();
     _tabController = TabController(
       length: 4,
@@ -71,11 +87,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          HomeTab(),
+        children: [
+          HomeTab(
+            user: user,
+          ),
           MisReservasScreen(),
           FavTab(),
-          ProfileTab(),
+          ProfileTab(
+            user: user,
+          ),
         ],
       ),
     );
