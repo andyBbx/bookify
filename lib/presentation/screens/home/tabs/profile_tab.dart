@@ -2,7 +2,10 @@ import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
+<<<<<<< HEAD
 import 'package:bookify/presentation/screens/miCuenta/bloc/micuenta_bloc.dart';
+=======
+>>>>>>> Register form working
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

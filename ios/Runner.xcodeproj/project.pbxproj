@@ -121,6 +121,10 @@
 				5CE26171B48C926475CF338A /* Pods-Runner.release.xcconfig */,
 				DA970E549EDB34BD710D5E93 /* Pods-Runner.profile.xcconfig */,
 			);
+<<<<<<< HEAD
+=======
+			name = Pods;
+>>>>>>> Register form working
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -362,7 +366,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.bookify.bookify;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.bbx.bookify;
+>>>>>>> Register form working
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -491,7 +499,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.bookify.bookify;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.bbx.bookify;
+>>>>>>> Register form working
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -514,7 +526,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.bookify.bookify;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.bbx.bookify;
+>>>>>>> Register form working
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
