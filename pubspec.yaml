@@ -23,6 +23,8 @@ dependencies:
   equatable: ^2.0.3
   
   flutter_bloc:
+  http: ^0.13.4
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:

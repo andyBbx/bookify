@@ -1,6 +1,7 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/chip_item.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/home/tabs/pagger/resuturants.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
@@ -13,7 +14,8 @@ import 'package:flutter_svg/svg.dart';
 import 'pagger/offers.dart';
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({Key? key}) : super(key: key);
+  final User user;
+  const HomeTab({Key? key, required this.user}) : super(key: key);
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -115,7 +117,7 @@ class _HomeTabState extends State<HomeTab> {
                               builder: (context, state) {
                                 return Text(
                                   // "Hola, ${state}",
-                                  'Hola, nombre',
+                                  'Hola, ' + widget.user.firstname.toString(),
                                   style: TextStyle(
                                       fontSize: 29,
                                       fontWeight: FontWeight.bold,

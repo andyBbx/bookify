@@ -72,7 +72,7 @@ class FormLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (cc, state1) {
-        print("login scrcess" + state1.formStatus.toString());
+        print("login success" + state1.formStatus.toString());
         final statusform = state1.formStatus;
         if (statusform is SubmissionSuccess) {
           Navigator.pushAndRemoveUntil(
@@ -205,6 +205,7 @@ class pass_fielld extends StatelessWidget {
       return SizedBox(
         width: widht / 1.5,
         child: TextFormField(
+          initialValue: "12345678",
           textInputAction: TextInputAction.done,
           keyboardType: TextInputType.visiblePassword,
           obscureText: true,
@@ -251,6 +252,7 @@ class email_field extends StatelessWidget {
       width: widht / 1.5,
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (conect, state) => TextFormField(
+          initialValue: "test@gmail.com",
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {
@@ -311,8 +313,8 @@ class logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      "assets/logo_full.svg",
-      width: widht / 2,
+      "assets/logo.svg",
+      width: widht / 3,
     );
   }
 }
