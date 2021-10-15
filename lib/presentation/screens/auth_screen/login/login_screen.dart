@@ -1,6 +1,7 @@
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
+import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,8 +77,17 @@ class FormLogin extends StatelessWidget {
         if (statusform is SubmissionSuccess) {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(
+                  builder: (context) => MultiBlocProvider(providers: [
+                        BlocProvider(
+                          create: (context) => RestaurantBloc(context),
+                        ),
+                      ], child: const HomeScreen())),
               (route) => false);
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => const HomeScreen()),
+          //     (route) => false);
           // Navigator.of(context).pushAndRemoveUntil(
           //     MaterialPageRoute(builder: (context) => const HomeScreen()));
         }

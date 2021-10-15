@@ -11,12 +11,13 @@ class ResturantListItem extends StatelessWidget {
   const ResturantListItem({Key? key, required this.restaurante})
       : super(key: key);
 
-  final ReturantData restaurante;
+  final RestaurantModel restaurante;
 
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    bool fav = true;
 
     return Container(
       // margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -38,7 +39,7 @@ class ResturantListItem extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Image.asset(
-                restaurante.logo,
+                restaurante.cover,
                 fit: BoxFit.contain,
               ),
             ),
@@ -65,11 +66,8 @@ class ResturantListItem extends StatelessWidget {
                               )),
                         ),
                         Icon(
-                          restaurante.isFavv
-                              ? Icons.favorite
-                              : Icons.favorite_outline,
-                          color:
-                              restaurante.isFavv ? favrioteColor : textDrkgray,
+                          fav ? Icons.favorite : Icons.favorite_outline,
+                          color: fav ? favrioteColor : textDrkgray,
                           size: 20,
                         ),
                       ],
@@ -102,7 +100,7 @@ class ResturantListItem extends StatelessWidget {
                           width: 5,
                         ),
                         Flexible(
-                          child: Text(restaurante.adress,
+                          child: Text(restaurante.address,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
