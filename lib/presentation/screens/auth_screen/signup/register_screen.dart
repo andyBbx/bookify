@@ -380,20 +380,3 @@ class text1 extends StatelessWidget {
     );
   }
 }
-
-class logo extends StatelessWidget {
-  const logo({
-    Key? key,
-    required this.widht,
-  }) : super(key: key);
-
-  final double widht;
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      "assets/logo_full.svg",
-      width: widht / 2,
-    );
-  }
-}

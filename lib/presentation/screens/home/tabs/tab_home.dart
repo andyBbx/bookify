@@ -296,7 +296,40 @@ class _HomeTabState extends State<HomeTab> {
               const SizedBox(
                 height: 20,
               ),
-              currentFiler == 0 ? const Offers() : Restaurantes(),
+              currentFiler == 0
+                  ? const Offers()
+                  : Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Restaurantes",
+                                style: TextStyle(
+                                    color: textDrkgray,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "para ti",
+                                style: TextStyle(
+                                    color: textDrkgray,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Restaurantes()
+                      ],
+                    ),
               const SizedBox(
                 height: 20,
               ),

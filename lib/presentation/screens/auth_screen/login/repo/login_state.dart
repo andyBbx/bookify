@@ -10,8 +10,8 @@ class LoginState {
   final FormSubmissionStatus formStatus;
 
   LoginState({
-    this.username = '',
-    this.password = '',
+    this.username = 'test@gmail.com',
+    this.password = '12345678',
     this.formStatus = const InitialFormStatus(),
   });
 

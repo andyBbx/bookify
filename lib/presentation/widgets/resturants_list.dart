@@ -1,5 +1,6 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/presentation/screens/resutrant_selection_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class ResturantListItem extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     bool fav = true;
 
+    // return Text('ff');
     return Container(
       // margin: const EdgeInsets.symmetric(horizontal: 20),
       width: widhth,
@@ -38,17 +40,19 @@ class ResturantListItem extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Image.asset(
-                restaurante.cover,
-                fit: BoxFit.contain,
-              ),
+              child: restaurante.cover == null
+                  ? logo(250)
+                  : Image.asset(
+                      restaurante.cover,
+                      fit: BoxFit.contain,
+                    ),
             ),
             Expanded(
               flex: 5,
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(

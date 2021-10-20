@@ -2,11 +2,13 @@ import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/miCuenta/bloc/micuenta_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../mi_cuenta1_screen.dart';
+import '../../miCuenta/mi_cuenta1_screen.dart';
 import '../../mis_reservas_screen.dart';
 import '../../pre_login_screen.dart';
 
@@ -105,8 +107,17 @@ class _ProfileTab extends State<ProfileTab> {
                   children: [
                     ListTile(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MiCuenta1Screen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    MultiBlocProvider(providers: [
+                                      BlocProvider(
+                                        create: (context) => MicuentaBloc(),
+                                      ),
+                                    ], child: const MiCuenta1Screen())));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => MiCuenta1Screen()));
                       },
                       title: Text(
                         "Mi cuenta",

@@ -12,6 +12,7 @@ class SubmissionSuccess extends FormSubmissionStatus {}
 
 class SubmissionFailed extends FormSubmissionStatus {
   final dynamic exception;
+  final String errorMessage;
 
-  SubmissionFailed(this.exception);
+  SubmissionFailed(this.exception, this.errorMessage);
 }

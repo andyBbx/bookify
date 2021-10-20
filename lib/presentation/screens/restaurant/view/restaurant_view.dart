@@ -24,10 +24,15 @@ class _RestaurantCardViewState extends State<RestaurantCardView> {
         builder: (context, state) {
           if (state is RestaurantLoaded) {
             final rest = state.restaurants.data;
-            return ListView.builder(
-              itemCount: rest.length,
-              itemBuilder: (context, index) =>
-                  ListTile(title: Text(rest[index].name)),
+            return Container(
+              height: 30,
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: rest.length,
+                itemBuilder: (context, index) =>
+                    ListTile(title: Text(rest[index].name)),
+              ),
             );
           }
           return const Center(
