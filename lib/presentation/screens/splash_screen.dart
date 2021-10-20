@@ -76,12 +76,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
           ),
-          Align(
-              child: logo_splash(
-            colorIcon: splash_Logo,
-            colorText: splash_Logo,
-            subline: true,
-          ))
+          Align(child: logo(500)
+              //     child: logo_splash(
+              //   colorIcon: splash_Logo,
+              //   colorText: splash_Logo,
+              //   subline: true,
+              // )
+              )
         ],
       ),
     );

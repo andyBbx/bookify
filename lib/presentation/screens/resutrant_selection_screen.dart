@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/chip_item.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/presentation/screens/verificar_reserv_screen.dart';
@@ -114,50 +115,47 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
               height: 350,
               child: Stack(
                 children: [
-                  // Positioned(
-                  //   top: 0,
-                  //   right: 0,
-                  //   left: 0,
-                  //   child: CarouselSlider.builder(
-                  //     itemCount: 3,
-                  //     itemBuilder: (BuildContext context, int itemIndex,
-                  //             int pageViewIndex) =>
-                  //         Image.asset(
-                  //       widget.restaurante.images[0],
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //     options: CarouselOptions(
-                  //       autoPlay: true,
-                  //       // enlargeCenterPage: true,
-                  //       viewportFraction: 1,
-                  //       aspectRatio: 1.4,
-                  //       initialPage: 1,
-                  //     ),
-                  //   ),
-                  // ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    child: CarouselSlider.builder(
+                      itemCount: 3,
+                      itemBuilder: (BuildContext context, int itemIndex,
+                              int pageViewIndex) =>
+                          Image.asset(
+                        "assets/images/resturant2.png",
+                        fit: BoxFit.cover,
+                      ),
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        // enlargeCenterPage: true,
+                        viewportFraction: 1,
+                        aspectRatio: 1.4,
+                        initialPage: 1,
+                      ),
+                    ),
+                  ),
                   Positioned(
                       bottom: 10,
                       right: 0,
                       left: 0,
-                      child: CircleAvatar(
-                        radius: radius,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(2, 2), // Shadow position
-                              ),
-                            ],
-                            image: DecorationImage(
-                                fit: BoxFit.scaleDown,
-                                image: AssetImage(
-                                  widget.restaurante.cover,
-                                )),
-                          ),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(2, 2), // Shadow position
+                            ),
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          radius: radius,
+                          backgroundColor: Colors.white,
+                          child: logo(100),
                         ),
                       ))
                 ],

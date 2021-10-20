@@ -1,4 +1,5 @@
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
 import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
@@ -72,7 +73,6 @@ class FormLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (cc, state1) {
-        print("login success" + state1.formStatus.toString());
         final statusform = state1.formStatus;
         if (statusform is SubmissionSuccess) {
           Navigator.pushAndRemoveUntil(
@@ -84,12 +84,13 @@ class FormLogin extends StatelessWidget {
                         ),
                       ], child: const HomeScreen())),
               (route) => false);
-          // Navigator.pushAndRemoveUntil(
-          //     context,
-          //     MaterialPageRoute(builder: (context) => const HomeScreen()),
-          //     (route) => false);
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     MaterialPageRoute(builder: (context) => const HomeScreen()));
+        } else if (statusform is SubmissionFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(statusform.errorMessage
+                .toString()
+                .substring(11, statusform.errorMessage.toString().length)),
+          ));
         }
       },
       child: Form(
@@ -101,7 +102,7 @@ class FormLogin extends StatelessWidget {
             SizedBox(
               height: height / 20,
             ),
-            const logo(widht: 500),
+            logo(500),
             SizedBox(
               height: height / 14,
             ),
@@ -156,6 +157,8 @@ class FormLogin extends StatelessWidget {
   }
 }
 
+class saveUserModel {}
+
 class LoginButton extends StatelessWidget {
   const LoginButton({
     Key? key,
@@ -205,7 +208,7 @@ class pass_fielld extends StatelessWidget {
       return SizedBox(
         width: widht / 1.5,
         child: TextFormField(
-          initialValue: "12345678",
+          initialValue: context.read<LoginBloc>().state.password,
           textInputAction: TextInputAction.done,
           keyboardType: TextInputType.visiblePassword,
           obscureText: true,
@@ -252,7 +255,7 @@ class email_field extends StatelessWidget {
       width: widht / 1.5,
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (conect, state) => TextFormField(
-          initialValue: "test@gmail.com",
+          initialValue: context.read<LoginBloc>().state.username,
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {
@@ -298,23 +301,6 @@ class Text1 extends StatelessWidget {
       textAlign: TextAlign.center,
       style:
           TextStyle(color: textBold, fontWeight: FontWeight.bold, fontSize: 26),
-    );
-  }
-}
-
-class logo extends StatelessWidget {
-  const logo({
-    Key? key,
-    required this.widht,
-  }) : super(key: key);
-
-  final double widht;
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      "assets/logo.svg",
-      width: widht / 3,
     );
   }
 }
