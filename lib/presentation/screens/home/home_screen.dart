@@ -9,7 +9,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../mis_reservas_screen.dart';
 import 'tabs/profile_tab.dart';
-import 'tabs/tab_home.dart';
+import 'tabs/home_tab/view/tab_home.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

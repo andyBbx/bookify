@@ -11,3 +11,8 @@ class LoadData extends RestaurantEvent {
   @override
   List<Object> get props => [];
 }
+
+class LoadFavData extends RestaurantEvent {
+  @override
+  List<Object> get props => [];
+}

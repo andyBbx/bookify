@@ -1,4 +1,3 @@
-import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/resturant.dart';
@@ -28,6 +27,7 @@ class ResturantListItem extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ResturantSelectionScreen(
@@ -35,7 +35,6 @@ class ResturantListItem extends StatelessWidget {
                   )));
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
@@ -55,43 +54,47 @@ class ResturantListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Flexible(
-                          child: Text(restaurante.name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: textDrkgray,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(restaurante.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: textDrkgray,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                            ),
+                            Icon(
+                              restaurante.favorite == 1
+                                  ? Icons.favorite
+                                  : Icons.favorite_outline,
+                              color: restaurante.favorite == 1
+                                  ? favrioteColor
+                                  : textDrkgray,
+                              size: 20,
+                            ),
+                          ],
                         ),
-                        Icon(
-                          fav ? Icons.favorite : Icons.favorite_outline,
-                          color: fav ? favrioteColor : textDrkgray,
-                          size: 20,
+                        RatingBarIndicator(
+                          rating: double.parse(restaurante.rating.toString()),
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: textBold,
+                          ),
+                          itemCount: 5,
+                          itemSize: 20.0,
+                          direction: Axis.horizontal,
                         ),
                       ],
                     ),
-                    // const SizedBox(
-                    //   height: 5,
-                    // ),
-                    RatingBarIndicator(
-                      rating: 5,
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: textBold,
-                      ),
-                      itemCount: 5,
-                      itemSize: 20.0,
-                      direction: Axis.horizontal,
-                    ),
-                    // const SizedBox(
-                    //   height: 5,
-                    // ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -118,16 +121,14 @@ class ResturantListItem extends StatelessWidget {
                     // const SizedBox(
                     //   height: 5,
                     // ),
-                    Flexible(
-                      child: Text(restaurante.description,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: textDrkgray.withOpacity(0.5),
-                            fontSize: 13,
-                            fontWeight: FontWeight.normal,
-                          )),
-                    ),
+                    Text(restaurante.description,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: textDrkgray.withOpacity(0.5),
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal,
+                        ))
                   ],
                 ),
               ),

@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+String urlApi = "https://api.reservas.androidtemplates.es/v1";
+
 Future<Map<String, dynamic>> postService(dynamic data, String url) async {
   var finalResponse;
 
   try {
-    final http.Response response = await http.post(Uri.parse(url),
+    final http.Response response = await http.post(Uri.parse("$urlApi$url"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -50,7 +52,7 @@ Future<Map<String, dynamic>> getService(String url) async {
 
   try {
     final http.Response response = await http.get(
-      Uri.parse(url),
+      Uri.parse("$urlApi$url"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

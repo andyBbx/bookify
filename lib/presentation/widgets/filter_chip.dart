@@ -23,23 +23,23 @@ class _FilterChipItemState extends State<FilterChipItem> {
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
+            // margin: const EdgeInsets.symmetric(
+            //   horizontal: 10,
+
             child: Center(
                 child: Row(
               children: [
-                widget.cheapItem.icon.isNotEmpty
-                    ? SvgPicture.asset(
-                        widget.cheapItem.icon,
-                        color: Colors.white,
-                      )
-                    : const SizedBox.shrink(),
-                widget.cheapItem.icon.isNotEmpty
-                    ? const SizedBox(
-                        width: 10,
-                      )
-                    : Container(),
+                // widget.cheapItem.icon.isNotEmpty
+                //     ? SvgPicture.asset(
+                //         widget.cheapItem.icon,
+                //         color: Colors.white,
+                //       )
+                //     : const SizedBox.shrink(),
+                // widget.cheapItem.icon.isNotEmpty
+                //     ? const SizedBox(
+                //         width: 10,
+                //       )
+                //     : Container(),
                 Text(
                   widget.cheapItem.text,
                   style: const TextStyle(
@@ -59,23 +59,24 @@ class _FilterChipItemState extends State<FilterChipItem> {
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
+            // margin: const EdgeInsets.symmetric(
+            //   horizontal: 10,
+            // ),
             child: Center(
                 child: Row(
               children: [
-                widget.cheapItem.icon.isNotEmpty
-                    ? SvgPicture.asset(
-                        widget.cheapItem.icon,
-                        color: textBold,
-                      )
-                    : Container(),
-                widget.cheapItem.icon.isNotEmpty
-                    ? const SizedBox(
-                        width: 10,
-                      )
-                    : Container(),
+                // widget.cheapItem.icon.isNotEmpty
+                //     // ? SvgPicture.asset(
+                //     //     widget.cheapItem.icon,
+                //     //     color: textBold,
+                //     //   )
+                //     ? Image.network(widget.cheapItem.icon)
+                //     : Container(),
+                // widget.cheapItem.icon.isNotEmpty
+                //     ? const SizedBox(
+                //         width: 10,
+                //       )
+                //     : Container(),
                 Text(
                   widget.cheapItem.text,
                   style: TextStyle(

@@ -25,10 +25,28 @@ class RestaurantEmptyDB extends RestaurantState {
 }
 
 class RestaurantLoaded extends RestaurantState {
-  RestaurantLoaded({required this.restaurants});
+  const RestaurantLoaded({required this.restaurants});
 
   final dynamic restaurants;
 
   @override
   List<Object> get props => [restaurants];
+}
+
+class RestaurantFavLoaded extends RestaurantState {
+  const RestaurantFavLoaded({required this.restaurants});
+
+  final dynamic restaurants;
+
+  @override
+  List<Object> get props => [restaurants];
+}
+
+class RestaurantFail extends RestaurantState {
+  const RestaurantFail({required this.message});
+
+  final dynamic message;
+
+  @override
+  List<Object> get props => [message];
 }
