@@ -2,6 +2,7 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
+import 'package:bookify/presentation/screens/home/tabs/home_tab/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +82,9 @@ class FormLogin extends StatelessWidget {
                   builder: (context) => MultiBlocProvider(providers: [
                         BlocProvider(
                           create: (context) => RestaurantBloc(context),
+                        ),
+                        BlocProvider(
+                          create: (context) => HomeBloc(context),
                         ),
                       ], child: const HomeScreen())),
               (route) => false);

@@ -1,7 +1,5 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
-import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
-import 'package:bookify/presentation/screens/restaurant/view/restaurant_view.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

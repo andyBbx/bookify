@@ -2,7 +2,7 @@ import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/chip_item.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
-import 'package:bookify/presentation/screens/home/tabs/pagger/resuturants.dart';
+import 'package:bookify/presentation/screens/restaurant/view/resuturants.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/reservar.dart';
 import 'package:flutter/material.dart';
@@ -238,10 +238,12 @@ class _FavTabState extends State<FavTab> {
         //     ),
         //   ),
         // ),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
             child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: Restaurantes(),
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          child: Restaurantes(
+            type: "favorites",
+          ),
         ))
       ]),
     );
