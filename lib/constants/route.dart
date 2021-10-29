@@ -1,3 +1,4 @@
+import 'package:bookify/presentation/screens/Manager/home.dart';
 import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
@@ -31,6 +32,9 @@ Route? appRouteGaneragte(RouteSettings _routeSettings) {
       break;
     case "/reservation":
       return MaterialPageRoute(builder: (context) => MisReservasScreen());
+      break;
+    case "/managerView":
+      return MaterialPageRoute(builder: (context) => ManagerView());
       break;
       // case "/resuturant_details":
       //   return MaterialPageRoute(

@@ -46,14 +46,14 @@ class User {
   fromJson(Map<String, dynamic> parsedJson) {
     return User(
         id: parsedJson["id"].toString(),
-        avatar: parsedJson["avatar"].toString(),
+        avatar: parsedJson["avatar"],
         auth_key: parsedJson["auth_key"].toString(),
         firstname: parsedJson["firstname"].toString(),
         middlename: parsedJson["middlename"].toString(),
-        lastname: parsedJson["lastname"].toString(),
+        lastname: parsedJson["lastname"] ?? "",
         email: parsedJson["email"].toString(),
         password: parsedJson["password"].toString(),
-        phone: parsedJson["phone"].toString(),
+        phone: parsedJson["phone"] ?? "",
         favorite_restaurants: parsedJson["favorite_restaurants"],
         status: parsedJson["status"] ?? 0);
   }

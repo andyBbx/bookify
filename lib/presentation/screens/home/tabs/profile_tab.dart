@@ -53,15 +53,23 @@ class _ProfileTab extends State<ProfileTab> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: isTab() ? 70 : 55.0,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/tab/profile_image.png'),
-                          radius: isTab() ? 65 : 50.0,
-                        ),
-                      ),
+                      Container(
+                            width: 120,
+                            height: 120,
+                            margin: EdgeInsets.only(top: 0, bottom: 10),
+                            // ignore: unnecessary_new
+                            decoration: new BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 3, color: Colors.white),
+                              image: DecorationImage(
+                                image: (widget.user.avatar == null) ? 
+                                AssetImage("assets/images/user.png") : 
+                                NetworkImage(widget.user.avatar.toString()) as ImageProvider,// <-- BACKGROUND IMAGE
+                                fit: BoxFit.cover
+                              ),
+                            ),
+                          ),
                       // const SizedBox(
                       //   height: 10,
                       // ),

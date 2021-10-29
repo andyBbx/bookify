@@ -1,5 +1,6 @@
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
+import 'package:bookify/presentation/screens/Manager/home.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
 import 'package:bookify/presentation/screens/home/tabs/home_tab/bloc/home_bloc.dart';
@@ -33,7 +34,7 @@ class LoginScreen extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: [
           Container(
-            height: 180,
+            height: 150,
             decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fitWidth,
@@ -149,6 +150,26 @@ class FormLogin extends StatelessWidget {
                         builder: (context) => RegisterScreen()));
                   },
                   child: Text(" Regístrate.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: textDrkgray)),
+                ),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "¿Eres Manager?",
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal, color: textDrkgray),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => ManagerView()));
+                  },
+                  child: Text(" Dirígete aquí.",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: textDrkgray)),
                 ),

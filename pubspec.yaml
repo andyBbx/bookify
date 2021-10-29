@@ -21,7 +21,7 @@ dependencies:
   carousel_slider: ^4.0.0
   jiffy: ^4.1.0
   equatable: ^2.0.3
-  
+  image_picker: ^0.8.4+3
   flutter_bloc:
   http: ^0.13.4
   shared_preferences: ^2.0.8

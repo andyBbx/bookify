@@ -7,9 +7,10 @@ class AuthRepository {
   Future<void> login(user, password) async {
     var data = {"email": user, "password": password};
     await postService(
-            data, 'https://api.reservas.androidtemplates.es/v1/user/login')
+            data, '/user/login')
         .then((value) {
       if (value['code'] != 200) {
+        print("Situation");
         var error = jsonDecode(value['message']);
         throw Exception(error['message']);
       } else {

@@ -1,13 +1,15 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/data/service/service.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../confirmando_screen.dart';
 
@@ -48,6 +50,35 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
     super.initState();
   }
 
+Future<void> updateUser(user, password) async {
+    var data = {"email": user, "password": password};
+    await postService(
+            data, '/user/login')
+        .then((value) {
+      if (value['code'] != 200) {
+        print("Situation");
+        var error = jsonDecode(value['message']);
+        throw Exception(error['message']);
+      } else {
+        saveUserModel(value['model']);
+      }
+    });
+  }
+  
+
+var _image;
+String base64Image = "";
+final ImagePicker _picker = ImagePicker();
+Future getImage() async {
+  var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+  setState(() {
+    _image = File(pickedFile!.path);
+    base64Image = base64Encode(_image.readAsBytesSync());
+    print(base64Image);
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
@@ -86,11 +117,26 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        backgroundImage: AssetImage(
-                          "assets/images/profile.png",
+                      InkWell(
+                        onTap: getImage,
+                        child: Hero(
+                          tag: "profile_picture",
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            margin: EdgeInsets.only(top: 0, bottom: 10),
+                            decoration: new BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 3, color: Colors.white),
+                              image: DecorationImage(
+                                image: _image == null
+                                    ? AssetImage("assets/images/user.png")
+                                    : FileImage(_image) as ImageProvider, // <-- BACKGROUND IMAGE
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Text("Toca para cambiar tu foto",
