@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TableItem extends StatefulWidget {
+<<<<<<< HEAD
 
   int id;
   Function onBusyTap;
@@ -13,6 +14,9 @@ class TableItem extends StatefulWidget {
       required this.onAvailableTap,
       required this.onExchangeTap})
       : super(key: key);
+=======
+  TableItem({Key? key}) : super(key: key);
+>>>>>>> Manager views
 
   @override
   _TableItemState createState() => _TableItemState();
@@ -50,6 +54,7 @@ class _TableItemState extends State<TableItem> {
               Text("x4")
             ],
           ),
+<<<<<<< HEAD
           widget.id.floor().isEven
               ? Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -109,6 +114,25 @@ class _TableItemState extends State<TableItem> {
                     )
                   ],
                 )
+=======
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: InkWell(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 9),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(width: 2, color: Colors.orange)),
+                child: Text(
+                  "Libre",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.orange),
+                ),
+              ),
+            ),
+          )
+>>>>>>> Manager views
         ],
       ),
     );

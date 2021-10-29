@@ -41,9 +41,15 @@ class _RestaurantHeaderState extends State<RestaurantHeader> {
                     widget.title,
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
+<<<<<<< HEAD
                   widget.subtitle != ""
                       ? Text(widget.subtitle, style: TextStyle(fontSize: 15))
                       : SizedBox()
+=======
+                  Text(widget.subtitle,
+                      style:
+                          TextStyle(fontSize: 15))
+>>>>>>> Manager views
                 ],
               ),
             ),

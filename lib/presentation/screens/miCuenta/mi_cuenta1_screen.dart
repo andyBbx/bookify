@@ -124,7 +124,7 @@ Future getImage() async {
                           child: Container(
                             width: 120,
                             height: 120,
-                            margin: EdgeInsets.only(top: 0, bottom: 5),
+                            margin: EdgeInsets.only(top: 0, bottom: 10),
                             decoration: new BoxDecoration(
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(100),
