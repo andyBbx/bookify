@@ -21,12 +21,12 @@ class _BookingItemsState extends State<BookingItems> {
             title: "Reservaciones",
             subtitle: "Azurmendi",
           ),
-          Flexible(
+          Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               itemCount: 10,
               itemBuilder: (context, index) {
-                return BookingItemCard();
+                return BookingItemCard(id: index.toString(),);
               },
             ),
           )

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BookingRequestCard extends StatefulWidget {
-  BookingRequestCard({Key? key}) : super(key: key);
+  final String id;
+  Function onTap;
+  BookingRequestCard({Key? key, required this.id, required this.onTap})
+      : super(key: key);
 
   @override
   _BookingRequestCardState createState() => _BookingRequestCardState();
@@ -11,6 +14,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
@@ -24,18 +28,19 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.fastfood_rounded,
-                    size: 50,
-                    color: Colors.orange,
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.fastfood_rounded,
+                      size: 50,
+                      color: Colors.orange,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Center(
+                Expanded(
+                  flex: 4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -60,13 +65,13 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("7 de Noviembre de 2021")
+                          Flexible(child: Text("7 de Noviembre de 2021"))
                         ],
                       ),
                       Row(
                         children: [
                           Icon(
-                            Icons.today,
+                            Icons.access_time,
                             color: Colors.orange,
                           ),
                           SizedBox(
@@ -81,17 +86,36 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
               ],
             ),
           ),
-          InkWell(
-            child: Container(
-                padding: const EdgeInsets.all(10),
-                width: double.infinity,
-                color: Colors.orangeAccent,
-                child: const Text(
-                  "Asignar mesa",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white),
-                )),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: InkWell(
+                  child: Container(
+                      padding: const EdgeInsets.all(10),
+                      color: Colors.red,
+                      child: const Text(
+                        "Rechazar",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ),
+              ),
+              Expanded(
+                  child: InkWell(
+                onTap: () => widget.onTap(),
+                child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    color: Colors.orangeAccent,
+                    child: const Text(
+                      "Aceptar",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    )),
+              )),
+            ],
+          ),
         ],
       ),
     );

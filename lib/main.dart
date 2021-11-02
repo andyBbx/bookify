@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (_routeSettings) => appRouteGaneragte(_routeSettings),
         theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'poppins'),
-        initialRoute: "/splash",
+        initialRoute: "/managerView",
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BookingItemCard extends StatefulWidget {
-  BookingItemCard({Key? key}) : super(key: key);
+  final String id;
+  BookingItemCard({Key? key, required this.id}) : super(key: key);
 
   @override
   _BookingItemCardState createState() => _BookingItemCardState();
@@ -24,34 +25,37 @@ class _BookingItemCardState extends State<BookingItemCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                Expanded(
+                  flex: 3,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    height: 50,
+                    padding: const EdgeInsets.only(top:8, bottom: 8, left: 8, right: 15),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(width: 4, color: Colors.orange)),
-                    child: Row(
-                      children: [
-                        Text(
-                          "2",
-                          style: TextStyle(color: Colors.black, fontSize: 30),
-                        ),
-                        Icon(Icons.person)
-                      ],
-                    ),
-                  ), /* Icon(
-                    Icons.fastfood_rounded,
-                    size: 50,
-                    color: Colors.orange,
-                  ), */
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(width: 4, color: Colors.orange)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "2",
+                            style: TextStyle(color: Colors.black, fontSize: 30),
+                          ),
+                          Icon(Icons.person)
+                        ],
+                      ),
+                    ), /* Icon(
+                      Icons.fastfood_rounded,
+                      size: 50,
+                      color: Colors.orange,
+                    ), */
+                  ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Center(
+                Expanded(
+                  flex: 6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -76,13 +80,13 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("7 de Noviembre de 2021")
+                          Flexible(child: Text("7 de Noviembre de 2021"))
                         ],
                       ),
                       Row(
                         children: [
                           Icon(
-                            Icons.today,
+                            Icons.access_time,
                             color: Colors.orange,
                           ),
                           SizedBox(
