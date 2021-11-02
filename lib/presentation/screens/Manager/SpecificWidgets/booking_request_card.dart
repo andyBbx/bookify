@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class BookingRequestCard extends StatefulWidget {
 <<<<<<< HEAD
+<<<<<<< HEAD
   final String id;
   Function onAcceptButton;
   Function onRejectButton;
@@ -10,6 +11,12 @@ class BookingRequestCard extends StatefulWidget {
 =======
   BookingRequestCard({Key? key}) : super(key: key);
 >>>>>>> Manager views
+=======
+  final String id;
+  Function onTap;
+  BookingRequestCard({Key? key, required this.id, required this.onTap})
+      : super(key: key);
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
 
   @override
   _BookingRequestCardState createState() => _BookingRequestCardState();
@@ -20,9 +27,13 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
   Widget build(BuildContext context) {
     return Container(
 <<<<<<< HEAD
+<<<<<<< HEAD
       width: double.infinity,
 =======
 >>>>>>> Manager views
+=======
+      width: double.infinity,
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
@@ -37,6 +48,9 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
                 Expanded(
                   flex: 2,
                   child: Padding(
@@ -46,6 +60,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                       size: 50,
                       color: Colors.orange,
                     ),
+<<<<<<< HEAD
                   ),
                 ),
                 Expanded(
@@ -64,6 +79,12 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                 ),
                 Center(
 >>>>>>> Manager views
+=======
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -89,20 +110,28 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                             width: 10,
                           ),
 <<<<<<< HEAD
+<<<<<<< HEAD
                           Flexible(child: Text("7 de Noviembre de 2021"))
 =======
                           Text("7 de Noviembre de 2021")
 >>>>>>> Manager views
+=======
+                          Flexible(child: Text("7 de Noviembre de 2021"))
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
                         ],
                       ),
                       Row(
                         children: [
                           Icon(
 <<<<<<< HEAD
+<<<<<<< HEAD
                             Icons.access_time,
 =======
                             Icons.today,
 >>>>>>> Manager views
+=======
+                            Icons.access_time,
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
                             color: Colors.orange,
                           ),
                           SizedBox(
@@ -118,12 +147,18 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
             ),
           ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
                 child: InkWell(
+<<<<<<< HEAD
                   onTap: () => widget.onRejectButton(),
+=======
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.red,
@@ -136,7 +171,11 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
               ),
               Expanded(
                   child: InkWell(
+<<<<<<< HEAD
                 onTap: () => widget.onAcceptButton(),
+=======
+                onTap: () => widget.onTap(),
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
                 child: Container(
                     padding: const EdgeInsets.all(10),
                     width: double.infinity,
@@ -149,6 +188,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
               )),
             ],
           ),
+<<<<<<< HEAD
 =======
           InkWell(
             child: Container(
@@ -162,6 +202,8 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                 )),
           )
 >>>>>>> Manager views
+=======
+>>>>>>> Design adjustments, dialog for assigning tables and my account page
         ],
       ),
     );
