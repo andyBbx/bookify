@@ -157,7 +157,9 @@ class _ProfileTab extends State<ProfileTab> {
                     ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const MisReservasScreen()));
+                            builder: (context) => const MisReservasScreen(
+                                  reservations: [],
+                                )));
                       },
                       title: Text(
                         "Reservas",

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:bookify/data/models/resturant.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -21,7 +22,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     final currentState = state;
 
     if (event is LoadData) {
-      var response = await getService('/restaurant');
+      var response = await getService('/restaurant', '');
       if (response['code'] == 401) {
         yield RestaurantFail(message: response['message']);
       } else if (response['code'] == 200) {
@@ -38,7 +39,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
         }
       }
     } else if (event is LoadFavData) {
-      var response = await getService('/restaurant');
+      var response = await getService('/restaurant', '');
       if (response['code'] == 401) {
         yield RestaurantFail(message: response['message']);
       } else if (response['code'] == 200) {

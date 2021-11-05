@@ -1,7 +1,9 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/chip_item.dart';
+import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
+import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
 import 'package:bookify/presentation/screens/restaurant/view/resuturants.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/reservar.dart';
@@ -10,10 +12,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'pagger/offers.dart';
-
 class FavTab extends StatefulWidget {
-  const FavTab({Key? key}) : super(key: key);
+  final List<RestaurantModel> favRestaurant;
+  const FavTab({Key? key, required this.favRestaurant}) : super(key: key);
 
   @override
   State<FavTab> createState() => _FavTabState();
@@ -167,82 +168,11 @@ class _FavTabState extends State<FavTab> {
                 )
               ]),
             )),
-        // SliverAppBar(
-        //   pinned: true,
-        //   iconTheme: const IconThemeData(
-        //     color: Colors.transparent,
-        //   ),
-        //   expandedHeight: isTab() ? height / 7 : widhth / 1.7,
-        //   collapsedHeight: isTab() ? height / 7 : widhth / 1.7,
-        //   flexibleSpace: Container(
-        //     decoration: const BoxDecoration(
-        //       color: Colors.white,
-        //       boxShadow: [
-        //         BoxShadow(
-        //           color: Colors.black12,
-        //           blurRadius: 4,
-        //           offset: Offset(2, 2), // Shadow position
-        //         ),
-        //       ],
-        //     ),
-        //     width: widhth,
-        //     child: Padding(
-        //       padding: const EdgeInsets.symmetric(vertical: 10),
-        //       child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         crossAxisAlignment: CrossAxisAlignment.center,
-        //         children: [
-        //           BlocBuilder<SignupCubit, SignupState>(
-        //             builder: (context, state) {
-        //               return Text(
-        //                 // "Hola, ${state}",
-        //                 'Mis favoritos',
-        //                 style: TextStyle(
-        //                     fontSize: 29,
-        //                     fontWeight: FontWeight.bold,
-        //                     color: textDrkgray),
-        //               );
-        //             },
-        //           ),
-        // Container(
-        //   padding: const EdgeInsets.symmetric(horizontal: 10),
-        //   width: 250,
-        //   height: 50,
-        //   decoration: BoxDecoration(
-        //     color: backgroundColor,
-        //     borderRadius: const BorderRadius.all(Radius.circular(10)),
-        //   ),
-        //   child: const TextField(
-        //     decoration: InputDecoration(
-        //       hintText: "Buscar restaurante",
-        //       hintStyle: TextStyle(
-        //         fontSize: 19,
-        //       ),
-        //       suffixIcon: Icon(
-        //         Icons.search,
-        //       ),
-        //       enabledBorder: UnderlineInputBorder(
-        //         borderSide: BorderSide(color: Colors.transparent),
-        //       ),
-        //       border: UnderlineInputBorder(
-        //         borderSide: BorderSide(color: Colors.transparent),
-        //       ),
-        //       focusedBorder: UnderlineInputBorder(
-        //         borderSide: BorderSide(color: Colors.transparent),
-        //       ),
-        //     ),
-        //             ),
-        //           )
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        const SliverToBoxAdapter(
+        SliverToBoxAdapter(
             child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0),
-          child: Restaurantes(
-            type: "favorites",
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: RestaurantesWidget(
+            restaurantes: widget.favRestaurant,
           ),
         ))
       ]),

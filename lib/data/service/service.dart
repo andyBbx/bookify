@@ -47,7 +47,7 @@ Future<Map<String, dynamic>> postService(dynamic data, String url) async {
   return finalResponse;
 }
 
-Future<Map<String, dynamic>> getService(String url) async {
+Future<Map<String, dynamic>> getService(String url, String token) async {
   var finalResponse;
 
   try {
@@ -55,6 +55,7 @@ Future<Map<String, dynamic>> getService(String url) async {
       Uri.parse("$urlApi$url"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
       },
     );
     var jsonResponse = jsonDecode(response.body);
