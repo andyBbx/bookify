@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
+import 'package:bookify/data/models/resturant.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -12,7 +16,7 @@ class ResturantionItem extends StatelessWidget {
   const ResturantionItem({Key? key, required this.reservation})
       : super(key: key);
 
-  final Reservation reservation;
+  final ReservationModel reservation;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,11 @@ class ResturantionItem extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     bool isLandccape =
         (MediaQuery.of(context).orientation == Orientation.landscape);
+
+    RestaurantModel restaurantData =
+        RestaurantModel.fromJson(reservation.restaurantData);
+
+    print(restaurantData.address);
 
     return Stack(
       children: [
@@ -61,10 +70,7 @@ class ResturantionItem extends StatelessWidget {
                           ),
                           child: Container(
                             margin: const EdgeInsets.all(20),
-                            child: Image.asset(
-                              reservation.restaurantesData.cover,
-                              fit: BoxFit.scaleDown,
-                            ),
+                            child: logo(100),
                           )),
                     ),
                     Expanded(
@@ -76,7 +82,7 @@ class ResturantionItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Flexible(
-                              child: Text(reservation.restaurantesData.name,
+                              child: Text(restaurantData.name,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -89,7 +95,7 @@ class ResturantionItem extends StatelessWidget {
                             //   height: 10,
                             // ),
                             RatingBarIndicator(
-                              rating: 5,
+                              rating: double.parse(reservation.rated),
                               itemBuilder: (context, index) => Icon(
                                 Icons.star,
                                 color: textBold,
@@ -109,8 +115,7 @@ class ResturantionItem extends StatelessWidget {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text(
-                                    "${reservation.person.toString()} Personas",
+                                Text("2 Personas",
                                     style: TextStyle(
                                       color: textDrkgray,
                                       fontSize: 10,
@@ -132,7 +137,7 @@ class ResturantionItem extends StatelessWidget {
                                   width: 10,
                                 ),
                                 Flexible(
-                                  child: Text(reservation.time.toString(),
+                                  child: Text(reservation.date.toString(),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                       style: TextStyle(
@@ -151,7 +156,7 @@ class ResturantionItem extends StatelessWidget {
                                   width: 20,
                                   color: textBold,
                                 ),
-                                Text(reservation.info.toString(),
+                                Text(reservation.time.toString(),
                                     style: TextStyle(
                                       color: textDrkgray,
                                       fontSize: 10,
@@ -183,7 +188,7 @@ class ResturantionItem extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return CustomDialogBox(
-                            restaurant: reservation.restaurantesData,
+                            restaurant: restaurantData,
                           );
                         });
                   },

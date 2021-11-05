@@ -8,85 +8,29 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MisReservasScreen extends StatefulWidget {
-  const MisReservasScreen({
-    Key? key,
-  }) : super(key: key);
+  final List<ReservationModel> reservations;
+  const MisReservasScreen({Key? key, required this.reservations})
+      : super(key: key);
 
   @override
   State<MisReservasScreen> createState() => _MisReservasScreenState();
 }
 
 class _MisReservasScreenState extends State<MisReservasScreen> {
-  // List<ReturantData> _resturants = [
-  //   ReturantData(
-  //       name: "Restaurante japonés",
-  //       adress: "C/ Sagasta 23. Madrid",
-  //       stars: 5,
-  //       images: ["assets/images/resrturant1.png"],
-  //       logo: "assets/images/resutrant_logo1.png",
-  //       isFavv: true,
-  //       description: "Restaurante japonés de la más alta calidad."),
-  //   ReturantData(
-  //       name: "Ikigai",
-  //       adress: "C/ Flor Baja, 5. Madrid",
-  //       stars: 5,
-  //       logo: "assets/images/resturant_logo3.png",
-  //       isFavv: false,
-  //       images: ["assets/images/resturant2.png"],
-  //       description:
-  //           "Restaurante especializado en cocina japonesa de alta calidad."),
-  //   ReturantData(
-  //       name: "Azurmendi",
-  //       adress: "Barrio Leguina, s/n, 48195 Larrabetzu, Biscay, España",
-  //       stars: 5,
-  //       logo: "assets/images/resturant_logo2.png",
-  //       images: ["assets/images/resturant2.png"],
-  //       isFavv: true,
-  //       description: "Cocina vasca de autor"),
-  // ];
+  List<ReservationModel> next_reservationList = [];
 
-  // List<Reservation> resuvations = [
-  //   Reservation(
-  //       restaurantesData: RestaurantModel(
-  //           name: "Nakama",
-  //           address: "C/ Flor Baja, 5. Madrid",
-  //           // stars: 5,
-  //           cover: "assets/images/resturant_logo2.png",
-  //           // isFavv: false,
-  //           // images: ["assets/images/resturant_logo2.png"],
-  //           description:
-  //               "Restaurante especializado en cocina japonesa de alta calidad."),
-  //       person: 2,
-  //       info: "Con horario de las 10:30 hrs",
-  //       time: "Hoy 07 de Septiembre de 2021"),
-  //   Reservation(
-  //       restaurantesData: ReturantData(
-  //           name: "Burguer Beer",
-  //           adress: "C/ Sagasta 23. Madrid",
-  //           stars: 4,
-  //           images: ["assets/images/burger_bear.png"],
-  //           logo: "assets/images/burger_bear.png",
-  //           isFavv: true,
-  //           description: "Restaurante japonés de la más alta calidad."),
-  //       person: 2,
-  //       info: "Con horario de las 15:00 hrs",
-  //       time: "05 de Septiembre de 2021"),
-  //   Reservation(
-  //       restaurantesData: ReturantData(
-  //           name: "Nakama",
-  //           adress: "Barrio Leguina, s/n, 48195 Larrabetzu, Biscay, España",
-  //           stars: 5,
-  //           logo: "assets/images/resturant_logo2.png",
-  //           images: ["assets/images/resturant2.png"],
-  //           isFavv: true,
-  //           description: "Cocina vasca de autor"),
-  //       person: 2,
-  //       info: "Con horario de las 10:30 hrs",
-  //       time: "03 de Septiembre de 2021"),
-  // ];
+  List<ReservationModel> historial_reservationList = [];
+
   @override
   void initState() {
-    // TODO: implement initState
+    for (var i = 0; i < widget.reservations.length; i++) {
+      if (widget.reservations[i].date.isAfter(DateTime.now())) {
+        historial_reservationList.add(widget.reservations[i]);
+      } else {
+        next_reservationList.add(widget.reservations[i]);
+      }
+    }
+
     super.initState();
   }
 
@@ -122,19 +66,6 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       color: frameColor.withOpacity(0.45),
                     ),
                   ),
-                  // Positioned(
-                  //     top: 20,
-                  //     left: 20,
-                  //     child: SafeArea(
-                  //         child: Row(
-                  //       children: [
-                  //         Icon(
-                  //           Icons.keyboard_arrow_left,
-                  //           color: Colors.white,
-                  //           size: 30,
-                  //         ),
-                  //       ],
-                  //     ))),
                   Positioned(
                     child: SafeArea(
                       child: Container(
@@ -179,12 +110,12 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                             color: textDrkgray,
                             fontWeight: FontWeight.w700)),
                   ),
-                  // Column(
-                  //     children: List.generate(
-                  //         1,
-                  //         (index) => ResturantionItem(
-                  //               reservation: resuvations[index],
-                  //             ))),
+                  Column(
+                      children: List.generate(
+                          historial_reservationList.length,
+                          (index) => ResturantionItem(
+                                reservation: historial_reservationList[index],
+                              ))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -211,12 +142,12 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       ),
                     ],
                   ),
-                  // Column(
-                  //     children: List.generate(
-                  //         resuvations.length - 1,
-                  //         (index) => ResturantionItem(
-                  //               reservation: resuvations[index + 1],
-                  //             ))),
+                  Column(
+                      children: List.generate(
+                          next_reservationList.length,
+                          (index) => ResturantionItem(
+                                reservation: next_reservationList[index],
+                              ))),
                 ],
               ),
             ),
