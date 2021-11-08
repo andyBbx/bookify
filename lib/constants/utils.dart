@@ -58,3 +58,19 @@ Widget logo(widht) {
     width: widht / 3,
   );
 }
+
+Iterable<TimeOfDay> getTimeSlots(
+    TimeOfDay startTime, TimeOfDay endTime, Duration interval) sync* {
+  var hour = startTime.hour;
+  var minute = startTime.minute;
+
+  do {
+    yield TimeOfDay(hour: hour, minute: minute);
+    minute += interval.inMinutes;
+    while (minute >= 60) {
+      minute -= 60;
+      hour++;
+    }
+  } while (hour < endTime.hour ||
+      (hour == endTime.hour && minute <= endTime.minute));
+}

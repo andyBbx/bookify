@@ -1,61 +1,71 @@
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import 'reserva_confirmada_screen.dart';
 
 class ConfirmandoScreen extends StatelessWidget {
-  const ConfirmandoScreen({Key? key}) : super(key: key);
+  final ReservationModel reservationModel;
+  const ConfirmandoScreen({Key? key, required this.reservationModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool isLandccape =
-        (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/confermation_2.png",
-            width: widhth,
-            height: height,
-            fit: BoxFit.cover,
-            color: frameColor.withOpacity(0.45),
-          ),
-          Positioned(
-              left: 0,
-              child: SafeArea(
-                  child: Container(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    "assets/images/confermation_2.png",
+                  ))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
                 width: widhth,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(
-                        "assets/images/resturant_logoTest.png",
-                      ),
-                    ),
-                    SizedBox(
+                    reservationModel.restaurantData.cover == null
+                        ? CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white,
+                            // backgroundImage: AssetImage(
+                            //   "assets/images/resutrant_logo1.png",
+                            // ),
+                            child: logo(250),
+                          )
+                        : const CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white,
+                            backgroundImage: AssetImage(
+                              "assets/images/resutrant_logo1.png",
+                            ),
+                          ),
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text("Nakama",
+                    Text(reservationModel.restaurantData.name,
                         style: TextStyle(
                             fontSize: 24,
                             color: textDrkgray,
                             fontWeight: FontWeight.w700)),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Text("Confirmando",
@@ -66,7 +76,7 @@ class ConfirmandoScreen extends StatelessWidget {
                     Image.asset(
                       "assets/images/icons/threedots.png",
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Padding(
@@ -78,34 +88,14 @@ class ConfirmandoScreen extends StatelessWidget {
                               color: textDrkgray,
                               fontWeight: FontWeight.w700)),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("9:43",
-                            style: TextStyle(
-                                fontSize: 40,
-                                color: textBold,
-                                fontWeight: FontWeight.w900)),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Text("hrs",
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: textBold,
-                                    fontWeight: FontWeight.w700)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    Text(
+                        DateFormat().add_jm().format(
+                            DateTime.parse(reservationModel.time)
+                                .add(const Duration(minutes: 2))),
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: textBold,
+                            fontWeight: FontWeight.w900)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 100),
                       child: Text("para confirmar tu reserva",
@@ -118,21 +108,29 @@ class ConfirmandoScreen extends StatelessWidget {
                     SizedBox(
                       height: height / 15,
                     ),
-                    SizedBox(
-                        width: widhth / 2.6,
-                        child: LargeButton(
-                            text: "Cancelar",
-                            isWhite: true,
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ReservaConfirmadaScreen()));
-                            })),
+                    // LargeButton(
+                    //     text: "Cancelar",
+                    //     isWhite: true,
+                    //     onTap: () {
+                    //       Navigator.of(context).push(MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const ReservaConfirmadaScreen()));
+                    //     }),
+                    // SizedBox(
+                    //   height: height / 15,
+                    // ),
+                    LargeButton(
+                        text: "Ver mis reservas",
+                        isWhite: false,
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }),
                   ],
                 ),
-              ))),
-        ],
-      ),
-    );
+              ),
+            ],
+          ),
+        ));
   }
 }

@@ -5,7 +5,8 @@ import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
-import 'package:bookify/presentation/screens/resutrant_selection_screen.dart';
+import 'package:bookify/presentation/screens/restaurant_info/bloc/restaurant_info_bloc.dart';
+import 'package:bookify/presentation/screens/restaurant_info/view/resutrant_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,10 +55,22 @@ class _ResturantListItemState extends State<ResturantListItem> {
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ResturantSelectionScreen(
-                    restaurante: widget.restaurante,
-                  )));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (context) => HomeBloc(context),
+                            ),
+                            BlocProvider(
+                              create: (context) =>
+                                  RestaurantInfoInfoBloc(context),
+                            ),
+                          ],
+                          child: ResturantSelectionScreen(
+                            restaurante: widget.restaurante,
+                          ))));
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

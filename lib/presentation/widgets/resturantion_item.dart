@@ -11,6 +11,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class ResturantionItem extends StatelessWidget {
   const ResturantionItem({Key? key, required this.reservation})
@@ -95,7 +96,8 @@ class ResturantionItem extends StatelessWidget {
                             //   height: 10,
                             // ),
                             RatingBarIndicator(
-                              rating: double.parse(reservation.rated),
+                              rating: double.parse(
+                                  restaurantData.rating.toString()),
                               itemBuilder: (context, index) => Icon(
                                 Icons.star,
                                 color: textBold,
@@ -115,7 +117,7 @@ class ResturantionItem extends StatelessWidget {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text("2 Personas",
+                                Text("${reservation.quantity} Personas",
                                     style: TextStyle(
                                       color: textDrkgray,
                                       fontSize: 10,
@@ -137,7 +139,8 @@ class ResturantionItem extends StatelessWidget {
                                   width: 10,
                                 ),
                                 Flexible(
-                                  child: Text(reservation.date.toString(),
+                                  child: Text(
+                                      " ${DateFormat().add_MMMd().format(reservation.date)}",
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                       style: TextStyle(
@@ -156,7 +159,8 @@ class ResturantionItem extends StatelessWidget {
                                   width: 20,
                                   color: textBold,
                                 ),
-                                Text(reservation.time.toString(),
+                                Text(
+                                    " ${DateFormat().add_jm().format(DateTime.parse("2019-07-19 ${reservation.time}"))}",
                                     style: TextStyle(
                                       color: textDrkgray,
                                       fontSize: 10,
@@ -301,31 +305,22 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
         Positioned(
           left: 20,
           right: 20,
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 50,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(2, 2), // Shadow position
+          child: widget.restaurant.cover == null
+              ? CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  // backgroundImage: AssetImage(
+                  //   "assets/images/resutrant_logo1.png",
+                  // ),
+                  child: logo(250),
+                )
+              : const CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage(
+                    "assets/images/resutrant_logo1.png",
                   ),
-                ],
-                image: DecorationImage(
-                    fit: BoxFit.scaleDown,
-                    image: AssetImage(
-                      widget.restaurant.logo,
-                    )),
-              ),
-            ),
-            // child: ClipRRect(
-            //     borderRadius: const BorderRadius.all(Radius.circular(20)),
-            //     child: Image.asset(widget.img.toString())),
-          ),
+                ),
         ),
       ],
     );

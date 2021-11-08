@@ -2,9 +2,9 @@ import 'package:bookify/presentation/screens/Manager/home.dart';
 import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
-import 'package:bookify/presentation/screens/mis_reservas_screen.dart';
+import 'package:bookify/presentation/screens/home/tabs/mis_reservas_screen.dart';
 import 'package:bookify/presentation/screens/pre_login_screen.dart';
-import 'package:bookify/presentation/screens/resutrant_selection_screen.dart';
+import 'package:bookify/presentation/screens/restaurant_info/view/resutrant_selection_screen.dart';
 import 'package:bookify/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
