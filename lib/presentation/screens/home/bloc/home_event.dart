@@ -14,6 +14,13 @@ class LoadData extends HomeEvent {
   List<Object> get props => [user];
 }
 
+class LoadReservationData extends HomeEvent {
+  const LoadReservationData({required this.user});
+  final User user;
+  @override
+  List<Object> get props => [user];
+}
+
 class AddFavorite extends HomeEvent {
   const AddFavorite({required this.restId, required this.user});
   final String restId;

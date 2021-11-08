@@ -95,6 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           reservations: myReservations);
     } else if (event is AddFavorite) {
       List<RestaurantModel> myRestFav = [];
+      List<RestaurantModel> myRest = [];
       var data = {"restaurant_id": event.restId};
       var response = await getService(
           '/user/add-favorite-restaurant?id=${event.restId}',
@@ -114,11 +115,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               myRestFav.add(restModel);
             }
           }
-          yield HomeLoadFavorites(restFav: myRestFav);
+          for (var i = 0; i < jsonRest.length; i++) {
+            var restModel = RestaurantModel.fromJson(jsonRest[i]);
+            myRest.add(restModel);
+          }
+
+          yield HomeLoadFavorites(restFav: myRestFav, rest: myRest);
         }
       }
     } else if (event is RemoveFavorite) {
       List<RestaurantModel> myRestFav = [];
+      List<RestaurantModel> myRest = [];
       var data = {"restaurant_id": event.restId};
       var response = await getService(
           '/user/delete-favorite-restaurant?id=${event.restId}',
@@ -138,7 +145,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               myRestFav.add(restModel);
             }
           }
-          yield HomeLoadFavorites(restFav: myRestFav);
+          for (var i = 0; i < jsonRest.length; i++) {
+            var restModel = RestaurantModel.fromJson(jsonRest[i]);
+            myRest.add(restModel);
+          }
+
+          yield HomeLoadFavorites(restFav: myRestFav, rest: myRest);
         }
       }
     } else if (event is GetRestbyCategory) {
@@ -157,6 +169,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
         yield HomeLoadRest(rest: myRestCat);
       }
+    } else if (event is LoadReservationData) {
+      List<ReservationModel> myReservations = [];
+
+      // load reservations
+      var responseReservation =
+          await getService('/solicitude', event.user.auth_key!);
+      if (responseReservation['code'] == 401) {
+        yield HomeFail(message: responseReservation['message']);
+      } else if (responseReservation['code'] == 200) {
+        var jsonRest = jsonDecode(responseReservation['model']);
+
+        for (var i = 0; i < jsonRest.length; i++) {
+          var reservationModel = ReservationModel.fromJson(jsonRest[i]);
+          myReservations.add(reservationModel);
+        }
+      }
+
+      yield HomeLoadReservation(reservations: myReservations);
     }
   }
 }

@@ -13,26 +13,28 @@ String restaurantModelToJson(RestaurantModel data) =>
     json.encode(data.toJson());
 
 class RestaurantModel {
-  RestaurantModel(
-      {required this.id,
-      this.cover,
-      required this.name,
-      required this.description,
-      required this.phone,
-      required this.address,
-      required this.postalCode,
-      required this.municipality,
-      required this.province,
-      required this.country,
-      required this.latitude,
-      required this.longitude,
-      required this.web,
-      required this.tags,
-      required this.status,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.favorite,
-      required this.rating});
+  RestaurantModel({
+    required this.id,
+    this.cover,
+    required this.name,
+    required this.description,
+    required this.phone,
+    required this.address,
+    required this.postalCode,
+    required this.municipality,
+    required this.province,
+    required this.country,
+    required this.latitude,
+    required this.longitude,
+    required this.web,
+    required this.tags,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.favorite,
+    required this.rating,
+    required this.schedule,
+  });
 
   String id;
   dynamic cover;
@@ -53,6 +55,7 @@ class RestaurantModel {
   DateTime updatedAt;
   int favorite;
   dynamic rating;
+  dynamic schedule;
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(
@@ -74,7 +77,8 @@ class RestaurantModel {
           createdAt: DateTime.parse(json["created_at"]),
           updatedAt: DateTime.parse(json["updated_at"]),
           favorite: json["favorite"],
-          rating: json["rating"]);
+          rating: json["rating"],
+          schedule: json["schedule"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -96,6 +100,7 @@ class RestaurantModel {
         "updated_at": updatedAt.toIso8601String(),
         "favorite": favorite,
         "rating": rating,
+        "schedule": schedule,
       };
 }
 

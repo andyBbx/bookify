@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../mis_reservas_screen.dart';
+import 'tabs/mis_reservas_screen.dart';
 import 'tabs/profile_tab.dart';
 import 'tabs/home_tab/view/tab_home.dart';
 
@@ -37,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     Utils().startSharedPreferences().then((prefs) {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {
@@ -97,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
       ),
       body: user.auth_key!.isEmpty
-          ? LoadWidget()
+          ? const LoadWidget()
           : BlocProvider(
               create: (context) => HomeBloc(context)..add(LoadData(user: user)),
               child: BlocBuilder<HomeBloc, HomeState>(
@@ -123,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         ProfileTab(
                           user: user,
+                          reservations: reservation,
                         ),
                       ],
                     );
@@ -145,11 +145,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         ProfileTab(
                           user: user,
+                          reservations: reservation,
                         ),
                       ],
                     );
                   } else if (state is HomeLoadFavorites) {
                     restFav = state.restFav;
+                    rest = state.rest;
                     return TabBarView(
                       controller: _tabController,
                       physics: const NeverScrollableScrollPhysics(),
@@ -165,6 +167,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         ProfileTab(
                           user: user,
+                          reservations: reservation,
+                        ),
+                      ],
+                    );
+                  } else if (state is HomeLoadReservation) {
+                    reservation = state.reservations;
+                    return TabBarView(
+                      controller: _tabController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        HomeTab(
+                          user: user,
+                          categories: cat,
+                          restaurant: rest,
+                        ),
+                        MisReservasScreen(reservations: reservation),
+                        FavTab(
+                          favRestaurant: restFav,
+                        ),
+                        ProfileTab(
+                          user: user,
+                          reservations: reservation,
                         ),
                       ],
                     );

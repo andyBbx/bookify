@@ -18,11 +18,12 @@ class ReservationModel {
     required this.restaurantData,
     required this.time,
     required this.date,
-    required this.observation,
-    required this.rated,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
+    this.observation,
+    this.rated,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    required this.quantity,
   });
 
   String id;
@@ -30,11 +31,12 @@ class ReservationModel {
   dynamic restaurantData;
   String time;
   DateTime date;
-  String observation;
-  String rated;
-  int status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String? observation;
+  String? rated;
+  int? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic quantity;
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) =>
       ReservationModel(
@@ -48,6 +50,7 @@ class ReservationModel {
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        quantity: json["quantity"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,7 +63,8 @@ class ReservationModel {
         "observation": observation,
         "rated": rated,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "quantity": quantity
       };
 }
