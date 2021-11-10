@@ -44,8 +44,7 @@ class _BookingRequestsState extends State<BookingRequests> {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               itemCount: 10,
               itemBuilder: (context, index) {
-                _simpleFunction() {
-                  //print(index);
+                _acceptRequest() {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -54,7 +53,10 @@ class _BookingRequestsState extends State<BookingRequests> {
                           content: tableListDialog(),
                           actions: [
                             TextButton(
-                              child: const Text("Cancelar", style: TextStyle(color: Colors.grey),),
+                              child: const Text(
+                                "Cancelar",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -69,22 +71,28 @@ class _BookingRequestsState extends State<BookingRequests> {
                 }
 
                 _confirmAction() {
-                  //print(index);
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('¿Quieres rechazar la reserva?'),
-                          content: Text("Una vez rechazada la reservación no se podrá recuperar"),
+                          content: Text(
+                              "Una vez rechazada la reservación no se podrá recuperar"),
                           actions: [
                             TextButton(
-                              child: const Text("Cancelar", style: TextStyle(color: Colors.grey),),
+                              child: const Text(
+                                "Cancelar",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                             TextButton(
-                              child: const Text("Rechazar reservación", style: TextStyle(color: Colors.red),),
+                              child: const Text(
+                                "Rechazar reservación",
+                                style: TextStyle(color: Colors.red),
+                              ),
                               onPressed: () {},
                             )
                           ],
@@ -94,7 +102,8 @@ class _BookingRequestsState extends State<BookingRequests> {
 
                 return BookingRequestCard(
                   id: index.toString(),
-                  onTap: _simpleFunction,
+                  onAcceptButton: _acceptRequest,
+                  onRejectButton: _confirmAction,
                 );
               },
             ),

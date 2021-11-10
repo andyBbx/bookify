@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 class BookingItemCard extends StatefulWidget {
   final String id;
-  BookingItemCard({Key? key, required this.id}) : super(key: key);
+  Function onTableChangeButton;
+  Function onCancelButton;
+  BookingItemCard(
+      {Key? key,
+      required this.id,
+      required this.onCancelButton,
+      required this.onTableChangeButton})
+      : super(key: key);
 
   @override
   _BookingItemCardState createState() => _BookingItemCardState();
@@ -28,7 +35,8 @@ class _BookingItemCardState extends State<BookingItemCard> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    padding: const EdgeInsets.only(top:8, bottom: 8, left: 8, right: 15),
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, left: 8, right: 15),
                     alignment: Alignment.center,
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -47,11 +55,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           Icon(Icons.person)
                         ],
                       ),
-                    ), /* Icon(
-                      Icons.fastfood_rounded,
-                      size: 50,
-                      color: Colors.orange,
-                    ), */
+                    ),
                   ),
                 ),
                 Expanded(
@@ -95,6 +99,18 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           Text("A las 10:30 hrs")
                         ],
                       ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.table_chart,
+                            color: Colors.orange,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Mesa sin asignar")
+                        ],
+                      ),
                     ],
                   ),
                 )
@@ -106,6 +122,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
             children: [
               Expanded(
                 child: InkWell(
+                  onTap: () => widget.onCancelButton(),
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.red,
@@ -118,6 +135,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
               ),
               Expanded(
                 child: InkWell(
+                  onTap: () => widget.onTableChangeButton(),
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.orangeAccent,

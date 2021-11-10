@@ -1,26 +1,34 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
-import 'package:bookify/data/models/user.dart';
-import 'package:bookify/data/service/service.dart';
+import 'package:bookify/data/models/chip_item.dart';
+import 'package:bookify/data/models/resturant.dart';
+import 'package:bookify/presentation/screens/verificar_reserv_screen.dart';
+import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jiffy/jiffy.dart';
 
-import '../confirmando_screen.dart';
-
-class MiCuenta1Screen extends StatefulWidget {
-  const MiCuenta1Screen({Key? key}) : super(key: key);
+class OwnedRestaurantDetails extends StatefulWidget {
+  const OwnedRestaurantDetails({Key? key, required this.restaurante})
+      : super(key: key);
+  final RestaurantModel restaurante;
 
   @override
-  State<MiCuenta1Screen> createState() => _MiCuenta1ScreenState();
+  State<OwnedRestaurantDetails> createState() => _OwnedRestaurantDetailsState();
 }
 
-class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
+class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
   TextEditingController nombres = TextEditingController();
   TextEditingController primer_apellido = TextEditingController();
   TextEditingController segundo_apellido = TextEditingController();
@@ -28,56 +36,25 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
   TextEditingController correo = TextEditingController();
   TextEditingController ubicacion = TextEditingController();
 
-  User user = User();
   @override
   void initState() {
-    Utils().startSharedPreferences().then((prefs) {
-      String? userModelString = prefs.getString("user");
-      if (Utils().checkJsonArray(userModelString)) {
-        user = user.fromJson(jsonDecode(userModelString!));
-        if ((user.id)!.isEmpty) {
-          //logout;
-        } else {
-          nombres.text = user.firstname.toString();
-          primer_apellido.text = user.middlename.toString();
-          segundo_apellido.text = user.lastname.toString();
-          telefono.text = user.phone.toString();
-          correo.text = user.email.toString();
-          ubicacion.text = "Calle Don José 3";
-        }
-      }
-    });
     super.initState();
   }
 
-Future<void> updateUser(user, password) async {
-    var data = {"email": user, "password": password};
-    await postService(
-            data, '/user/login')
-        .then((value) {
-      if (value['code'] != 200) {
-        print("Situation");
-        var error = jsonDecode(value['message']);
-        throw Exception(error['message']);
-      } else {
-        saveUserModel(value['model']);
-      }
+  Future<void> updateUser(user, password) async {}
+
+  var _image;
+  String base64Image = "";
+  final ImagePicker _picker = ImagePicker();
+  Future getImage() async {
+    var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile!.path);
+      base64Image = base64Encode(_image.readAsBytesSync());
+      print(base64Image);
     });
   }
-  
-
-var _image;
-String base64Image = "";
-final ImagePicker _picker = ImagePicker();
-Future getImage() async {
-  var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
-  setState(() {
-    _image = File(pickedFile!.path);
-    base64Image = base64Encode(_image.readAsBytesSync());
-    print(base64Image);
-  });
-}
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +75,9 @@ Future getImage() async {
               backgroundColor: Colors.white,
               pinned: true,
               title: Text(
-                "Mi cuenta",
+                "Azurmendi",
                 style: TextStyle(
-                    fontSize: 26,
+                    fontSize: 23,
                     color: textDrkgray,
                     fontWeight: FontWeight.w700),
               ),
@@ -131,20 +108,23 @@ Future getImage() async {
                               border: Border.all(width: 3, color: Colors.white),
                               image: DecorationImage(
                                 image: _image == null
-                                    ? AssetImage("assets/images/user.png")
-                                    : FileImage(_image) as ImageProvider, // <-- BACKGROUND IMAGE
+                                    ? AssetImage("assets/images/resutrant_logo1.png")
+                                    : FileImage(_image)
+                                        as ImageProvider, // <-- BACKGROUND IMAGE
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
                         ),
                       ),
-                      Text("Toca para cambiar tu foto",
+                      Text("Toca para cambiar la foto",
                           style: TextStyle(
                               fontSize: 16,
                               color: textDrkgray,
                               fontWeight: FontWeight.w100)),
-                              SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                 ),
@@ -162,8 +142,25 @@ Future getImage() async {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          height: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[300],
+                          ),
+                          child: Text(
+                            "Toca aquí para cambiar la foto de portada",
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
                     TextField(
-                      controller: nombres,
+                      //controller: nombres,
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: splash_background),
@@ -175,18 +172,16 @@ Future getImage() async {
                           borderSide: BorderSide(color: splash_background),
                         ),
                         fillColor: Colors.red,
-                        label: Text("Nombre(s)",
+                        label: Text("Nombre del restaurante",
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        hintText: "Nombre(s)",
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                        hintText: "Nombre del restaurante",
+                        prefixIcon:
+                            Icon(Icons.store_rounded, color: Colors.orange),
                       ),
                     ),
                     TextField(
-                      controller: primer_apellido,
+                      //controller: nombres,
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: splash_background),
@@ -198,18 +193,16 @@ Future getImage() async {
                           borderSide: BorderSide(color: splash_background),
                         ),
                         fillColor: Colors.red,
-                        label: Text("Primer apellido",
+                        label: Text("Descripción",
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        hintText: "Primer apellido",
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                        hintText: "Descripción",
+                        prefixIcon: Icon(Icons.text_rotation_none_sharp,
+                            color: Colors.orange),
                       ),
                     ),
                     TextField(
-                      controller: segundo_apellido,
+                      //controller: nombres,
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: splash_background),
@@ -221,41 +214,15 @@ Future getImage() async {
                           borderSide: BorderSide(color: splash_background),
                         ),
                         fillColor: Colors.red,
-                        hintText: "Segundo apellido",
-                        label: Text("Segundo apellido",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/profile.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                    ),
-                    TextField(
-                      controller: telefono,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: splash_background),
-                        ),
-                        fillColor: Colors.red,
-                        hintText: "Teléfono",
                         label: Text("Teléfono",
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/phone.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
+                        hintText: "Teléfono",
+                        prefixIcon: Icon(Icons.phone, color: Colors.orange),
                       ),
                     ),
                     TextField(
-                      controller: correo,
+                      //controller: nombres,
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: splash_background),
@@ -267,14 +234,115 @@ Future getImage() async {
                           borderSide: BorderSide(color: splash_background),
                         ),
                         fillColor: Colors.red,
-                        hintText: "Correo",
-                        label: Text("Correo",
+                        label: Text("Ubicación",
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 11, color: textDrkgray)),
-                        prefixIcon: SvgPicture.asset(
-                          "assets/images/icons/mail.svg",
-                          fit: BoxFit.scaleDown,
+                        hintText: "Ubicación",
+                        prefixIcon:
+                            Icon(Icons.map_outlined, color: Colors.orange),
+                      ),
+                    ),
+                    TextField(
+                      //controller: nombres,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
                         ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        fillColor: Colors.red,
+                        label: Text("Código postal",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 11, color: textDrkgray)),
+                        hintText: "Código postal",
+                        prefixIcon:
+                            Icon(Icons.near_me_outlined, color: Colors.orange),
+                      ),
+                    ),
+                    TextField(
+                      //controller: nombres,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        fillColor: Colors.red,
+                        label: Text("Ciudad",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 11, color: textDrkgray)),
+                        hintText: "Ciudad",
+                        prefixIcon:
+                            Icon(Icons.location_city, color: Colors.orange),
+                      ),
+                    ),
+                    TextField(
+                      //controller: nombres,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        fillColor: Colors.red,
+                        label: Text("Provincia",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 11, color: textDrkgray)),
+                        hintText: "Provincia",
+                        prefixIcon:
+                            Icon(Icons.location_city, color: Colors.orange),
+                      ),
+                    ),
+                    TextField(
+                      //controller: nombres,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        fillColor: Colors.red,
+                        label: Text("País",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 11, color: textDrkgray)),
+                        hintText: "País",
+                        prefixIcon: Icon(Icons.flag, color: Colors.orange),
+                      ),
+                    ),
+                    TextField(
+                      //controller: nombres,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: splash_background),
+                        ),
+                        fillColor: Colors.red,
+                        label: Text("Web",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 11, color: textDrkgray)),
+                        hintText: "Web",
+                        prefixIcon: Icon(Icons.web, color: Colors.orange),
                       ),
                     ),
                     const SizedBox(
@@ -282,23 +350,11 @@ Future getImage() async {
                     ),
                     SizedBox(
                         child: LargeButton(
-                            text: "Guardar cambios",
+                            text: "Guardar",
                             isWhite: false,
                             onTap: () {
                               // if ()
                               // Navigator.of(context).pop();
-                            })),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    SizedBox(
-                        child: LargeButton(
-                            text: "Cambiar contraseña",
-                            isWhite: false,
-                            onTap: () {
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         const ConfirmandoScreen()));
                             })),
                   ],
                 ),

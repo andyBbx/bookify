@@ -1,6 +1,7 @@
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/Manager/booking_items.dart';
 import 'package:bookify/presentation/screens/Manager/booking_requests.dart';
+import 'package:bookify/presentation/screens/Manager/owned_restaurants.dart';
 import 'package:bookify/presentation/screens/Manager/restaurant_tables.dart';
 import 'package:bookify/presentation/screens/home/tabs/profile_tab.dart';
 import 'package:bookify/presentation/screens/miCuenta/mi_cuenta1_screen.dart';
@@ -20,7 +21,7 @@ class _ManagerViewState extends State<ManagerView> {
    BookingRequests(),
    BookingItems(),
    RestaurantTables(),
-   Container(color:Colors.white),
+   MyOwnedRestaurants(),
    MiCuenta1Screen()
  ];
 

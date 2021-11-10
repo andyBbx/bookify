@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class BookingRequestCard extends StatefulWidget {
   final String id;
-  Function onTap;
-  BookingRequestCard({Key? key, required this.id, required this.onTap})
+  Function onAcceptButton;
+  Function onRejectButton;
+  BookingRequestCard({Key? key, required this.id, required this.onAcceptButton, required this.onRejectButton})
       : super(key: key);
 
   @override
@@ -91,6 +92,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
             children: [
               Expanded(
                 child: InkWell(
+                  onTap: () => widget.onRejectButton(),
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.red,
@@ -103,7 +105,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
               ),
               Expanded(
                   child: InkWell(
-                onTap: () => widget.onTap(),
+                onTap: () => widget.onAcceptButton(),
                 child: Container(
                     padding: const EdgeInsets.all(10),
                     width: double.infinity,
