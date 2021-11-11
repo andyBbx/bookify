@@ -31,12 +31,9 @@ class RestaurantModel {
     required this.status,
     required this.createdAt,
     required this.updatedAt,
-<<<<<<< HEAD
     required this.favorite,
     required this.rating,
     required this.schedule,
-=======
->>>>>>> restaurant bloc
   });
 
   String id;
@@ -56,7 +53,6 @@ class RestaurantModel {
   int status;
   DateTime createdAt;
   DateTime updatedAt;
-<<<<<<< HEAD
   int favorite;
   dynamic rating;
   dynamic schedule;
@@ -83,29 +79,6 @@ class RestaurantModel {
           favorite: json["favorite"],
           rating: json["rating"],
           schedule: json["schedule"]);
-=======
-
-  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
-      RestaurantModel(
-        id: json["id"],
-        cover: json["cover"],
-        name: json["name"],
-        description: json["description"],
-        phone: json["phone"],
-        address: json["address"],
-        postalCode: json["postal_code"],
-        municipality: json["municipality"],
-        province: json["province"],
-        country: json["country"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        web: json["web"],
-        tags: List<dynamic>.from(json["tags"].map((x) => x)),
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
->>>>>>> restaurant bloc
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -125,46 +98,10 @@ class RestaurantModel {
         "status": status,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-<<<<<<< HEAD
         "favorite": favorite,
         "rating": rating,
         "schedule": schedule,
       };
-=======
-      };
-}
-
-class RestaurantData extends Equatable {
-  late List<RestaurantModel> data;
-
-  //Mocked
-  RestaurantData.fromMocked() {
-    this.data = [
-      RestaurantModel(
-          id: '12345',
-          name: 'My restaurant',
-          description: 'aglsngl lsjf',
-          phone: '123456',
-          address: 'sgdhfjrhgsfad',
-          postalCode: 's234567',
-          municipality: 'sfghb',
-          province: 'sdhgfdd',
-          country: 'ASDFHRES',
-          latitude: '23',
-          longitude: '6',
-          web: 'SDHRTF',
-          tags: ['FSF', 'sf'],
-          status: 1,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now())
-    ];
-  }
-
-  @override
-  List<Object> get props => [
-        data,
-      ];
->>>>>>> restaurant bloc
 }
 
 // class RestaurantData extends Equatable {

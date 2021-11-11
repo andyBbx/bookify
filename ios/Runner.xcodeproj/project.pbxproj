@@ -121,13 +121,6 @@
 				5CE26171B48C926475CF338A /* Pods-Runner.release.xcconfig */,
 				DA970E549EDB34BD710D5E93 /* Pods-Runner.profile.xcconfig */,
 			);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-			name = Pods;
->>>>>>> Register form working
-=======
->>>>>>> Design adjustments, dialog for assigning tables and my account page
 			path = Pods;
 			sourceTree = "<group>";
 		};

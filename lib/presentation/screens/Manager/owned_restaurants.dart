@@ -38,7 +38,8 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       favorite: 0,
-      rating: "4.5");
+      rating: "4.5",
+      schedule: []);
 
   Widget tableListDialog() {
     return SizedBox(

@@ -30,8 +30,8 @@ Route? appRouteGaneragte(RouteSettings _routeSettings) {
     case "/home":
       return MaterialPageRoute(builder: (context) => HomeScreen());
       break;
-    case "/reservation":
-      return MaterialPageRoute(builder: (context) => MisReservasScreen());
+    /* case "/reservation":
+      return MaterialPageRoute(builder: (context) => MisReservasScreen()); */
       break;
     case "/managerView":
       return MaterialPageRoute(builder: (context) => ManagerView());

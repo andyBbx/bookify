@@ -1,17 +1,9 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
-<<<<<<< HEAD
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/user.dart';
-<<<<<<< HEAD
 import 'package:bookify/presentation/screens/miCuenta/bloc/micuenta_bloc.dart';
-=======
-<<<<<<< HEAD
-=======
-import 'package:bookify/data/models/user.dart';
->>>>>>> Register form working
->>>>>>> Register form working
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,13 +15,9 @@ import '../../pre_login_screen.dart';
 
 class ProfileTab extends StatefulWidget {
   final User user;
-<<<<<<< HEAD
   final List<ReservationModel> reservations;
   const ProfileTab({Key? key, required this.user, required this.reservations})
       : super(key: key);
-=======
-  const ProfileTab({Key? key, required this.user}) : super(key: key);
->>>>>>> Register form working
 
   @override
   State<ProfileTab> createState() => _ProfileTab();
@@ -68,23 +56,15 @@ class _ProfileTab extends State<ProfileTab> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                            width: 120,
-                            height: 120,
-                            margin: EdgeInsets.only(top: 0, bottom: 10),
-                            // ignore: unnecessary_new
-                            decoration: new BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 3, color: Colors.white),
-                              image: DecorationImage(
-                                image: (widget.user.avatar == null) ? 
-                                AssetImage("assets/images/user.png") : 
-                                NetworkImage(widget.user.avatar.toString()) as ImageProvider,// <-- BACKGROUND IMAGE
-                                fit: BoxFit.cover
-                              ),
-                            ),
-                          ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: isTab() ? 70 : 55.0,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/tab/profile_image.png'),
+                          radius: isTab() ? 65 : 50.0,
+                        ),
+                      ),
                       // const SizedBox(
                       //   height: 10,
                       // ),

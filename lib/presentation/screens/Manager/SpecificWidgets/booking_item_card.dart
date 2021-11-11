@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class BookingItemCard extends StatefulWidget {
-<<<<<<< HEAD
-<<<<<<< HEAD
   final String id;
   Function onTableChangeButton;
   Function onCancelButton;
@@ -12,13 +10,6 @@ class BookingItemCard extends StatefulWidget {
       required this.onCancelButton,
       required this.onTableChangeButton})
       : super(key: key);
-=======
-  BookingItemCard({Key? key}) : super(key: key);
->>>>>>> Manager views
-=======
-  final String id;
-  BookingItemCard({Key? key, required this.id}) : super(key: key);
->>>>>>> Design adjustments, dialog for assigning tables and my account page
 
   @override
   _BookingItemCardState createState() => _BookingItemCardState();
@@ -41,8 +32,6 @@ class _BookingItemCardState extends State<BookingItemCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-<<<<<<< HEAD
-<<<<<<< HEAD
                 Expanded(
                   flex: 3,
                   child: Container(
@@ -71,47 +60,6 @@ class _BookingItemCardState extends State<BookingItemCard> {
                 ),
                 Expanded(
                   flex: 6,
-=======
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-=======
-                Expanded(
-                  flex: 3,
->>>>>>> Design adjustments, dialog for assigning tables and my account page
-                  child: Container(
-                    padding: const EdgeInsets.only(top:8, bottom: 8, left: 8, right: 15),
-                    alignment: Alignment.center,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      height: 50,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(width: 4, color: Colors.orange)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "2",
-                            style: TextStyle(color: Colors.black, fontSize: 30),
-                          ),
-                          Icon(Icons.person)
-                        ],
-                      ),
-                    ), /* Icon(
-                      Icons.fastfood_rounded,
-                      size: 50,
-                      color: Colors.orange,
-                    ), */
-                  ),
-                ),
-<<<<<<< HEAD
-                Center(
->>>>>>> Manager views
-=======
-                Expanded(
-                  flex: 6,
->>>>>>> Design adjustments, dialog for assigning tables and my account page
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -136,29 +84,13 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           SizedBox(
                             width: 10,
                           ),
-<<<<<<< HEAD
-<<<<<<< HEAD
                           Flexible(child: Text("7 de Noviembre de 2021"))
-=======
-                          Text("7 de Noviembre de 2021")
->>>>>>> Manager views
-=======
-                          Flexible(child: Text("7 de Noviembre de 2021"))
->>>>>>> Design adjustments, dialog for assigning tables and my account page
                         ],
                       ),
                       Row(
                         children: [
                           Icon(
-<<<<<<< HEAD
-<<<<<<< HEAD
                             Icons.access_time,
-=======
-                            Icons.today,
->>>>>>> Manager views
-=======
-                            Icons.access_time,
->>>>>>> Design adjustments, dialog for assigning tables and my account page
                             color: Colors.orange,
                           ),
                           SizedBox(
@@ -167,7 +99,6 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           Text("A las 10:30 hrs")
                         ],
                       ),
-<<<<<<< HEAD
                       Row(
                         children: [
                           Icon(
@@ -180,8 +111,6 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           Text("Mesa sin asignar")
                         ],
                       ),
-=======
->>>>>>> Manager views
                     ],
                   ),
                 )
@@ -193,10 +122,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
             children: [
               Expanded(
                 child: InkWell(
-<<<<<<< HEAD
                   onTap: () => widget.onCancelButton(),
-=======
->>>>>>> Manager views
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.red,
@@ -209,10 +135,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
               ),
               Expanded(
                 child: InkWell(
-<<<<<<< HEAD
                   onTap: () => widget.onTableChangeButton(),
-=======
->>>>>>> Manager views
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.orangeAccent,
