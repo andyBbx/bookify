@@ -14,48 +14,48 @@ String restaurantModelToJson(RestaurantModel data) =>
 
 class RestaurantModel {
   RestaurantModel({
-    required this.id,
+    this.id,
     this.cover,
-    required this.name,
-    required this.description,
-    required this.phone,
-    required this.address,
-    required this.postalCode,
-    required this.municipality,
-    required this.province,
-    required this.country,
-    required this.latitude,
-    required this.longitude,
-    required this.web,
+    this.name,
+    this.description,
+    this.phone,
+    this.address,
+    this.postalCode,
+    this.municipality,
+    this.province,
+    this.country,
+    this.latitude,
+    this.longitude,
+    this.web,
     required this.tags,
-    required this.status,
+    this.status,
     required this.createdAt,
     required this.updatedAt,
-    required this.favorite,
-    required this.rating,
-    required this.schedule,
+    this.favorite,
+    this.rating,
+    this.schedule,
   });
 
-  String id;
-  dynamic cover;
-  String name;
-  String description;
-  String phone;
-  String address;
-  String postalCode;
-  String municipality;
-  String province;
-  String country;
-  String latitude;
-  String longitude;
-  String web;
+  String? id;
+  dynamic? cover;
+  String? name;
+  String? description;
+  String? phone;
+  String? address;
+  String? postalCode;
+  String? municipality;
+  String? province;
+  String? country;
+  String? latitude;
+  String? longitude;
+  String? web;
   List<dynamic> tags;
-  int status;
+  int? status;
   DateTime createdAt;
   DateTime updatedAt;
-  int favorite;
-  dynamic rating;
-  dynamic schedule;
+  int? favorite;
+  dynamic? rating;
+  dynamic? schedule;
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(

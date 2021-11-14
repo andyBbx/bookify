@@ -248,8 +248,9 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                           text: "Cambiar contraseña",
                           isWhite: false,
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ConfirmandoScreen()));
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) => ConfirmandoScreen(reservationModel: null,))
+                            // );
                           })),
                 ],
               ),

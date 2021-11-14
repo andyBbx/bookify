@@ -115,6 +115,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                           historial_reservationList.length,
                           (index) => ResturantionItem(
                                 reservation: historial_reservationList[index],
+                                history: false,
                               ))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +130,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       ),
                       Text("Historial",
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 21,
                               color: textDrkgray,
                               fontWeight: FontWeight.w700)),
                       const SizedBox(
@@ -147,6 +148,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                           next_reservationList.length,
                           (index) => ResturantionItem(
                                 reservation: next_reservationList[index],
+                                history: true,
                               ))),
                 ],
               ),

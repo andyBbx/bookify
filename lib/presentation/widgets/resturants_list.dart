@@ -101,7 +101,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Flexible(
-                              child: Text(widget.restaurante.name,
+                              child: Text(widget.restaurante.name!,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -119,7 +119,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                                   // });
                                   BlocProvider.of<HomeBloc>(context).add(
                                       RemoveFavorite(
-                                          restId: widget.restaurante.id,
+                                          restId: widget.restaurante.id!,
                                           user: user));
                                 } else {
                                   // setState(() {
@@ -128,7 +128,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                                   //
                                   BlocProvider.of<HomeBloc>(context).add(
                                       AddFavorite(
-                                          restId: widget.restaurante.id,
+                                          restId: widget.restaurante.id!,
                                           user: user));
                                 }
                               },
@@ -169,7 +169,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                           width: 5,
                         ),
                         Flexible(
-                          child: Text(widget.restaurante.address,
+                          child: Text(widget.restaurante.address!,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
@@ -183,7 +183,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                     // const SizedBox(
                     //   height: 5,
                     // ),
-                    Text(widget.restaurante.description,
+                    Text(widget.restaurante.description!,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(

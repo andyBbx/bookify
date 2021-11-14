@@ -154,7 +154,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       }
     } else if (event is GetRestbyCategory) {
-      // yield LoadRest();
+      yield HomeCategoryLoading();
       List<RestaurantModel> myRestCat = [];
       var data = {"restaurant_id": event.catId};
       var response = await getService(

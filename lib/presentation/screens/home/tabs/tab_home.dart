@@ -11,8 +11,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'pagger/offers.dart';
-
 class HomeTab extends StatefulWidget {
   final User user;
   const HomeTab({Key? key, required this.user}) : super(key: key);
@@ -296,7 +294,7 @@ class _HomeTabState extends State<HomeTab> {
               const SizedBox(
                 height: 20,
               ),
-              currentFiler == 0 ? const Offers() : Restaurantes(),
+              Restaurantes(),
               const SizedBox(
                 height: 20,
               ),

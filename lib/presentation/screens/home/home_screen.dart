@@ -35,6 +35,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   dynamic reservation;
 
+  bool loadScreen = false;
+
   @override
   void initState() {
     Utils().startSharedPreferences().then((prefs) {
@@ -64,144 +66,98 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      bottomNavigationBar: TabBar(
-        controller: _tabController,
-        indicatorColor: Colors.transparent,
-        labelColor: Colors.black,
-        unselectedLabelColor: Colors.grey,
-        indicatorSize: TabBarIndicatorSize.label,
-        tabs: [
-          Tab(
-            text: "Inicio",
-            icon: SvgPicture.asset("assets/images/icons/home.svg",
-                color: seletcedTab == 0 ? textBold : tabunsellected),
-          ),
-          Tab(
-            text: "Reservas",
-            icon: SvgPicture.asset("assets/images/icons/calender.svg",
-                color: seletcedTab == 1 ? textBold : tabunsellected),
-          ),
-          Tab(
-            text: "Favoritos",
-            icon: SvgPicture.asset("assets/images/icons/heart.svg",
-                color: seletcedTab == 2 ? textBold : tabunsellected),
-          ),
-          Tab(
-            text: "Mi cuenta",
-            icon: SvgPicture.asset("assets/images/icons/profile.svg",
-                color: seletcedTab == 3 ? textBold : tabunsellected),
-          ),
-        ],
+    return BlocProvider(
+      create: (context) => HomeBloc(context)..add(LoadData(user: user)),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeLoadInit) {
+            rest = state.rest;
+            cat = state.categories;
+            restFav = state.restFav;
+            reservation = state.reservations;
+            loadScreen = false;
+          } else if (state is HomeLoadRest) {
+            rest = state.rest;
+            loadScreen = false;
+          } else if (state is HomeLoadFavorites) {
+            restFav = state.restFav;
+            rest = state.rest;
+            loadScreen = false;
+          } else if (state is HomeLoadReservation) {
+            reservation = state.reservations;
+            loadScreen = false;
+          }
+
+          if (state is HomeLoading) {
+            return Center(child: bodyHome(true));
+          } else if (state is HomeFail) {
+            return Center(child: ErrorBlocWidget(errorText: state.message));
+          } else if (state is HomeLoadInit) {
+            return Center(child: bodyHome(false));
+          } else {
+            return Center(child: bodyHome(loadScreen));
+          }
+        },
       ),
-      body: user.auth_key!.isEmpty
-          ? const LoadWidget()
-          : BlocProvider(
-              create: (context) => HomeBloc(context)..add(LoadData(user: user)),
-              child: BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  if (state is HomeLoadInit) {
-                    rest = state.rest;
-                    cat = state.categories;
-                    restFav = state.restFav;
-                    reservation = state.reservations;
-
-                    return TabBarView(
-                      controller: _tabController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        HomeTab(
-                          user: user,
-                          categories: cat,
-                          restaurant: rest,
-                        ),
-                        MisReservasScreen(reservations: reservation),
-                        FavTab(
-                          favRestaurant: restFav,
-                        ),
-                        ProfileTab(
-                          user: user,
-                          reservations: reservation,
-                        ),
-                      ],
-                    );
-                  }
-                  if (state is HomeLoadRest) {
-                    rest = state.rest;
-
-                    return TabBarView(
-                      controller: _tabController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        HomeTab(
-                          user: user,
-                          categories: cat,
-                          restaurant: rest,
-                        ),
-                        MisReservasScreen(reservations: reservation),
-                        FavTab(
-                          favRestaurant: restFav,
-                        ),
-                        ProfileTab(
-                          user: user,
-                          reservations: reservation,
-                        ),
-                      ],
-                    );
-                  } else if (state is HomeLoadFavorites) {
-                    restFav = state.restFav;
-                    rest = state.rest;
-                    return TabBarView(
-                      controller: _tabController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        HomeTab(
-                          user: user,
-                          categories: cat,
-                          restaurant: rest,
-                        ),
-                        MisReservasScreen(reservations: reservation),
-                        FavTab(
-                          favRestaurant: restFav,
-                        ),
-                        ProfileTab(
-                          user: user,
-                          reservations: reservation,
-                        ),
-                      ],
-                    );
-                  } else if (state is HomeLoadReservation) {
-                    reservation = state.reservations;
-                    return TabBarView(
-                      controller: _tabController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        HomeTab(
-                          user: user,
-                          categories: cat,
-                          restaurant: rest,
-                        ),
-                        MisReservasScreen(reservations: reservation),
-                        FavTab(
-                          favRestaurant: restFav,
-                        ),
-                        ProfileTab(
-                          user: user,
-                          reservations: reservation,
-                        ),
-                      ],
-                    );
-                  } else if (state is HomeLoading) {
-                    return const Center(child: LoadWidget());
-                  } else if (state is HomeFail) {
-                    return Center(
-                        child: ErrorBlocWidget(errorText: state.message));
-                  }
-                  return const Center(child: LoadWidget());
-                },
-              ),
-            ),
     );
+  }
+
+  Widget bodyHome(bool load) {
+    return Scaffold(
+        backgroundColor: backgroundColor,
+        bottomNavigationBar: TabBar(
+          controller: _tabController,
+          indicatorColor: Colors.transparent,
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey,
+          indicatorSize: TabBarIndicatorSize.label,
+          tabs: [
+            Tab(
+              text: "Inicio",
+              icon: SvgPicture.asset("assets/images/icons/home.svg",
+                  color: seletcedTab == 0 ? textBold : tabunsellected),
+            ),
+            Tab(
+              text: "Reservas",
+              icon: SvgPicture.asset("assets/images/icons/calender.svg",
+                  color: seletcedTab == 1 ? textBold : tabunsellected),
+            ),
+            Tab(
+              text: "Favoritos",
+              icon: SvgPicture.asset("assets/images/icons/heart.svg",
+                  color: seletcedTab == 2 ? textBold : tabunsellected),
+            ),
+            Tab(
+              text: "Mi cuenta",
+              icon: SvgPicture.asset("assets/images/icons/profile.svg",
+                  color: seletcedTab == 3 ? textBold : tabunsellected),
+            ),
+          ],
+        ),
+        body: user.auth_key!.isEmpty
+            ? const LoadWidget()
+            : load
+                ? const Center(
+                    child: LoadWidget(),
+                  )
+                : TabBarView(
+                    controller: _tabController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      HomeTab(
+                        user: user,
+                        categories: cat,
+                        restaurant: rest,
+                      ),
+                      MisReservasScreen(reservations: reservation),
+                      FavTab(
+                        favRestaurant: restFav,
+                      ),
+                      ProfileTab(
+                        user: user,
+                        reservations: reservation,
+                      ),
+                    ],
+                  ));
   }
 }

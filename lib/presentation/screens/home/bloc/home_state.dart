@@ -94,3 +94,8 @@ class HomeFail extends HomeState {
   @override
   List<Object> get props => [message];
 }
+
+class HomeCategoryLoading extends HomeState {
+  @override
+  List<Object> get props => [];
+}

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
@@ -14,22 +12,68 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class ResturantionItem extends StatelessWidget {
-  const ResturantionItem({Key? key, required this.reservation})
+  const ResturantionItem(
+      {Key? key, required this.reservation, required this.history})
       : super(key: key);
 
   final ReservationModel reservation;
+  final bool history;
 
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    bool isLandccape =
-        (MediaQuery.of(context).orientation == Orientation.landscape);
 
     RestaurantModel restaurantData =
         RestaurantModel.fromJson(reservation.restaurantData);
 
-    print(restaurantData.address);
+    Color? colorStatus;
+
+    String textStatus;
+
+    Function() functionStatus = () {};
+
+    reservation.status = 2;
+
+    switch (reservation.status) {
+      case 1:
+        colorStatus = Colors.yellow[700];
+        textStatus = 'Espera de confirmación';
+        break;
+      case 2:
+        if (history) {
+          colorStatus = textBold;
+          textStatus = 'Calificar';
+          functionStatus = () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CustomDialogBox(
+                    restaurant: restaurantData,
+                  );
+                });
+          };
+        } else {
+          colorStatus = Colors.green;
+          textStatus = 'Confirmada';
+        }
+        break;
+      case 3:
+        colorStatus = Colors.red;
+        textStatus = 'Cancelada';
+        break;
+      case 4:
+        if (history) {
+          colorStatus = textBold;
+          textStatus = 'Calificar';
+        } else {
+          colorStatus = Colors.green;
+          textStatus = 'Confirmada';
+        }
+        break;
+      default:
+        colorStatus = Colors.yellow[700];
+        textStatus = 'Desconicido';
+    }
 
     return Stack(
       children: [
@@ -83,7 +127,7 @@ class ResturantionItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Flexible(
-                              child: Text(restaurantData.name,
+                              child: Text(restaurantData.name!,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -176,30 +220,24 @@ class ResturantionItem extends StatelessWidget {
                 ),
               ),
               Container(
-                width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
-                    color: textBold,
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15))),
+                    color: colorStatus,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: const Radius.circular(15),
+                      bottomRight:
+                          Radius.circular(reservation.status == 1 ? 15 : 15),
+                    )),
                 child: InkWell(
                   borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15)),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDialogBox(
-                            restaurant: restaurantData,
-                          );
-                        });
-                  },
-                  child: const Center(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                  onTap: functionStatus,
+                  child: Center(
                     child: Text(
-                      "Calificar",
-                      style: TextStyle(
+                      textStatus,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
@@ -290,6 +328,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               ),
               Align(
                 alignment: Alignment.bottomRight,
+                // ignore: deprecated_member_use
                 child: FlatButton(
                     onPressed: () {
                       Navigator.of(context).pop();

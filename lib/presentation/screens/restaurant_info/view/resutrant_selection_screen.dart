@@ -174,14 +174,14 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                         widget.restaurante.favorite = 0;
                         // });
                         BlocProvider.of<HomeBloc>(context).add(RemoveFavorite(
-                            restId: widget.restaurante.id, user: user));
+                            restId: widget.restaurante.id!, user: user));
                       } else {
                         // setState(() {
                         widget.restaurante.favorite = 1;
                         // });
                         //
                         BlocProvider.of<HomeBloc>(context).add(AddFavorite(
-                            restId: widget.restaurante.id, user: user));
+                            restId: widget.restaurante.id!, user: user));
                       }
                     },
                     child: Icon(
@@ -262,7 +262,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       height: 20,
                     ),
                     Text(
-                      widget.restaurante.name,
+                      widget.restaurante.name!,
                       style: TextStyle(
                         fontSize: 25,
                         color: textDrkgray,
@@ -290,7 +290,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          widget.restaurante.description,
+                          widget.restaurante.description!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
@@ -314,7 +314,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                         const SizedBox(
                           width: 5,
                         ),
-                        Text(widget.restaurante.address,
+                        Text(widget.restaurante.address!,
                             style: TextStyle(
                               color: textDrkgray,
                               fontSize: 11,

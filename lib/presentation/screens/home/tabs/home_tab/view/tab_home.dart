@@ -295,13 +295,18 @@ class _HomeTabState extends State<HomeTab> {
                                   const BorderRadius.all(Radius.circular(10)),
                               onTap: () {
                                 setState(() {
-                                  // TODO: implementar llamar lista con nueva categoria
                                   currentFiler = ii;
                                 });
-                                BlocProvider.of<HomeBloc>(context).add(
-                                    GetRestbyCategory(
-                                        catId: widget.categories[ii].id,
-                                        user: widget.user));
+                                if (ii == 0) {
+                                  BlocProvider.of<HomeBloc>(context).add(
+                                      GetRestbyCategory(
+                                          catId: '', user: widget.user));
+                                } else {
+                                  BlocProvider.of<HomeBloc>(context).add(
+                                      GetRestbyCategory(
+                                          catId: widget.categories[ii].id,
+                                          user: widget.user));
+                                }
                               },
                               child: FilterChipItem(
                                 cheapItem: CheapItem(
@@ -320,7 +325,16 @@ class _HomeTabState extends State<HomeTab> {
                   height: 20,
                 ),
                 // currentFiler == 0 ?
-                RestaurantesWidget(restaurantes: widget.restaurant),
+                BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    if (state is HomeCategoryLoading) {
+                      return Center(child: LoadWidget());
+                    } else {
+                      return RestaurantesWidget(
+                          restaurantes: widget.restaurant);
+                    }
+                  },
+                ),
                 // : Column(
                 //     children: [
                 //       Container(
