@@ -61,6 +61,7 @@ class RestaurantModel {
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(
           id: json["id"],
+          logo: json["logo"] ?? "",
           cover: json["cover"],
           name: json["name"],
           description: json["description"],
@@ -70,20 +71,22 @@ class RestaurantModel {
           municipality: json["municipality"],
           province: json["province"],
           country: json["country"],
-          latitude: json["latitude"],
-          longitude: json["longitude"],
-          web: json["web"],
-          tags: List<dynamic>.from(json["tags"].map((x) => x)),
+          latitude: json["latitude"] ?? "",
+          longitude: json["longitude"] ?? "",
+          web: json["web"] ?? "",
+          tags: json["tags"] != null
+              ? List<dynamic>.from(json["tags"].map((x) => x))
+              : [],
           status: json["status"],
           createdAt: DateTime.parse(json["created_at"]),
           updatedAt: DateTime.parse(json["updated_at"]),
-          favorite: json["favorite"],
+          favorite: json["favorite"] ?? 0,
           rating: json["rating"],
-          schedule: json["schedule"],
-          logo: json["logo"]);
+          schedule: json["schedule"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "logo": logo,
         "cover": cover,
         "name": name,
         "description": description,

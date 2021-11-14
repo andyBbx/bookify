@@ -96,12 +96,12 @@ class PreLoginScreen extends StatelessWidget {
                             //     context,
                             //     MaterialPageRoute(
                             //         builder: (context) =>
-                            //             MultiBlocProvider(providers: [
-                            //               BlocProvider(
-                            //                 create: (context) =>
-                            //                     RestaurantBloc(context),
-                            //               ),
-                            //             ], child: RestaurantCardView())));
+                                        // MultiBlocProvider(providers: [
+                                        //   BlocProvider(
+                                        //     create: (context) =>
+                                        //         RestaurantBloc(context),
+                                        //   ),
+                                        // ], child: RestaurantCardView())));
                           },
                         ),
                       ),

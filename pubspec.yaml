@@ -17,7 +17,10 @@ dependencies:
   flutter_svg: ^0.22.0
   # extended_sliver: ^2.0.1
   flutter_rating_bar: ^4.0.0
-  flutter_datetime_picker: ^1.5.1
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/Realank/flutter_datetime_picker.git
+      ref: master
   carousel_slider: ^4.0.0
   jiffy: ^4.1.0
   equatable: ^2.0.3

@@ -40,6 +40,7 @@ class User {
         'password': password,
         'phone': phone,
         'favorite_restaurants': favorite_restaurants,
+        'is_manager': isManager,
         'status': status
       };
 

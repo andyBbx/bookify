@@ -1,3 +1,5 @@
+import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Tables/bloc/tables_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/home.dart';
 import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
@@ -9,40 +11,39 @@ import 'package:bookify/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 Route? appRouteGaneragte(RouteSettings _routeSettings) {
   switch (_routeSettings.name) {
     case "/":
       return MaterialPageRoute(builder: (context) => PreLoginScreen());
-      break;
+    //break;
     case "/splash":
       return MaterialPageRoute(builder: (context) => SplashScreen());
-      break;
+    //break;
     case "/login":
       return MaterialPageRoute(builder: (context) => LoginScreen());
-      break;
+    //break;
     case "/signup":
       return MaterialPageRoute(builder: (context) => RegisterScreen());
-      break;
+    //break;
     // case "/home":
     //   return MaterialPageRoute(builder: (context) => HomeScreen());
     //   break;
     case "/home":
       return MaterialPageRoute(builder: (context) => HomeScreen());
-      break;
-    /* case "/reservation":
-      return MaterialPageRoute(builder: (context) => MisReservasScreen()); */
-      break;
+    //break;
     case "/managerView":
-      return MaterialPageRoute(builder: (context) => ManagerView());
-      break;
-      // case "/resuturant_details":
-      //   return MaterialPageRoute(
-      //       builder: (context) => const ResturantSelectionScreen(
-      //             restaurante: null,
-      //           ));
-      //   break;
-      return null;
+      return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(providers: [
+                BlocProvider(
+                  create: (context) => OwnedRestaurantsBloc(context),
+                ),
+                BlocProvider(
+                  create: (context) => TablesBloc(),
+                ),
+              ], child: ManagerView()));
     default:
+      return MaterialPageRoute(builder: (context) => LoginScreen());
   }
 }
