@@ -11,8 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../confirmando_screen.dart';
-
 class MiCuenta1Screen extends StatefulWidget {
   const MiCuenta1Screen({Key? key}) : super(key: key);
 
@@ -50,11 +48,9 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
     super.initState();
   }
 
-Future<void> updateUser(user, password) async {
+  Future<void> updateUser(user, password) async {
     var data = {"email": user, "password": password};
-    await postService(
-            data, '/user/login','')
-        .then((value) {
+    await postService(data, '/user/login', '').then((value) {
       if (value['code'] != 200) {
         print("Situation");
         var error = jsonDecode(value['message']);
@@ -64,20 +60,19 @@ Future<void> updateUser(user, password) async {
       }
     });
   }
-  
 
-var _image;
-String base64Image = "";
-final ImagePicker _picker = ImagePicker();
-Future getImage() async {
-  var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  var _image;
+  String base64Image = "";
+  final ImagePicker _picker = ImagePicker();
+  Future getImage() async {
+    var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
-  setState(() {
-    _image = File(pickedFile!.path);
-    base64Image = base64Encode(_image.readAsBytesSync());
-    print(base64Image);
-  });
-}
+    setState(() {
+      _image = File(pickedFile!.path);
+      base64Image = base64Encode(_image.readAsBytesSync());
+      print(base64Image);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +127,8 @@ Future getImage() async {
                               image: DecorationImage(
                                 image: _image == null
                                     ? AssetImage("assets/images/user.png")
-                                    : FileImage(_image) as ImageProvider, // <-- BACKGROUND IMAGE
+                                    : FileImage(_image)
+                                        as ImageProvider, // <-- BACKGROUND IMAGE
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -144,7 +140,9 @@ Future getImage() async {
                               fontSize: 16,
                               color: textDrkgray,
                               fontWeight: FontWeight.w100)),
-                              SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                 ),

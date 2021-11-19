@@ -47,3 +47,12 @@ class GetRestbyCategory extends HomeEvent {
   @override
   List<Object> get props => [catId, user];
 }
+
+class EditReservation extends HomeEvent {
+  const EditReservation({required this.reservationModel, required this.user});
+  final ReservationModel reservationModel;
+  final User user;
+
+  @override
+  List<Object> get props => [reservationModel, user];
+}

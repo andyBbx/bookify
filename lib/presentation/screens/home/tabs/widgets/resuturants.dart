@@ -1,14 +1,7 @@
-import 'dart:convert';
-
 import 'package:bookify/constants/appconfig.dart';
-import 'package:bookify/constants/color.dart';
-import 'package:bookify/data/models/resturant.dart';
-import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/error_widget.dart';
-import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/resturants_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantesWidget extends StatelessWidget {
   final dynamic restaurantes;

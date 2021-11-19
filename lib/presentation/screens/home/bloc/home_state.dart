@@ -99,3 +99,15 @@ class HomeCategoryLoading extends HomeState {
   @override
   List<Object> get props => [];
 }
+
+class HomeEditResLoad extends HomeState {
+  const HomeEditResLoad({
+    required this.rest,
+    required this.resv,
+  });
+
+  final dynamic resv;
+  final dynamic rest;
+  @override
+  List<Object> get props => [resv, rest];
+}

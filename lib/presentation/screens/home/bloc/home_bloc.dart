@@ -23,9 +23,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final currentState = state;
 
     if (event is LoadData) {
+      yield HomeLoading();
       List<CategoryModel> myCat = [];
       List<RestaurantModel> myRestFav = [];
       List<RestaurantModel> myRest = [];
+      List<RestaurantModel> myRestCat = [];
       List<ReservationModel> myReservations = [];
       // load categories
       var responseCat = await getService('/tag', '');
@@ -109,12 +111,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else if (responseFav['code'] == 200) {
           var jsonRest = jsonDecode(responseFav['model']);
 
-          for (var i = 0; i < jsonRest.length; i++) {
-            var restModel = RestaurantModel.fromJson(jsonRest[i]);
-            if (restModel.favorite == 1) {
-              myRestFav.add(restModel);
-            }
-          }
+          // for (var i = 0; i < jsonRest.length; i++) {
+          //   var restModel = RestaurantModel.fromJson(jsonRest[i]);
+          //   if (restModel.favorite == 1) {
+          //     myRestFav.add(restModel);
+          //   }
+          // }
           for (var i = 0; i < jsonRest.length; i++) {
             var restModel = RestaurantModel.fromJson(jsonRest[i]);
             myRest.add(restModel);
@@ -133,18 +135,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (response['code'] == 401) {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
+        // yield HomeLoadFavorites(restFav: myRestFav, rest: myRest);
         var responseFav = await getService('/restaurant', event.user.auth_key!);
         if (responseFav['code'] == 401) {
           yield HomeFail(message: responseFav['message']);
         } else if (responseFav['code'] == 200) {
           var jsonRest = jsonDecode(responseFav['model']);
 
-          for (var i = 0; i < jsonRest.length; i++) {
-            var restModel = RestaurantModel.fromJson(jsonRest[i]);
-            if (restModel.favorite == 1) {
-              myRestFav.add(restModel);
-            }
-          }
+          // for (var i = 0; i < jsonRest.length; i++) {
+          //   var restModel = RestaurantModel.fromJson(jsonRest[i]);
+          //   if (restModel.favorite == 1) {
+          //     myRestFav.add(restModel);
+          //   }
+          // }
           for (var i = 0; i < jsonRest.length; i++) {
             var restModel = RestaurantModel.fromJson(jsonRest[i]);
             myRest.add(restModel);
@@ -167,6 +170,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           var restModel = RestaurantModel.fromJson(jsonRest[i]);
           myRestCat.add(restModel);
         }
+        var responseFav = await getService('/restaurant', event.user.auth_key!);
+        if (responseFav['code'] == 401) {
+          yield HomeFail(message: responseFav['message']);
+        } else if (responseFav['code'] == 200) {
+          var jsonRest = jsonDecode(responseFav['model']);
+
+          // for (var i = 0; i < jsonRest.length; i++) {
+          //   var restModel = RestaurantModel.fromJson(jsonRest[i]);
+          //   if (restModel.favorite == 1) {
+          //     myRestFav.add(restModel);
+          //   }
+          // }
+          var restModel = RestaurantModel.fromJson(jsonRest[0]);
+          myRestCat.add(restModel);
+        }
         yield HomeLoadRest(rest: myRestCat);
       }
     } else if (event is LoadReservationData) {
@@ -187,6 +205,56 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
 
       yield HomeLoadReservation(reservations: myReservations);
+    } else if (event is EditReservation) {
+      List<RestaurantModel> myRest = [];
+      List<ReservationModel> myReservations = [];
+      var data = {
+        "client_id": event.reservationModel.clientId,
+        "id": event.reservationModel.id,
+        "restaurant_id": event.reservationModel.restaurantData["id"],
+        "quantity": event.reservationModel.quantity,
+        "time": event.reservationModel.time,
+        "date": event.reservationModel.date.toString(),
+        "rated": event.reservationModel.rated
+      };
+      var responsResv = await postService(
+          data,
+          '/solicitude/${event.reservationModel.id}/edit',
+          event.user.auth_key!);
+
+      if (responsResv['code'] == 401) {
+        yield HomeFail(message: responsResv['message']);
+      } else if (responsResv['code'] == 200) {
+        // load restaurants
+        // TODO: cargar restaurantes "ahora"
+        var responseRest =
+            await getService('/restaurant', event.user.auth_key!);
+        if (responseRest['code'] == 401) {
+          yield HomeFail(message: responseRest['message']);
+        } else if (responseRest['code'] == 200) {
+          var jsonRest = jsonDecode(responseRest['model']);
+
+          for (var i = 0; i < jsonRest.length; i++) {
+            var restModel = RestaurantModel.fromJson(jsonRest[i]);
+            myRest.add(restModel);
+          }
+
+          // load reservations
+          var responseReservation =
+              await getService('/solicitude', event.user.auth_key!);
+          if (responseReservation['code'] == 401) {
+            yield HomeFail(message: responseReservation['message']);
+          } else if (responseReservation['code'] == 200) {
+            var jsonRest = jsonDecode(responseReservation['model']);
+
+            for (var i = 0; i < jsonRest.length; i++) {
+              var reservationModel = ReservationModel.fromJson(jsonRest[i]);
+              myReservations.add(reservationModel);
+            }
+          }
+        }
+      }
+      yield HomeEditResLoad(rest: myRest, resv: myReservations);
     }
   }
 }

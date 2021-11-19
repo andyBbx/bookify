@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/resturant.dart';
+import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -47,8 +52,10 @@ class ResturantionItem extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return CustomDialogBox(
-                    restaurant: restaurantData,
+                  return BlocProvider(
+                    create: (context) => HomeBloc(context),
+                    child: CustomDialogBox(
+                        restaurant: restaurantData, reservation: reservation),
                   );
                 });
           };
@@ -255,14 +262,35 @@ class ResturantionItem extends StatelessWidget {
 
 class CustomDialogBox extends StatefulWidget {
   final dynamic restaurant;
+  final ReservationModel reservation;
 
-  const CustomDialogBox({Key? key, required this.restaurant}) : super(key: key);
+  const CustomDialogBox(
+      {Key? key, required this.restaurant, required this.reservation})
+      : super(key: key);
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
 }
 
 class _CustomDialogBoxState extends State<CustomDialogBox> {
+  User user = User();
+
+  @override
+  void initState() {
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        setState(() {
+          user = user.fromJson(jsonDecode(userModelString!));
+        });
+        if ((user.id)!.isEmpty) {
+          //logout;
+        }
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -304,14 +332,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               const SizedBox(
                 height: 15,
               ),
-              // Text(
-              //   widget.descriptions,
-              //   style: TextStyle(fontSize: 14),
-              //   textAlign: TextAlign.center,
-              // ),
               RatingBar.builder(
-                onRatingUpdate: (value) {},
-                initialRating: 0,
+                onRatingUpdate: (value) {
+                  setState(() {
+                    widget.reservation.rated = value.toString();
+                  });
+                },
+                initialRating: double.parse(widget.reservation.rated!),
                 itemSize: 35,
                 minRating: 1,
                 direction: Axis.horizontal,
@@ -331,7 +358,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 // ignore: deprecated_member_use
                 child: FlatButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      BlocProvider.of<HomeBloc>(context).add(EditReservation(
+                          reservationModel: widget.reservation, user: user));
                     },
                     child: const Text(
                       'Calificar',

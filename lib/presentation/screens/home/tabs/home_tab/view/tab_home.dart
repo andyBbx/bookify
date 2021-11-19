@@ -1,13 +1,11 @@
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/chip_item.dart';
+import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
-import 'package:bookify/presentation/screens/home/tabs/widgets/offers.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
-import 'package:bookify/presentation/screens/restaurant/view/resuturants.dart';
-import 'package:bookify/presentation/widgets/bloc_widgets/error_widget.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/reservar.dart';
@@ -20,11 +18,13 @@ class HomeTab extends StatefulWidget {
   final User user;
   final dynamic categories;
   final dynamic restaurant;
+  final dynamic restaurantCat;
   const HomeTab(
       {Key? key,
       required this.user,
       required this.categories,
-      required this.restaurant})
+      required this.restaurant,
+      this.restaurantCat})
       : super(key: key);
 
   @override
@@ -72,7 +72,6 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // populateDat();
   }
@@ -81,6 +80,8 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    List<RestaurantModel>? myRest = [];
 
     return Scaffold(
         backgroundColor: backgroundColor,
@@ -285,7 +286,7 @@ class _HomeTabState extends State<HomeTab> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: List.generate(widget.categories.length, (ii) {
-                        var selectId = widget.categories[0].id;
+                        // var selectId = widget.categories[0].id;
                         return Container(
                           margin: const EdgeInsets.symmetric(
                             horizontal: 7,
@@ -298,14 +299,21 @@ class _HomeTabState extends State<HomeTab> {
                                   currentFiler = ii;
                                 });
                                 if (ii == 0) {
-                                  BlocProvider.of<HomeBloc>(context).add(
-                                      GetRestbyCategory(
-                                          catId: '', user: widget.user));
+                                  setState(() {
+                                    myRest = widget.restaurant;
+                                  });
+                                  // BlocProvider.of<HomeBloc>(context).add(
+                                  //     GetRestbyCategory(
+                                  //         catId: '', user: widget.user));
+
                                 } else {
                                   BlocProvider.of<HomeBloc>(context).add(
                                       GetRestbyCategory(
                                           catId: widget.categories[ii].id,
                                           user: widget.user));
+                                  setState(() {
+                                    myRest = widget.restaurantCat;
+                                  });
                                 }
                               },
                               child: FilterChipItem(
@@ -328,10 +336,15 @@ class _HomeTabState extends State<HomeTab> {
                 BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
                     if (state is HomeCategoryLoading) {
-                      return Center(child: LoadWidget());
+                      return const Center(child: LoadWidget());
                     } else {
-                      return RestaurantesWidget(
-                          restaurantes: widget.restaurant);
+                      if (currentFiler == 0) {
+                        return RestaurantesWidget(
+                            restaurantes: widget.restaurant);
+                      } else {
+                        return RestaurantesWidget(
+                            restaurantes: widget.restaurantCat);
+                      }
                     }
                   },
                 ),

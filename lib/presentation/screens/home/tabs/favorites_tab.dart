@@ -2,15 +2,9 @@ import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/chip_item.dart';
 import 'package:bookify/data/models/resturant.dart';
-import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
-import 'package:bookify/presentation/screens/restaurant/view/resuturants.dart';
-import 'package:bookify/presentation/widgets/filter_chip.dart';
-import 'package:bookify/presentation/widgets/reservar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class FavTab extends StatefulWidget {
   final List<RestaurantModel> favRestaurant;
@@ -61,7 +55,6 @@ class _FavTabState extends State<FavTab> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // populateDat();
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/home/tabs/favorites_tab.dart';
@@ -30,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   dynamic rest;
 
   dynamic restFav;
+
+  dynamic restCat;
 
   dynamic cat;
 
@@ -77,18 +80,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             reservation = state.reservations;
             loadScreen = false;
           } else if (state is HomeLoadRest) {
-            rest = state.rest;
+            restCat = state.rest;
             loadScreen = false;
           } else if (state is HomeLoadFavorites) {
-            restFav = state.restFav;
+            List<RestaurantModel> myRestFav = [];
             rest = state.rest;
+
+            for (var i = 0; i < rest.length; i++) {
+              if (rest[i].favorite == 1) {
+                myRestFav.add(rest[i]);
+              }
+            }
+
+            restFav = myRestFav;
+
             loadScreen = false;
           } else if (state is HomeLoadReservation) {
             reservation = state.reservations;
             loadScreen = false;
+          } else if (state is HomeEditResLoad) {
+            reservation = state.resv;
+            rest = state.rest;
           }
 
-          if (state is HomeLoading) {
+          if (state is HomeLoading || state is HomeInitial) {
             return Center(child: bodyHome(true));
           } else if (state is HomeFail) {
             return Center(child: ErrorBlocWidget(errorText: state.message));
@@ -144,14 +159,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     controller: _tabController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      HomeTab(
-                        user: user,
-                        categories: cat,
-                        restaurant: rest,
+                      RefreshIndicator(
+                        onRefresh: () => _pullRefresh(),
+                        child: HomeTab(
+                          user: user,
+                          categories: cat,
+                          restaurant: rest,
+                          restaurantCat: restCat,
+                        ),
                       ),
-                      MisReservasScreen(reservations: reservation),
-                      FavTab(
-                        favRestaurant: restFav,
+                      RefreshIndicator(
+                          onRefresh: () => _pullRefresh(),
+                          child: MisReservasScreen(reservations: reservation)),
+                      RefreshIndicator(
+                        onRefresh: () => _pullRefresh(),
+                        child: FavTab(
+                          favRestaurant: restFav,
+                        ),
                       ),
                       ProfileTab(
                         user: user,
@@ -159,5 +183,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ],
                   ));
+  }
+
+  Future<void> _pullRefresh() async {
+    HomeBloc(context).add(LoadData(user: user));
   }
 }

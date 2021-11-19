@@ -12,7 +12,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ResturantListItem extends StatefulWidget {
   const ResturantListItem({Key? key, required this.restaurante})
@@ -42,8 +41,6 @@ class _ResturantListItemState extends State<ResturantListItem> {
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    bool fav = true;
 
     // return Text('ff');
     return Container(
