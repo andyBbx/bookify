@@ -137,24 +137,24 @@ class _ProfileTab extends State<ProfileTab> {
                     Container(height: 1, color: devicerColor),
                   ],
                 ),
-                Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        "Tarjetas",
-                        style: TextStyle(
-                            color: textDrkgray,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      leading: SvgPicture.asset(
-                        "assets/images/icons/card.svg",
-                        color: textBold,
-                      ),
-                    ),
-                    Container(height: 1, color: devicerColor),
-                  ],
-                ),
+                // Column(
+                //   children: [
+                //     ListTile(
+                //       title: Text(
+                //         "Tarjetas",
+                //         style: TextStyle(
+                //             color: textDrkgray,
+                //             fontSize: 15,
+                //             fontWeight: FontWeight.bold),
+                //       ),
+                //       leading: SvgPicture.asset(
+                //         "assets/images/icons/card.svg",
+                //         color: textBold,
+                //       ),
+                //     ),
+                //     Container(height: 1, color: devicerColor),
+                //   ],
+                // ),
                 Column(
                   children: [
                     ListTile(

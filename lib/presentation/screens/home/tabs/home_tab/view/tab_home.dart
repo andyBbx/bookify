@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/chip_item.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
@@ -33,6 +36,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int currentFiler = 0;
+  User user = User();
 
   List<CheapItem> cheapitems = [
     CheapItem(
@@ -72,6 +76,18 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   void initState() {
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        setState(() {
+          user = user.fromJson(jsonDecode(userModelString!));
+        });
+        if ((user.id)!.isEmpty) {
+          //logout;
+        }
+      }
+    });
+
     super.initState();
     // populateDat();
   }
@@ -126,7 +142,7 @@ class _HomeTabState extends State<HomeTab> {
                                 builder: (context, state) {
                                   return Text(
                                     // "Hola, ",
-                                    'Hola, ' + widget.user.firstname.toString(),
+                                    'Hola, ' + user.firstname.toString(),
                                     style: TextStyle(
                                         fontSize: 29,
                                         fontWeight: FontWeight.bold,

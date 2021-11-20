@@ -118,74 +118,78 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget bodyHome(bool load) {
-    return Scaffold(
-        backgroundColor: backgroundColor,
-        bottomNavigationBar: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.transparent,
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          indicatorSize: TabBarIndicatorSize.label,
-          tabs: [
-            Tab(
-              text: "Inicio",
-              icon: SvgPicture.asset("assets/images/icons/home.svg",
-                  color: seletcedTab == 0 ? textBold : tabunsellected),
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: backgroundColor,
+            bottomNavigationBar: TabBar(
+              controller: _tabController,
+              indicatorColor: Colors.transparent,
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey,
+              indicatorSize: TabBarIndicatorSize.label,
+              tabs: [
+                Tab(
+                  text: "Inicio",
+                  icon: SvgPicture.asset("assets/images/icons/home.svg",
+                      color: seletcedTab == 0 ? textBold : tabunsellected),
+                ),
+                Tab(
+                  text: "Reservas",
+                  icon: SvgPicture.asset("assets/images/icons/calender.svg",
+                      color: seletcedTab == 1 ? textBold : tabunsellected),
+                ),
+                Tab(
+                  text: "Favoritos",
+                  icon: SvgPicture.asset("assets/images/icons/heart.svg",
+                      color: seletcedTab == 2 ? textBold : tabunsellected),
+                ),
+                Tab(
+                  text: "Mi cuenta",
+                  icon: SvgPicture.asset("assets/images/icons/profile.svg",
+                      color: seletcedTab == 3 ? textBold : tabunsellected),
+                ),
+              ],
             ),
-            Tab(
-              text: "Reservas",
-              icon: SvgPicture.asset("assets/images/icons/calender.svg",
-                  color: seletcedTab == 1 ? textBold : tabunsellected),
-            ),
-            Tab(
-              text: "Favoritos",
-              icon: SvgPicture.asset("assets/images/icons/heart.svg",
-                  color: seletcedTab == 2 ? textBold : tabunsellected),
-            ),
-            Tab(
-              text: "Mi cuenta",
-              icon: SvgPicture.asset("assets/images/icons/profile.svg",
-                  color: seletcedTab == 3 ? textBold : tabunsellected),
-            ),
-          ],
-        ),
-        body: user.auth_key!.isEmpty
-            ? const LoadWidget()
-            : load
-                ? const Center(
-                    child: LoadWidget(),
-                  )
-                : TabBarView(
-                    controller: _tabController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      RefreshIndicator(
-                        onRefresh: () => _pullRefresh(),
-                        child: HomeTab(
-                          user: user,
-                          categories: cat,
-                          restaurant: rest,
-                          restaurantCat: restCat,
-                        ),
-                      ),
-                      RefreshIndicator(
-                          onRefresh: () => _pullRefresh(),
-                          child: MisReservasScreen(reservations: reservation)),
-                      RefreshIndicator(
-                        onRefresh: () => _pullRefresh(),
-                        child: FavTab(
-                          favRestaurant: restFav,
-                        ),
-                      ),
-                      ProfileTab(
-                        user: user,
-                        reservations: reservation,
-                      ),
-                    ],
-                  ));
+            body: user.auth_key!.isEmpty
+                ? const LoadWidget()
+                : load
+                    ? const Center(
+                        child: LoadWidget(),
+                      )
+                    : TabBarView(
+                        controller: _tabController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          RefreshIndicator(
+                            onRefresh: () async =>
+                                BlocProvider.of<HomeBloc>(context)
+                                    .add(LoadData(user: user)),
+                            child: HomeTab(
+                              user: user,
+                              categories: cat,
+                              restaurant: rest,
+                              restaurantCat: restCat,
+                            ),
+                          ),
+                          RefreshIndicator(
+                              onRefresh: () => _pullRefresh(),
+                              child:
+                                  MisReservasScreen(reservations: reservation)),
+                          FavTab(
+                            favRestaurant: restFav,
+                          ),
+                          ProfileTab(
+                            user: user,
+                            reservations: reservation,
+                          ),
+                        ],
+                      ));
+      },
+    );
   }
 
   Future<void> _pullRefresh() async {
-    HomeBloc(context).add(LoadData(user: user));
+    BlocProvider.of<HomeBloc>(context).add(LoadData(user: user));
   }
 }
