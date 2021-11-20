@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
-import 'package:bookify/data/models/resturant.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/widgets/resturantion_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 
 class MisReservasScreen extends StatefulWidget {
@@ -22,7 +24,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
   List<ReservationModel> next_reservationList = [];
 
   List<ReservationModel> historial_reservationList = [];
-
+  User user = User();
   @override
   void initState() {
     for (var i = 0; i < widget.reservations.length; i++) {
@@ -33,6 +35,17 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
       }
     }
 
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        user = user.fromJson(jsonDecode(userModelString!));
+
+        if ((user.id)!.isEmpty) {
+          //logout;
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -40,8 +53,18 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool isLandccape =
-        (MediaQuery.of(context).orientation == Orientation.landscape);
+    bool loadRated = false;
+
+    next_reservationList = [];
+    historial_reservationList = [];
+
+    for (var i = 0; i < widget.reservations.length; i++) {
+      if (widget.reservations[i].date.isAfter(DateTime.now())) {
+        historial_reservationList.add(widget.reservations[i]);
+      } else {
+        next_reservationList.add(widget.reservations[i]);
+      }
+    }
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
@@ -72,7 +95,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       ),
                       Positioned(
                         child: SafeArea(
-                          child: Container(
+                          child: SizedBox(
                             width: widhth,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,10 +140,10 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       Column(
                           children: List.generate(
                               historial_reservationList.length,
-                              (index) => ResturantionItem(
-                                    reservation:
-                                        historial_reservationList[index],
-                                    history: false,
+                              (index) => resturantionItem(
+                                    context,
+                                    historial_reservationList[index],
+                                    false,
                                   ))),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -148,13 +171,18 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                           ),
                         ],
                       ),
-                      Column(
-                          children: List.generate(
-                              next_reservationList.length,
-                              (index) => ResturantionItem(
-                                    reservation: next_reservationList[index],
-                                    history: true,
-                                  ))),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: next_reservationList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return resturantionItem(
+                            context,
+                            next_reservationList[index],
+                            true,
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

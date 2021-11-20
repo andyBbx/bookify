@@ -173,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                           RefreshIndicator(
-                              onRefresh: () => _pullRefresh(),
+                              onRefresh: () async =>
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .add(LoadData(user: user)),
                               child:
                                   MisReservasScreen(reservations: reservation)),
                           FavTab(

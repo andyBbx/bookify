@@ -100,6 +100,11 @@ class HomeCategoryLoading extends HomeState {
   List<Object> get props => [];
 }
 
+class HomeEditResLoading extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
 class HomeEditResLoad extends HomeState {
   const HomeEditResLoad({
     required this.rest,

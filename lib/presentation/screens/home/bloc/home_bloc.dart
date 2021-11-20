@@ -206,6 +206,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       yield HomeLoadReservation(reservations: myReservations);
     } else if (event is EditReservation) {
+      yield HomeEditResLoading();
       List<RestaurantModel> myRest = [];
       List<ReservationModel> myReservations = [];
       var data = {
