@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
@@ -15,16 +17,31 @@ import 'mis_reservas_screen.dart';
 import '../../pre_login_screen.dart';
 
 class ProfileTab extends StatefulWidget {
-  final User user;
   final List<ReservationModel> reservations;
-  const ProfileTab({Key? key, required this.user, required this.reservations})
-      : super(key: key);
+  const ProfileTab({Key? key, required this.reservations}) : super(key: key);
 
   @override
   State<ProfileTab> createState() => _ProfileTab();
 }
 
 class _ProfileTab extends State<ProfileTab> {
+  User user = User();
+  @override
+  void initState() {
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        setState(() {
+          user = user.fromJson(jsonDecode(userModelString!));
+        });
+        if ((user.id)!.isEmpty) {
+          //logout;
+        }
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double widht = MediaQuery.of(context).size.width;
@@ -83,7 +100,7 @@ class _ProfileTab extends State<ProfileTab> {
                             width: 1,
                           ),
                           Text(
-                            widget.user.firstname.toString(),
+                            user.firstname.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: isTab() ? 29 : 19,
@@ -122,7 +139,21 @@ class _ProfileTab extends State<ProfileTab> {
                                       BlocProvider(
                                         create: (context) => HomeBloc(context),
                                       ),
-                                    ], child: const MiCuenta1Screen())));
+                                    ], child: const MiCuenta1Screen()))).then(
+                            (value) {
+                          Utils().startSharedPreferences().then((prefs) {
+                            String? userModelString = prefs.getString("user");
+                            if (Utils().checkJsonArray(userModelString)) {
+                              setState(() {
+                                user =
+                                    user.fromJson(jsonDecode(userModelString!));
+                              });
+                              if ((user.id)!.isEmpty) {
+                                //logout;
+                              }
+                            }
+                          });
+                        });
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (context) => MiCuenta1Screen()));
                       },

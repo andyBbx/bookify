@@ -53,7 +53,6 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool loadRated = false;
 
     next_reservationList = [];
     historial_reservationList = [];
