@@ -56,3 +56,11 @@ class EditReservation extends HomeEvent {
   @override
   List<Object> get props => [reservationModel, user];
 }
+
+class EditCuenta extends HomeEvent {
+  const EditCuenta({required this.user});
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+}

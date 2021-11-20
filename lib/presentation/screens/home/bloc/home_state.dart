@@ -116,3 +116,22 @@ class HomeEditResLoad extends HomeState {
   @override
   List<Object> get props => [resv, rest];
 }
+
+class EditUserLoading extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class EditUserLoad extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class EditUserFail extends HomeState {
+  const EditUserFail({required this.message});
+
+  final dynamic message;
+
+  @override
+  List<Object> get props => [message];
+}

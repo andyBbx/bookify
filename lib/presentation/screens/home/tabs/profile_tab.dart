@@ -3,6 +3,7 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/miCuenta/bloc/micuenta_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -118,6 +119,9 @@ class _ProfileTab extends State<ProfileTab> {
                                       BlocProvider(
                                         create: (context) => MicuentaBloc(),
                                       ),
+                                      BlocProvider(
+                                        create: (context) => HomeBloc(context),
+                                      ),
                                     ], child: const MiCuenta1Screen())));
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (context) => MiCuenta1Screen()));
@@ -160,8 +164,11 @@ class _ProfileTab extends State<ProfileTab> {
                     ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MisReservasScreen(
-                                  reservations: widget.reservations,
+                            builder: (context) => BlocProvider(
+                                  create: (context) => HomeBloc(context),
+                                  child: MisReservasScreen(
+                                    reservations: widget.reservations,
+                                  ),
                                 )));
                       },
                       title: Text(

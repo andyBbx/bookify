@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/category.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/resturant.dart';
@@ -256,6 +257,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       }
       yield HomeEditResLoad(rest: myRest, resv: myReservations);
+    } else if (event is EditCuenta) {
+      yield EditUserLoading();
+      var data = {
+        "firstname": event.user.firstname,
+        "middlename": event.user.middlename,
+        "lastname": event.user.lastname,
+        "email": event.user.email,
+        "phone": event.user.phone,
+        "imageFile": event.user.avatar,
+      };
+
+      var response = await postService(
+          data, '/user/${event.user.id}/edit-profile', event.user.auth_key!);
+      if (response['code'] != 200) {
+        yield EditUserFail(message: response['message']);
+      } else if (response['code'] == 200) {
+        var jsonRest = jsonDecode(response['model']);
+        saveUserModel(jsonRest['model']);
+        yield EditUserLoad();
+      }
     }
   }
 }
