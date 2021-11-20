@@ -16,6 +16,9 @@ class FavTab extends StatefulWidget {
 
 class _FavTabState extends State<FavTab> {
   int currentFiler = 0;
+  late bool _isSearching;
+  String _searchText = "";
+  List searchresult = [];
 
   List<CheapItem> cheapitems = [
     CheapItem(
@@ -55,12 +58,19 @@ class _FavTabState extends State<FavTab> {
 
   @override
   void initState() {
+    _isSearching = false;
     super.initState();
     // populateDat();
   }
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < widget.favRestaurant.length; i++) {
+      if (widget.favRestaurant[i].favorite != 1) {
+        widget.favRestaurant.remove(widget.favRestaurant[i]);
+      }
+    }
+
     populateDat();
 
     double widhth = MediaQuery.of(context).size.width;
@@ -132,28 +142,32 @@ class _FavTabState extends State<FavTab> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
-                              child: const TextField(
-                                  decoration: InputDecoration(
-                                hintText: "Buscar restaurante",
-                                hintStyle: TextStyle(
-                                  fontSize: 19,
-                                ),
-                                suffixIcon: Icon(
-                                  Icons.search,
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
-                              )))
+                              child: TextField(
+                                  textCapitalization: TextCapitalization.words,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.search,
+                                  onChanged: (value) => searchOperation(value),
+                                  decoration: const InputDecoration(
+                                    hintText: "Buscar restaurante",
+                                    hintStyle: TextStyle(
+                                      fontSize: 19,
+                                    ),
+                                    suffixIcon: Icon(
+                                      Icons.search,
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                    border: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                  )))
                         ],
                       ),
                     ),
@@ -165,10 +179,29 @@ class _FavTabState extends State<FavTab> {
             child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: RestaurantesWidget(
-            restaurantes: widget.favRestaurant,
+            restaurantes: _isSearching ? searchresult : widget.favRestaurant,
           ),
         ))
       ]),
     );
+  }
+
+  void searchOperation(String searchText) {
+    searchresult.clear();
+    _handleSearchStart();
+    if (_isSearching != null) {
+      for (int i = 0; i < widget.favRestaurant.length; i++) {
+        String? data = widget.favRestaurant[i].name;
+        if (data!.toLowerCase().contains(searchText.toLowerCase())) {
+          searchresult.add(widget.favRestaurant[i]);
+        }
+      }
+    }
+  }
+
+  void _handleSearchStart() {
+    setState(() {
+      _isSearching = true;
+    });
   }
 }
