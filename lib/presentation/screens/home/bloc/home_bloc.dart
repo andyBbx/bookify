@@ -8,6 +8,7 @@ import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -62,9 +63,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             }
           }
           // load restaurants
-          // TODO: cargar restaurantes "ahora"
-          var responseRest =
-              await getService('/restaurant', event.user.auth_key!);
+          // siempre ahora
+
+          var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+          var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
+
+          var responseRest = await getService(
+              '/restaurant?filter[time]=$timenow&filter[date]=$datenow',
+              event.user.auth_key!);
           if (responseRest['code'] == 401) {
             yield HomeFail(message: responseRest['message']);
           } else if (responseRest['code'] == 200) {
@@ -160,9 +166,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (event is GetRestbyCategory) {
       yield HomeCategoryLoading();
       List<RestaurantModel> myRestCat = [];
+
+      var dateTime = event.nowActive ? DateTime.now() : null;
       var data = {"restaurant_id": event.catId};
+
+      // TODO: verficiar con productos reales
+
       var response = await getService(
-          '/restaurant?filter[tag_id]=${event.catId}', event.user.auth_key!);
+          '/restaurant?filter[tag_id]=${event.catId}&filter[time]=${dateTime}&filter[date]=${dateTime}',
+          event.user.auth_key!);
       if (response['code'] == 401) {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
@@ -171,6 +183,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           var restModel = RestaurantModel.fromJson(jsonRest[i]);
           myRestCat.add(restModel);
         }
+
         var responseFav = await getService('/restaurant', event.user.auth_key!);
         if (responseFav['code'] == 401) {
           yield HomeFail(message: responseFav['message']);
@@ -276,6 +289,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         var jsonRest = jsonDecode(response['model']);
         saveUserModel(jsonRest['model']);
         yield EditUserLoad();
+      }
+    } else if (event is LoadEstadoRest) {
+      yield EstadoRestLoading();
+      List<RestaurantModel> myRestCat = [];
+
+      var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
+
+      String url = event.nowActive
+          ? '/restaurant'
+          : '/restaurant?filter[time]=$timenow&filter[date]=$datenow';
+
+      var response = await getService(url, event.user.auth_key!);
+      if (response['code'] == 401) {
+        yield HomeFail(message: response['message']);
+      } else if (response['code'] == 200) {
+        var jsonRest = jsonDecode(response['model']);
+        for (var i = 0; i < jsonRest.length; i++) {
+          var restModel = RestaurantModel.fromJson(jsonRest[i]);
+          myRestCat.add(restModel);
+        }
+        yield EstadoRestLoad(rest: myRestCat);
       }
     }
   }

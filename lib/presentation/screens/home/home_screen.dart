@@ -6,6 +6,7 @@ import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/home/tabs/favorites_tab.dart';
+import 'package:bookify/presentation/screens/home/tabs/tab_home.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/error_widget.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'tabs/mis_reservas_screen.dart';
 import 'tabs/profile_tab.dart';
-import 'tabs/home_tab/view/tab_home.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -100,6 +100,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             loadScreen = false;
           } else if (state is HomeEditResLoad) {
             reservation = state.resv;
+            rest = state.rest;
+          } else if (state is EstadoRestLoad) {
             rest = state.rest;
           }
 
@@ -189,9 +191,5 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ));
       },
     );
-  }
-
-  Future<void> _pullRefresh() async {
-    BlocProvider.of<HomeBloc>(context).add(LoadData(user: user));
   }
 }

@@ -135,3 +135,19 @@ class EditUserFail extends HomeState {
   @override
   List<Object> get props => [message];
 }
+
+class EstadoRestLoading extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class EstadoRestLoad extends HomeState {
+  const EstadoRestLoad({
+    required this.rest,
+  });
+
+  final dynamic rest;
+
+  @override
+  List<Object> get props => [rest];
+}

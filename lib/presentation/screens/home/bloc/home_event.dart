@@ -40,12 +40,14 @@ class RemoveFavorite extends HomeEvent {
 }
 
 class GetRestbyCategory extends HomeEvent {
-  const GetRestbyCategory({required this.catId, required this.user});
+  const GetRestbyCategory(
+      {required this.catId, required this.user, required this.nowActive});
   final String catId;
   final User user;
+  final bool nowActive;
 
   @override
-  List<Object> get props => [catId, user];
+  List<Object> get props => [catId, user, nowActive];
 }
 
 class EditReservation extends HomeEvent {
@@ -63,4 +65,13 @@ class EditCuenta extends HomeEvent {
 
   @override
   List<Object> get props => [user];
+}
+
+class LoadEstadoRest extends HomeEvent {
+  const LoadEstadoRest({required this.user, required this.nowActive});
+  final User user;
+  final bool nowActive;
+
+  @override
+  List<Object> get props => [user, nowActive];
 }

@@ -166,8 +166,8 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                   color: Colors.white,
                 ),
                 actions: [
-                  InkWell(
-                    onTap: () {
+                  IconButton(
+                    onPressed: () {
                       if (widget.restaurante.favorite == 1) {
                         //
                         // setState(() {
@@ -184,14 +184,14 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             restId: widget.restaurante.id!, user: user));
                       }
                     },
-                    child: Icon(
+                    icon: Icon(
                       widget.restaurante.favorite == 1
                           ? Icons.favorite
                           : Icons.favorite_outline,
                       color: widget.restaurante.favorite == 1
                           ? favrioteColor
                           : textDrkgray,
-                      size: 20,
+                      size: 25,
                     ),
                   ),
                   const SizedBox(
