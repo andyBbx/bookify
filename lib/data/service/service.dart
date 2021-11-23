@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:http/http.dart' as http;
 
 String urlApi = "https://api.reservas.androidtemplates.es/v1";
@@ -8,11 +10,27 @@ Future<Map<String, dynamic>> postService(
     dynamic data, String url, String token) async {
   var finalResponse;
 
+  User user = User();
+  String authToken = "";
+
   try {
+
+    await Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        user = user.fromJson(jsonDecode(userModelString!));
+        if ((user.id)!.isEmpty) {
+          //logout;
+        } else {
+          authToken = user.auth_key!;
+        }
+      }
+    });
+
     final http.Response response = await http.post(Uri.parse("$urlApi$url"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $authToken',
         },
         /* body: jsonEncode({
             "firstname": userr.name,
@@ -52,12 +70,29 @@ Future<Map<String, dynamic>> postService(
 Future<Map<String, dynamic>> getService(String url, String token) async {
   var finalResponse;
 
+  User user = User();
+  String authToken = "";
+
   try {
+
+    await Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        user = user.fromJson(jsonDecode(userModelString!));
+        if ((user.id)!.isEmpty) {
+          //logout;
+        } else {
+          authToken = user.auth_key!;
+          //print(authToken);
+        }
+      }
+    });
+
     final http.Response response = await http.get(
       Uri.parse("$urlApi$url"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer $authToken',
       },
     );
     var jsonResponse = jsonDecode(response.body);

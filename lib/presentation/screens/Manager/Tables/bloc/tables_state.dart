@@ -11,6 +11,15 @@ class TablesInitial extends TablesState {}
 
 class LoadingRestaurantTables extends TablesState {}
 
+class ReadyRestaurantTables extends TablesState {
+  final List tables;
+
+  const ReadyRestaurantTables({required this.tables});
+
+  @override
+  List<Object> get props => [tables];
+}
+
 class FailedLoadingRestaurantTables extends TablesState {
   final String message;
 

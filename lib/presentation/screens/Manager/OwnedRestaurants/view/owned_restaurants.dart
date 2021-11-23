@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/owned_restaurant.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/Manager/CommonWidgets/restaurant_header.dart';
@@ -184,12 +185,26 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          /* Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => OwnedRestaurantDetails(
-                    restaurante: rm,
-                  ))); */
-          BlocProvider.of<OwnedRestaurantsBloc>(context)
-              .add(LoadOwnedRestaurants(user: widget.user));
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: BlocProvider.of<OwnedRestaurantsBloc>(context),
+              child: OwnedRestaurantDetails(
+                restaurante: OwnedRestaurantModel(
+                    id: "",
+                    logo: "",
+                    name: "",
+                    description: "",
+                    phone: "",
+                    address: "",
+                    postalCode: "",
+                    municipality: "",
+                    province: "",
+                    country: "",
+                    web: "",
+                    rating: ""),
+              ),
+            ),
+          ));
         },
         child: const Icon(
           Icons.add,
@@ -256,7 +271,10 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                           horizontal: 15, vertical: 15),
                       itemCount: state.restaurants.length,
                       itemBuilder: (context, index) {
+                        OwnedRestaurantModel restaurant =
+                            state.restaurants[index];
                         return Container(
+                          clipBehavior: Clip.hardEdge,
                           margin: const EdgeInsets.only(bottom: 15),
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -267,23 +285,44 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                 const BorderRadius.all(Radius.circular(15)),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => OwnedRestaurantDetails(
-                                        restaurante: rm,
-                                      )));
+                                builder: (_) => BlocProvider.value(
+                                  value: BlocProvider.of<OwnedRestaurantsBloc>(
+                                      context),
+                                  child: OwnedRestaurantDetails(
+                                    restaurante: restaurant,
+                                  ),
+                                ),
+                              ));
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Expanded(
-                                    flex: 2,
-                                    child: state.restaurants[index].name.isNotEmpty
+                                  flex: 2,
+                                  child: Container(
+                                    width: 120,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      image: DecorationImage(
+                                        image: (restaurant.logo).isNotEmpty
+                                            ? NetworkImage(restaurant.logo)
+                                            : const AssetImage(
+                                                    "assets/halfPattern.png")
+                                                as ImageProvider, // <-- BACKGROUND IMAGE
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ), /* state.restaurants[index].name.isNotEmpty
                                         ? Image.network(
                                             state.restaurants[index].logo)
-                                        : logo(250)),
+                                        : logo(250) */
+                                ),
                                 Expanded(
                                   flex: 5,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 10),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -304,7 +343,7 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                               children: [
                                                 Flexible(
                                                   child: Text(
-                                                      state.restaurants.first
+                                                      state.restaurants[index]
                                                           .name,
                                                       maxLines: 2,
                                                       overflow:
@@ -319,7 +358,8 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                               ],
                                             ),
                                             RatingBarIndicator(
-                                              rating: double.parse("4.5"),
+                                              rating: double.parse(
+                                                  restaurant.rating.toString()),
                                               itemBuilder: (context, index) =>
                                                   Icon(
                                                 Icons.star,
@@ -333,24 +373,24 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                         ),
                                         Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: [
                                             SvgPicture.asset(
                                               "assets/images/icons/location.svg",
                                               fit: BoxFit.scaleDown,
-                                              width: 9,
+                                              width: 12,
                                             ),
                                             const SizedBox(
                                               width: 5,
                                             ),
                                             Flexible(
-                                              child: Text("Malaga, Malaga",
+                                              child: Text(restaurant.address,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
                                                   style: TextStyle(
                                                     color: textDrkgray,
-                                                    fontSize: 10,
+                                                    fontSize: 15,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                   )),
@@ -360,7 +400,7 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                         // const SizedBox(
                                         //   height: 5,
                                         // ),
-                                        Text("El mejor restaurante de Málaga",
+                                        Text(restaurant.description,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: TextStyle(
