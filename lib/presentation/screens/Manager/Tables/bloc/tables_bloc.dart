@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:bookify/data/models/table.dart';
+import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,20 +17,19 @@ class TablesBloc extends Bloc<TablesEvent, TablesState> {
     if (event is LoadRestaurantTables) {
       yield LoadingRestaurantTables();
 
-      var response =
-          await getService('/table', '');
+      var response = await getService('/table', '');
       if (response['code'] == 401) {
         yield FailedLoadingRestaurantTables(message: response['message']);
       } else if (response['code'] == 200) {
-        /* var jsonRest = jsonDecode(response['model']);
-        List<RestaurantModel> myRest = [];
+        var jsonRest = jsonDecode(response['model']);
+        List<TableModel> myRest = [];
 
         for (var i = 0; i < jsonRest.length; i++) {
-          myRest.add(RestaurantModel.fromJson(jsonRest[i]));
+          myRest.add(TableModel.fromJson(jsonRest[i]));
         }
-        yield ReadyOwnedRestaurants(restaurants: myRest); */
+        yield ReadyRestaurantTables(tables: myRest);
       } else {
-        /* yield FailedLoadingOwnedRestaurants(message: response.toString()); */
+        yield FailedLoadingRestaurantTables(message: response.toString());
       }
     }
   }

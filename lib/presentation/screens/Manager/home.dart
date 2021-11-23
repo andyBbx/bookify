@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Tables/bloc/tables_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/booking_items.dart';
 import 'package:bookify/presentation/screens/Manager/booking_requests.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/view/owned_restaurants.dart';
@@ -42,14 +43,16 @@ class _ManagerViewState extends State<ManagerView> {
         _children = [
           BookingRequests(),
           BookingItems(),
-          RestaurantTables(),
+          RestaurantTables(user: user),
           MyOwnedRestaurants(user: user),
           MiCuenta1Screen()
         ];
       });
 
       BlocProvider.of<OwnedRestaurantsBloc>(context)
-          .add(LoadOwnedRestaurants(user: user));
+          .add(LoadOwnedRestaurants());
+      BlocProvider.of<TablesBloc>(context)
+          .add(LoadRestaurantTables(user: user, restaurantId: ""));
     });
   }
 

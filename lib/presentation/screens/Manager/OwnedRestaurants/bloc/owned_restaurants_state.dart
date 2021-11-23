@@ -28,3 +28,26 @@ class FailedLoadingOwnedRestaurants extends OwnedRestaurantsState {
   @override
   List<Object> get props => [message];
 }
+
+//Edit owned restaurant
+class UpdatingOwnedRestaurant extends OwnedRestaurantsState {}
+class FailedUpdatingOwnedRestaurant extends OwnedRestaurantsState {
+  const FailedUpdatingOwnedRestaurant({required this.message});
+
+  final String message;
+
+  @override
+  List<Object> get props => [message];
+}
+class ReadyUpdatingOwnedRestaurant extends OwnedRestaurantsState {}
+
+class CreatingRestaurant extends OwnedRestaurantsState {}
+class FailedCreatingOwnedRestaurant extends OwnedRestaurantsState {
+  const FailedCreatingOwnedRestaurant({required this.message});
+
+  final String message;
+
+  @override
+  List<Object> get props => [message];
+}
+class ReadyCreatingRestaurant extends OwnedRestaurantsState {}

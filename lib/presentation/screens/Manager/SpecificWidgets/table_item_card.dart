@@ -1,14 +1,14 @@
+import 'package:bookify/data/models/table.dart';
 import 'package:flutter/material.dart';
 
 class TableItem extends StatefulWidget {
-
-  int id;
+  TableModel tableModel;
   Function onBusyTap;
   Function onAvailableTap;
   Function onExchangeTap;
   TableItem(
       {Key? key,
-      required this.id,
+      required this.tableModel,
       required this.onBusyTap,
       required this.onAvailableTap,
       required this.onExchangeTap})
@@ -36,10 +36,13 @@ class _TableItemState extends State<TableItem> {
             "assets/table.png",
             width: 100,
           ),
+          SizedBox(
+            height: 5,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Mesa 1"),
+              Text(widget.tableModel.name),
               SizedBox(
                 width: 10,
               ),
@@ -47,10 +50,10 @@ class _TableItemState extends State<TableItem> {
                 Icons.person,
                 color: Colors.orange,
               ),
-              Text("x4")
+              Text("x"+widget.tableModel.quantity.toString())
             ],
           ),
-          widget.id.floor().isEven
+          int.parse(widget.tableModel.status) == 0
               ? Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: InkWell(
