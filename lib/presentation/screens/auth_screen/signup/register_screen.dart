@@ -251,7 +251,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                     child: TextFormField(
                       initialValue: user.password,
                       onChanged: (val) {
-                        user.location?.adresss = val;
+                        user.password = val;
                       },
                       obscureText: false,
                       validator: (val) => val.toString().length > 3

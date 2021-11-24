@@ -58,10 +58,21 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
     historial_reservationList = [];
 
     for (var i = 0; i < widget.reservations.length; i++) {
-      if (widget.reservations[i].date.isAfter(DateTime.now())) {
-        historial_reservationList.add(widget.reservations[i]);
-      } else {
+      var myDay =
+          widget.reservations[i].date.day.toString().length == 1 ? '0' : '';
+      DateTime reservationDate = DateTime.parse(
+          widget.reservations[i].date.year.toString() +
+              "-" +
+              widget.reservations[i].date.month.toString() +
+              '-' +
+              myDay +
+              widget.reservations[i].date.day.toString() +
+              " " +
+              widget.reservations[i].time);
+      if (reservationDate.isAfter(DateTime.now())) {
         next_reservationList.add(widget.reservations[i]);
+      } else {
+        historial_reservationList.add(widget.reservations[i]);
       }
     }
 
@@ -138,10 +149,10 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       ),
                       Column(
                           children: List.generate(
-                              historial_reservationList.length,
+                              next_reservationList.length,
                               (index) => resturantionItem(
                                     context,
-                                    historial_reservationList[index],
+                                    next_reservationList[index],
                                     false,
                                   ))),
                       Row(
@@ -173,11 +184,11 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: next_reservationList.length,
+                        itemCount: historial_reservationList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return resturantionItem(
                             context,
-                            next_reservationList[index],
+                            historial_reservationList[index],
                             true,
                           );
                         },

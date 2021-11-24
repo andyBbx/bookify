@@ -1,5 +1,6 @@
 import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/constants/route.dart';
+import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'presentation/screens/auth_screen/login/auth_repository.dart';
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (_routeSettings) => appRouteGaneragte(_routeSettings),
         theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'poppins'),
-        initialRoute: "/managerView",
+        // initialRoute: "/managerView",
+        home: LoginScreen(),
       ),
     );
   }

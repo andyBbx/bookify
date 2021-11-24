@@ -4,6 +4,7 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/home/tabs/mis_reservas_screen.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -141,8 +142,14 @@ class ConfirmandoScreen extends StatelessWidget {
                             text: "Ver mis reservas",
                             isWhite: false,
                             onTap: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MisReservasScreen(
+                                            reservations: [],
+                                          )),
+                                  ModalRoute.withName('/'));
                             }),
                       ],
                     ),

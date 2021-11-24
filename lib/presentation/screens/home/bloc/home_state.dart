@@ -34,19 +34,22 @@ class HomeLoadRestFav extends HomeState {
 }
 
 class HomeLoadInit extends HomeState {
-  const HomeLoadInit(
-      {required this.rest,
-      required this.restFav,
-      required this.categories,
-      required this.reservations});
+  const HomeLoadInit({
+    required this.rest,
+    required this.restFav,
+    required this.categories,
+    required this.reservations,
+    required this.offers,
+  });
 
   final dynamic rest;
   final dynamic restFav;
   final dynamic categories;
   final dynamic reservations;
+  final dynamic offers;
 
   @override
-  List<Object> get props => [rest, restFav, categories, reservations];
+  List<Object> get props => [rest, restFav, categories, reservations, offers];
 }
 
 class HomeLoadReservation extends HomeState {
@@ -150,4 +153,15 @@ class EstadoRestLoad extends HomeState {
 
   @override
   List<Object> get props => [rest];
+}
+
+class HomeLoadOffers extends HomeState {
+  const HomeLoadOffers({
+    required this.offers,
+  });
+
+  final dynamic offers;
+
+  @override
+  List<Object> get props => [offers];
 }

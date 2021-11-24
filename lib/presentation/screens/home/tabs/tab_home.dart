@@ -8,6 +8,7 @@ import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
+import 'package:bookify/presentation/screens/home/tabs/widgets/offers.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
@@ -22,12 +23,14 @@ class HomeTab extends StatefulWidget {
   final dynamic categories;
   final dynamic restaurant;
   final dynamic restaurantCat;
+  final dynamic offers;
   const HomeTab(
       {Key? key,
       required this.user,
       required this.categories,
       required this.restaurant,
-      this.restaurantCat})
+      this.restaurantCat,
+      required this.offers})
       : super(key: key);
 
   @override
@@ -104,7 +107,7 @@ class _HomeTabState extends State<HomeTab> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is EstadoRestLoad) {
-          currentFiler = 0;
+          // currentFiler = 0;
           load = false;
         } else if (state is EstadoRestLoading) {
           load = true;
@@ -114,7 +117,8 @@ class _HomeTabState extends State<HomeTab> {
             backgroundColor: backgroundColor,
             body: CustomScrollView(slivers: [
               SliverAppBar(
-                pinned: true,
+                stretch: false,
+                // pinned: true,
                 iconTheme: const IconThemeData(
                   color: Colors.transparent,
                 ),
@@ -270,6 +274,7 @@ class _HomeTabState extends State<HomeTab> {
                                               user: widget.user));
                                       setState(() {
                                         nowActive = !nowActive;
+                                        currentFiler = 0;
                                       });
                                     }
                                   },
@@ -289,6 +294,7 @@ class _HomeTabState extends State<HomeTab> {
                                             user: widget.user));
                                     setState(() {
                                       nowActive = !nowActive;
+                                      currentFiler = 0;
                                     });
                                   }
                                 },
@@ -343,14 +349,21 @@ class _HomeTabState extends State<HomeTab> {
                                           setState(() {
                                             currentFiler = ii;
                                           });
-                                          if (ii == 0) {
+                                          if (ii == 1) {
                                             setState(() {
                                               myRest = widget.restaurant;
                                             });
-                                            // BlocProvider.of<HomeBloc>(context).add(
-                                            //     GetRestbyCategory(
-                                            //         catId: '', user: widget.user));
+                                            // BlocProvider.of<HomeBloc>(context)
+                                            //     .add(GetRestbyCategory(
+                                            //         nowActive: nowActive,
+                                            //         catId: widget
+                                            //             .categories[ii].id,
+                                            //         user: widget.user));
 
+                                          } else if (ii == 0) {
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(GetOffers(
+                                                    user: widget.user));
                                           } else {
                                             BlocProvider.of<HomeBloc>(context)
                                                 .add(GetRestbyCategory(
@@ -383,15 +396,18 @@ class _HomeTabState extends State<HomeTab> {
                           ),
                     // currentFiler == 0 ?
                     load
-                        ? LoadWidget()
+                        ? const LoadWidget()
                         : BlocBuilder<HomeBloc, HomeState>(
                             builder: (context, state) {
                               if (state is HomeCategoryLoading) {
                                 return const Center(child: LoadWidget());
                               } else {
-                                if (currentFiler == 0) {
+                                if (currentFiler == 1) {
                                   return RestaurantesWidget(
                                       restaurantes: widget.restaurant);
+                                } else if (currentFiler == 0) {
+                                  return Offers(
+                                      offers: widget.offers, user: user);
                                 } else {
                                   return RestaurantesWidget(
                                       restaurantes: widget.restaurantCat);

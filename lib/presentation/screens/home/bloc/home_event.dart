@@ -75,3 +75,11 @@ class LoadEstadoRest extends HomeEvent {
   @override
   List<Object> get props => [user, nowActive];
 }
+
+class GetOffers extends HomeEvent {
+  const GetOffers({required this.user});
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+}

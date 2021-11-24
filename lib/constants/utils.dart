@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bookify/data/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
@@ -73,4 +74,8 @@ Iterable<TimeOfDay> getTimeSlots(
     }
   } while (hour < endTime.hour ||
       (hour == endTime.hour && minute <= endTime.minute));
+}
+
+void launchURL(String url) async {
+  if (!await launch(url)) throw 'Could not launch $url';
 }

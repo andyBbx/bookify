@@ -44,7 +44,7 @@ class _FilterChipItemState extends State<FilterChipItem> {
                   widget.cheapItem.text,
                   style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 19,
+                      fontSize: 15,
                       fontWeight: FontWeight.w300),
                 ),
               ],

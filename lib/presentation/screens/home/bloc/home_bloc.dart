@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/category.dart';
+import 'package:bookify/data/models/offer.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
@@ -31,12 +33,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       List<RestaurantModel> myRest = [];
       List<RestaurantModel> myRestCat = [];
       List<ReservationModel> myReservations = [];
+      List<OfferModel> myOffers = [];
       // load categories
       var responseCat = await getService('/tag', '');
       if (responseCat['code'] == 401) {
         yield HomeFail(message: responseCat['message']);
       } else if (responseCat['code'] == 200) {
         var jsonRest = jsonDecode(responseCat['model']);
+
+        myCat.add(CategoryModel(
+            createdAt: DateTime.now(),
+            id: '',
+            image: '',
+            status: 1,
+            name: 'Ofertas',
+            updatedAt: DateTime.now()));
 
         myCat.add(CategoryModel(
             createdAt: DateTime.now(),
@@ -93,6 +104,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 var reservationModel = ReservationModel.fromJson(jsonRest[i]);
                 myReservations.add(reservationModel);
               }
+
+              // load offers
+
+              var response = await getService('/ad', event.user.auth_key!);
+              if (response['code'] == 401) {
+                yield HomeFail(message: response['message']);
+              } else if (response['code'] == 200) {
+                var jsonRest = jsonDecode(response['model']);
+                for (var i = 0; i < jsonRest.length; i++) {
+                  var restModel = OfferModel.fromJson(jsonRest[i]);
+                  myOffers.add(restModel);
+                }
+                yield HomeLoadOffers(offers: myOffers);
+              }
             }
           }
         }
@@ -101,7 +126,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           rest: myRest,
           categories: myCat,
           restFav: myRestFav,
-          reservations: myReservations);
+          reservations: myReservations,
+          offers: myOffers);
     } else if (event is AddFavorite) {
       List<RestaurantModel> myRestFav = [];
       List<RestaurantModel> myRest = [];
@@ -317,6 +343,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           myRestCat.add(restModel);
         }
         yield EstadoRestLoad(rest: myRestCat);
+      }
+    } else if (event is GetOffers) {
+      yield HomeCategoryLoading();
+      List<OfferModel> myOffers = [];
+
+      var response = await getService('/ad', event.user.auth_key!);
+      if (response['code'] == 401) {
+        yield HomeFail(message: response['message']);
+      } else if (response['code'] == 200) {
+        var jsonRest = jsonDecode(response['model']);
+        for (var i = 0; i < jsonRest.length; i++) {
+          var restModel = OfferModel.fromJson(jsonRest[i]);
+          myOffers.add(restModel);
+        }
+        yield HomeLoadOffers(offers: myOffers);
       }
     }
   }

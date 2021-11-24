@@ -38,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   dynamic reservation;
 
+  dynamic offers;
+
   bool loadScreen = false;
 
   @override
@@ -79,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             restFav = state.restFav;
             reservation = state.reservations;
             loadScreen = false;
+            offers = state.offers;
           } else if (state is HomeLoadRest) {
             restCat = state.rest;
             loadScreen = false;
@@ -103,6 +106,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             rest = state.rest;
           } else if (state is EstadoRestLoad) {
             rest = state.rest;
+          } else if (state is HomeLoadOffers) {
+            offers = state.offers;
           }
 
           if (state is HomeLoading || state is HomeInitial) {
@@ -172,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               categories: cat,
                               restaurant: rest,
                               restaurantCat: restCat,
+                              offers: offers,
                             ),
                           ),
                           RefreshIndicator(

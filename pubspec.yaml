@@ -25,6 +25,7 @@ dependencies:
   flutter_bloc:
   http: ^0.13.4
   shared_preferences: ^2.0.8
+  url_launcher: ^6.0.15
 
   intl: ^0.17.0
 
