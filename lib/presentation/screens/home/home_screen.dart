@@ -133,6 +133,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               controller: _tabController,
               indicatorColor: Colors.transparent,
               labelColor: Colors.black,
+              labelStyle: const TextStyle(fontSize: 13, fontFamily: 'poppins'),
+              labelPadding: EdgeInsets.zero,
               unselectedLabelColor: Colors.grey,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: [
