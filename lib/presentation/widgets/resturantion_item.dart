@@ -95,7 +95,7 @@ Widget resturantionItem(context, reservation, history) {
   return Stack(
     children: [
       Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -109,12 +109,16 @@ Widget resturantionItem(context, reservation, history) {
           children: [
             Container(
               width: widhth,
-              height: 150,
-              decoration: const BoxDecoration(
+              height: reservation.rated == '0.00' ? 130 : 150,
+              decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
+                      topLeft: const Radius.circular(15),
+                      topRight: const Radius.circular(15),
+                      bottomLeft:
+                          Radius.circular(reservation.rated == '0.00' ? 0 : 15),
+                      bottomRight: Radius.circular(
+                          reservation.rated == '0.00' ? 0 : 15))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,20 +157,19 @@ Widget resturantionItem(context, reservation, history) {
                                   fontWeight: FontWeight.w500,
                                 )),
                           ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                          RatingBarIndicator(
-                            rating:
-                                double.parse(restaurantData.rating.toString()),
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: textBold,
-                            ),
-                            itemCount: 5,
-                            itemSize: 20.0,
-                            direction: Axis.horizontal,
-                          ),
+                          reservation.rated == '0.00'
+                              ? Container()
+                              : RatingBarIndicator(
+                                  rating: double.parse(
+                                      reservation.rated.toString()),
+                                  itemBuilder: (context, index) => Icon(
+                                    Icons.star,
+                                    color: textBold,
+                                  ),
+                                  itemCount: 5,
+                                  itemSize: 20.0,
+                                  direction: Axis.horizontal,
+                                ),
                           Row(
                             children: [
                               SvgPicture.asset(
@@ -236,32 +239,34 @@ Widget resturantionItem(context, reservation, history) {
                 ],
               ),
             ),
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  color: colorStatus,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: const Radius.circular(15),
-                    bottomRight:
-                        Radius.circular(reservation.status == 1 ? 15 : 15),
-                  )),
-              child: InkWell(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
-                onTap: functionStatus,
-                child: Center(
-                  child: Text(
-                    textStatus,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            )
+            reservation.rated != '0.00' && history
+                ? Container()
+                : Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: colorStatus,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: const Radius.circular(15),
+                          bottomRight: Radius.circular(
+                              reservation.status == 1 ? 15 : 15),
+                        )),
+                    child: InkWell(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                      onTap: functionStatus,
+                      child: Center(
+                        child: Text(
+                          textStatus,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),

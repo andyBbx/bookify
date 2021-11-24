@@ -140,7 +140,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Text("Próximas Reservaciones",
                             style: TextStyle(
                                 fontSize: 21,
@@ -155,6 +155,9 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                                     next_reservationList[index],
                                     false,
                                   ))),
+                      const SizedBox(
+                        height: 30,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
