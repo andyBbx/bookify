@@ -26,6 +26,7 @@ Widget resturantionItem(context, reservation, history) {
   String textStatus;
 
   User user = User();
+  bool onError = false;
 
   Utils().startSharedPreferences().then((prefs) {
     String? userModelString = prefs.getString("user");
@@ -124,21 +125,29 @@ Widget resturantionItem(context, reservation, history) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 2,
-                    child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.black12.withOpacity(0.02),
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              bottomLeft: Radius.circular(0)),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.all(20),
-                          child: logo(100),
-                        )),
-                  ),
+                      flex: 2,
+                      child: restaurantData.logo == null || onError
+                          ? logo(200)
+                          : Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  image: onError
+                                      ? null
+                                      : DecorationImage(
+                                          onError: (value, v) {
+                                            onError = true;
+                                          },
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              restaurantData.logo!)),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15))),
+                              // child: Image.network(
+                              //   widget.restaurante.logo!,
+                              //   fit: BoxFit.cover,
+                              // ),
+                            )),
                   Expanded(
                     flex: 4,
                     child: Padding(

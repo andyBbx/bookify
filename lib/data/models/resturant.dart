@@ -13,28 +13,28 @@ String restaurantModelToJson(RestaurantModel data) =>
     json.encode(data.toJson());
 
 class RestaurantModel {
-  RestaurantModel({
-    this.id,
-    this.cover,
-    this.name,
-    this.description,
-    this.phone,
-    this.address,
-    this.postalCode,
-    this.municipality,
-    this.province,
-    this.country,
-    this.latitude,
-    this.longitude,
-    this.web,
-    required this.tags,
-    this.status,
-    required this.createdAt,
-    required this.updatedAt,
-    this.favorite,
-    this.rating,
-    this.schedule,
-  });
+  RestaurantModel(
+      {this.id,
+      this.cover,
+      this.name,
+      this.description,
+      this.phone,
+      this.address,
+      this.postalCode,
+      this.municipality,
+      this.province,
+      this.country,
+      this.latitude,
+      this.longitude,
+      this.web,
+      required this.tags,
+      this.status,
+      required this.createdAt,
+      required this.updatedAt,
+      this.favorite,
+      this.rating,
+      this.schedule,
+      this.logo});
 
   String? id;
   dynamic? cover;
@@ -56,6 +56,7 @@ class RestaurantModel {
   int? favorite;
   dynamic? rating;
   dynamic? schedule;
+  String? logo;
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(
@@ -78,7 +79,8 @@ class RestaurantModel {
           updatedAt: DateTime.parse(json["updated_at"]),
           favorite: json["favorite"],
           rating: json["rating"],
-          schedule: json["schedule"]);
+          schedule: json["schedule"],
+          logo: json["logo"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -101,6 +103,7 @@ class RestaurantModel {
         "favorite": favorite,
         "rating": rating,
         "schedule": schedule,
+        "logo": logo
       };
 }
 

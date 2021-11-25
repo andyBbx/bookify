@@ -25,6 +25,7 @@ class ResturantListItem extends StatefulWidget {
 
 class _ResturantListItemState extends State<ResturantListItem> {
   User user = User();
+  bool onError = false;
 
   @override
   void initState() {
@@ -73,14 +74,31 @@ class _ResturantListItemState extends State<ResturantListItem> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              flex: 2,
-              child: widget.restaurante.cover == null
-                  ? logo(250)
-                  : Image.asset(
-                      widget.restaurante.cover,
-                      fit: BoxFit.contain,
-                    ),
-            ),
+                flex: 2,
+                child: widget.restaurante.logo == null || onError
+                    ? logo(200)
+                    : Container(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            image: onError
+                                ? null
+                                : DecorationImage(
+                                    onError: (value, v) {
+                                      setState(() {
+                                        onError = true;
+                                      });
+                                    },
+                                    fit: BoxFit.cover,
+                                    image:
+                                        NetworkImage(widget.restaurante.logo!)),
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                bottomLeft: Radius.circular(15))),
+                        // child: Image.network(
+                        //   widget.restaurante.logo!,
+                        //   fit: BoxFit.cover,
+                        // ),
+                      )),
             Expanded(
               flex: 5,
               child: Padding(

@@ -49,6 +49,8 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
 
   User user = User();
 
+  bool onError = false;
+
 // reservationData
 
   DateTime myDate = DateTime.now();
@@ -234,10 +236,23 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                           right: 0,
                           left: 0,
                           child: Container(
-                            decoration: const BoxDecoration(
+                            width: radius * 2,
+                            height: radius * 2,
+                            decoration: BoxDecoration(
+                              image: onError
+                                  ? null
+                                  : DecorationImage(
+                                      onError: (value, v) {
+                                        setState(() {
+                                          onError = true;
+                                        });
+                                      },
+                                      fit: BoxFit.contain,
+                                      image: NetworkImage(
+                                          widget.restaurante.logo!)),
                               shape: BoxShape.circle,
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 4,
@@ -245,11 +260,12 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                                 ),
                               ],
                             ),
-                            child: CircleAvatar(
-                              radius: radius,
-                              backgroundColor: Colors.white,
-                              child: logo(100),
-                            ),
+                            child: !onError
+                                ? Container()
+                                : CircleAvatar(
+                                    radius: radius,
+                                    backgroundColor: Colors.white,
+                                    child: logo(100)),
                           ))
                     ],
                   ),
