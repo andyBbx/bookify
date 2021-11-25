@@ -27,7 +27,8 @@ class SignupCubit extends Cubit<SignupState> {
     submitting(user);
     var response = await _authRep!.Signup(user);
     if (response["code"] != 200) {
-      failed(Exception(), response["message"]);
+      var message = jsonDecode(response["message"]);
+      failed(Exception(), message[0]['message']);
     } else {
       startSharedPreferences().then((value) {
         prefs.setString("user", response["model"]);

@@ -26,6 +26,8 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTab extends State<ProfileTab> {
   User user = User();
+  bool onError = false;
+
   @override
   void initState() {
     Utils().startSharedPreferences().then((prefs) {
@@ -44,6 +46,7 @@ class _ProfileTab extends State<ProfileTab> {
 
   @override
   Widget build(BuildContext context) {
+    onError = false;
     double widht = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     bool isLandccape =
@@ -74,18 +77,32 @@ class _ProfileTab extends State<ProfileTab> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: isTab() ? 70 : 55.0,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/tab/profile_image.png'),
-                          radius: isTab() ? 65 : 50.0,
-                        ),
+                      const SizedBox(
+                        height: 20,
                       ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
+                      Container(
+                        decoration: BoxDecoration(
+                            // backgroundImage:
+                            color: Colors.white,
+                            border: Border.all(color: Colors.white, width: 3),
+                            borderRadius: BorderRadius.circular(100),
+                            image: DecorationImage(
+                                onError: (value, v) {
+                                  setState(() {
+                                    onError = true;
+                                  });
+                                },
+                                fit: BoxFit.cover,
+                                image: onError || user.avatar == null
+                                    ? const AssetImage("assets/images/user.png")
+                                    : NetworkImage(user.avatar!)
+                                        as ImageProvider)),
+                        width: isTab() ? 120 : 110.0,
+                        height: isTab() ? 120 : 110.0,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
