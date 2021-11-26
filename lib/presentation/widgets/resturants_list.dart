@@ -79,7 +79,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                     ? logo(200)
                     : Container(
                         decoration: BoxDecoration(
-                            color: Colors.red,
+                            // color: Colors.red,
                             image: onError
                                 ? null
                                 : DecorationImage(

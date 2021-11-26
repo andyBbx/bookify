@@ -78,7 +78,7 @@ class VerificarReservaScreen extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        reservationModel.restaurantData.cover == null
+                        reservationModel.restaurantData.logo == null
                             ? CircleAvatar(
                                 radius: 70,
                                 backgroundColor: Colors.white,
@@ -87,11 +87,11 @@ class VerificarReservaScreen extends StatelessWidget {
                                 // ),
                                 child: logo(250),
                               )
-                            : const CircleAvatar(
+                            : CircleAvatar(
                                 radius: 70,
                                 backgroundColor: Colors.white,
-                                backgroundImage: AssetImage(
-                                  "assets/images/resutrant_logo1.png",
+                                backgroundImage: NetworkImage(
+                                  reservationModel.restaurantData.logo,
                                 ),
                               ),
                         Text(reservationModel.restaurantData.name,

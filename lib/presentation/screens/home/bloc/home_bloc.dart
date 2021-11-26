@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/category.dart';
@@ -35,7 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       List<ReservationModel> myReservations = [];
       List<OfferModel> myOffers = [];
       // load categories
-      var responseCat = await getService('/tag', '');
+      var responseCat = await getService('/tag?filter[status]=1', '');
       if (responseCat['code'] == 401) {
         yield HomeFail(message: responseCat['message']);
       } else if (responseCat['code'] == 200) {
@@ -61,7 +59,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           myCat.add(CategoryModel.fromJson(jsonRest[i]));
         }
         // load favorites
-        var responseFav = await getService('/restaurant', event.user.auth_key!);
+        var responseFav = await getService(
+            '/restaurant?filter[status]=1', event.user.auth_key!);
         if (responseFav['code'] == 401) {
           yield HomeFail(message: responseFav['message']);
         } else if (responseFav['code'] == 200) {
@@ -80,7 +79,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
 
           var responseRest = await getService(
-              '/restaurant?filter[time]=$timenow&filter[date]=$datenow',
+              '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1',
               event.user.auth_key!);
           if (responseRest['code'] == 401) {
             yield HomeFail(message: responseRest['message']);
@@ -107,7 +106,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
               // load offers
 
-              var response = await getService('/ad', event.user.auth_key!);
+              var response = await getService(
+                  '/ad?filter[status]=1', event.user.auth_key!);
               if (response['code'] == 401) {
                 yield HomeFail(message: response['message']);
               } else if (response['code'] == 200) {
@@ -138,7 +138,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (response['code'] == 401) {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
-        var responseFav = await getService('/restaurant', event.user.auth_key!);
+        var responseFav = await getService(
+            '/restaurant?filter[status]=1', event.user.auth_key!);
         if (responseFav['code'] == 401) {
           yield HomeFail(message: responseFav['message']);
         } else if (responseFav['code'] == 200) {
@@ -169,7 +170,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
         // yield HomeLoadFavorites(restFav: myRestFav, rest: myRest);
-        var responseFav = await getService('/restaurant', event.user.auth_key!);
+        var responseFav = await getService(
+            '/restaurant?filter[status]=1', event.user.auth_key!);
         if (responseFav['code'] == 401) {
           yield HomeFail(message: responseFav['message']);
         } else if (responseFav['code'] == 200) {
@@ -199,7 +201,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // TODO: verficiar con productos reales
 
       var response = await getService(
-          '/restaurant?filter[tag_id]=${event.catId}&filter[time]=${dateTime}&filter[date]=${dateTime}',
+          '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1',
           event.user.auth_key!);
       if (response['code'] == 401) {
         yield HomeFail(message: response['message']);
@@ -210,7 +212,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           myRestCat.add(restModel);
         }
 
-        var responseFav = await getService('/restaurant', event.user.auth_key!);
+        var responseFav = await getService(
+            '/restaurant?filter[status]=1', event.user.auth_key!);
         if (responseFav['code'] == 401) {
           yield HomeFail(message: responseFav['message']);
         } else if (responseFav['code'] == 200) {
@@ -222,8 +225,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           //     myRestFav.add(restModel);
           //   }
           // }
-          var restModel = RestaurantModel.fromJson(jsonRest[0]);
-          myRestCat.add(restModel);
+          // ff(jsonRest.lenght > 0) {
+
+          // }
+          // var restModel = RestaurantModel.fromJson(jsonRest[0]);
+          // myRestCat.add(restModel);
         }
         yield HomeLoadRest(rest: myRestCat);
       }
@@ -269,8 +275,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else if (responsResv['code'] == 200) {
         // load restaurants
         // TODO: cargar restaurantes "ahora"
-        var responseRest =
-            await getService('/restaurant', event.user.auth_key!);
+        var responseRest = await getService(
+            '/restaurant?filter[status]=1', event.user.auth_key!);
         if (responseRest['code'] == 401) {
           yield HomeFail(message: responseRest['message']);
         } else if (responseRest['code'] == 200) {
@@ -331,8 +337,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
 
       String url = event.nowActive
-          ? '/restaurant'
-          : '/restaurant?filter[time]=$timenow&filter[date]=$datenow';
+          ? '/restaurant?filter[status]=1'
+          : '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1';
 
       var response = await getService(url, event.user.auth_key!);
       if (response['code'] == 401) {
@@ -349,7 +355,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield HomeCategoryLoading();
       List<OfferModel> myOffers = [];
 
-      var response = await getService('/ad', event.user.auth_key!);
+      var response =
+          await getService('/ad?filter[status]=1', event.user.auth_key!);
       if (response['code'] == 401) {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
