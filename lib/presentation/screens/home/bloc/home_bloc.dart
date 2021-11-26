@@ -256,7 +256,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         "quantity": event.reservationModel.quantity,
         "time": event.reservationModel.time,
         "date": event.reservationModel.date.toString(),
-        "rated": event.reservationModel.rated
+        "rated": event.reservationModel.rated,
+        "status": event.reservationModel.status,
       };
       var responsResv = await postService(
           data,

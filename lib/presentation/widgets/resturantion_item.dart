@@ -41,12 +41,15 @@ Widget resturantionItem(context, reservation, history) {
 
   Function() functionStatus = () {};
 
-  reservation.status = 2;
-
   switch (reservation.status) {
     case 1:
-      colorStatus = Colors.yellow[700];
-      textStatus = 'Espera de confirmación';
+      if (history) {
+        colorStatus = Colors.grey;
+        textStatus = 'No confirmado';
+      } else {
+        colorStatus = Colors.grey;
+        textStatus = 'Espera de confirmación';
+      }
       break;
     case 2:
       if (history) {
@@ -76,7 +79,7 @@ Widget resturantionItem(context, reservation, history) {
       }
       break;
     case 3:
-      colorStatus = Colors.red;
+      colorStatus = Colors.red[700];
       textStatus = 'Cancelada';
       break;
     case 4:
@@ -97,21 +100,20 @@ Widget resturantionItem(context, reservation, history) {
     children: [
       Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 5,
-              offset: Offset(3, 3), // Shadow position
-            ),
-          ],
-        ),
+        decoration: const BoxDecoration(),
         child: Column(
           children: [
             Container(
               width: widhth,
               height: reservation.rated == '0.00' ? 130 : 150,
               decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 5,
+                      offset: Offset(3, 3), // Shadow position
+                    ),
+                  ],
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(15),
@@ -250,32 +252,121 @@ Widget resturantionItem(context, reservation, history) {
             ),
             reservation.rated != '0.00' && history
                 ? Container()
-                : Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: colorStatus,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: const Radius.circular(15),
-                          bottomRight: Radius.circular(
-                              reservation.status == 1 ? 15 : 15),
-                        )),
-                    child: InkWell(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                      onTap: functionStatus,
-                      child: Center(
-                        child: Text(
-                          textStatus,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
+                : history || reservation.status == 3
+                    ? Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: colorStatus,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: const Radius.circular(15),
+                              bottomRight: Radius.circular(
+                                  reservation.status == 1 ? 15 : 15),
+                            )),
+                        child: InkWell(
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
+                          ),
+                          onTap: functionStatus,
+                          child: Center(
+                            child: Text(
+                              textStatus,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
+                      )
+                    : Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: Colors.red[700],
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(15),
+                                    // bottomRight: Radius.circular(
+                                    //     reservation.status == 1 ? 15 : 15),
+                                  )),
+                              child: InkWell(
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  bottomRight: Radius.circular(15),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => BlocProvider.value(
+                                          value: BlocProvider.of<HomeBloc>(
+                                              context),
+                                          child: Dialog(
+                                              insetPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: isTab()
+                                                          ? MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              4
+                                                          : 30),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              elevation: 0,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              child: deleteBox(
+                                                  context,
+                                                  reservation.restaurantData,
+                                                  user,
+                                                  reservation))));
+                                },
+                                child: const Center(
+                                  child: Text(
+                                    'Cancelar',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: colorStatus,
+                                  borderRadius: BorderRadius.only(
+                                    // bottomLeft: const Radius.circular(15),
+                                    bottomRight: Radius.circular(
+                                        reservation.status == 1 ? 15 : 15),
+                                  )),
+                              child: InkWell(
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  bottomRight: Radius.circular(15),
+                                ),
+                                onTap: functionStatus,
+                                child: Center(
+                                  child: Text(
+                                    textStatus,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
           ],
         ),
       ),
@@ -283,8 +374,77 @@ Widget resturantionItem(context, reservation, history) {
   );
 }
 
+deleteBox(context, restaurant, user, reservation) {
+  // bool load = false;
+  // String rated = reservation.rated;
+  // String rated = "0.00";
+  return Stack(
+    children: <Widget>[
+      Container(
+        padding:
+            const EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 20),
+        margin: const EdgeInsets.only(top: 50),
+        decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+            ]),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Text(
+              '¿Desea cancelar su reservación?',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 22,
+            ),
+            Align(
+                alignment: Alignment.bottomRight,
+                // ignore: deprecated_member_use
+                child: InkWell(
+                    onTap: () async {
+                      reservation.status = 3;
+                      BlocProvider.of<HomeBloc>(context).add(EditReservation(
+                          user: user, reservationModel: reservation));
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Confirmar',
+                      style: TextStyle(fontSize: 15),
+                    ))),
+          ],
+        ),
+      ),
+      Positioned(
+        left: 20,
+        right: 20,
+        child: restaurant['logo'] == null
+            ? CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.white,
+                // backgroundImage: AssetImage(
+                //   "assets/images/resutrant_logo1.png",
+                // ),
+                child: logo(250),
+              )
+            : CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.white,
+                backgroundImage: NetworkImage(
+                  restaurant['logo'],
+                ),
+              ),
+      ),
+    ],
+  );
+}
+
 contentBox(context, restaurant, user, reservation) {
-  bool load = false;
   String rated = reservation.rated;
   // String rated = "0.00";
   return Stack(
@@ -372,7 +532,7 @@ contentBox(context, restaurant, user, reservation) {
       Positioned(
         left: 20,
         right: 20,
-        child: restaurant['cover'] == null
+        child: restaurant['logo'] == null
             ? CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.white,
@@ -381,12 +541,10 @@ contentBox(context, restaurant, user, reservation) {
                 // ),
                 child: logo(250),
               )
-            : const CircleAvatar(
+            : CircleAvatar(
                 radius: 50,
-                backgroundColor: Colors.white,
-                backgroundImage: AssetImage(
-                  "assets/images/resutrant_logo1.png",
-                ),
+                backgroundColor: Colors.grey,
+                backgroundImage: NetworkImage(restaurant['logo']),
               ),
       ),
     ],

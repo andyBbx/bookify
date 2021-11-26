@@ -145,9 +145,12 @@ class ConfirmandoScreen extends StatelessWidget {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MisReservasScreen(
-                                            reservations: [],
+                                      builder: (context) => BlocProvider(
+                                            create: (context) =>
+                                                HomeBloc(context),
+                                            child: const MisReservasScreen(
+                                              reservations: [],
+                                            ),
                                           )),
                                   ModalRoute.withName('/'));
                             }),
