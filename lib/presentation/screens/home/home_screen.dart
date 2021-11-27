@@ -17,7 +17,9 @@ import 'tabs/mis_reservas_screen.dart';
 import 'tabs/profile_tab.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, this.index = 0}) : super(key: key);
+
+  final int? index;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -26,7 +28,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   User user = User();
   late TabController _tabController;
-  int seletcedTab = 0;
 
   dynamic rest;
 
@@ -41,9 +42,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   dynamic offers;
 
   bool loadScreen = false;
-
+  int seletcedTab = 0;
   @override
   void initState() {
+    seletcedTab = widget.index!;
     Utils().startSharedPreferences().then((prefs) {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {

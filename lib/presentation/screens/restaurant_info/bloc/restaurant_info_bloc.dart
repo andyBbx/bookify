@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:bookify/constants/utils.dart';
@@ -11,7 +9,6 @@ import 'package:bookify/data/service/service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:meta/meta.dart';
 
 part 'restaurant_info_event.dart';
 part 'restaurant_info_state.dart';

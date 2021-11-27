@@ -329,6 +329,40 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } catch (e) {
         yield EditUserFail(message: e.toString());
       }
+    } else if (event is EditPasswordInit) {
+      yield EditPasswordInitState();
+    } else if (event is EditPassword) {
+      yield EditPasswordLoading();
+
+      try {
+        var dataLogin = {
+          "email": event.user.email,
+          "password": event.user.password
+        };
+        var responseLogin = await postService(dataLogin, '/user/login', "");
+        if (responseLogin['code'] != 200) {
+          var error = jsonDecode(responseLogin['message']);
+          yield EditPasswordFail(message: error['message']);
+        } else {
+          var data = {
+            "password": event.newPassword,
+          };
+
+          var response = await postService(
+              data, '/user/profile-edit', event.user.auth_key!);
+          if (response['code'] != 200) {
+            var error = jsonDecode(responseLogin['message']);
+            yield EditPasswordFail(message: error['message']);
+          } else if (response['code'] == 200) {
+            var jsonRest = jsonDecode(response['model']);
+            jsonRest['auth_key'] = event.user.auth_key;
+            saveUserModel(jsonEncode(jsonRest));
+            yield EditPasswordLoad();
+          }
+        }
+      } catch (e) {
+        yield EditUserFail(message: e.toString());
+      }
     } else if (event is LoadEstadoRest) {
       yield EstadoRestLoading();
       List<RestaurantModel> myRestCat = [];

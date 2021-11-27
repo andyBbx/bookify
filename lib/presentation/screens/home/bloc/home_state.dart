@@ -130,6 +130,30 @@ class EditUserLoad extends HomeState {
   List<Object> get props => [];
 }
 
+class EditPasswordLoading extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class EditPasswordInitState extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class EditPasswordFail extends HomeState {
+  const EditPasswordFail({required this.message});
+
+  final dynamic message;
+
+  @override
+  List<Object> get props => [message];
+}
+
+class EditPasswordLoad extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
 class EditUserFail extends HomeState {
   const EditUserFail({required this.message});
 

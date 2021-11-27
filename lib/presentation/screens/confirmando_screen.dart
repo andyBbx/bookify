@@ -4,6 +4,7 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/home/home_screen.dart';
 import 'package:bookify/presentation/screens/home/tabs/mis_reservas_screen.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -148,8 +149,8 @@ class ConfirmandoScreen extends StatelessWidget {
                                       builder: (context) => BlocProvider(
                                             create: (context) =>
                                                 HomeBloc(context),
-                                            child: const MisReservasScreen(
-                                              reservations: [],
+                                            child: const HomeScreen(
+                                              index: 1,
                                             ),
                                           )),
                                   ModalRoute.withName('/'));

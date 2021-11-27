@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
@@ -239,7 +240,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             width: radius * 2,
                             height: radius * 2,
                             decoration: BoxDecoration(
-                              image: onError
+                              image: widget.restaurante.logo == null
                                   ? null
                                   : DecorationImage(
                                       onError: (value, v) {

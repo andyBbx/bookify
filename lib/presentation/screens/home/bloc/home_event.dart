@@ -67,6 +67,17 @@ class EditCuenta extends HomeEvent {
   List<Object> get props => [user];
 }
 
+class EditPasswordInit extends HomeEvent {}
+
+class EditPassword extends HomeEvent {
+  const EditPassword({required this.user, required this.newPassword});
+  final User user;
+  final String newPassword;
+
+  @override
+  List<Object> get props => [user, newPassword];
+}
+
 class LoadEstadoRest extends HomeEvent {
   const LoadEstadoRest({required this.user, required this.nowActive});
   final User user;
