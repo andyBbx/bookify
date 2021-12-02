@@ -13,7 +13,7 @@ class RestaurantesWidget extends StatelessWidget {
     return restaurantes.length == 0
         ? ErrorBlocWidget(errorText: 'No se encontraron restaurantes')
         : GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -10,6 +10,8 @@ import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/offers.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
+import 'package:bookify/presentation/screens/search/bloc/search_bloc.dart';
+import 'package:bookify/presentation/screens/search/view/search_page.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/reservar.dart';
@@ -208,8 +210,21 @@ class _HomeTabState extends State<HomeTab> {
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10)),
                                 ),
-                                child: const TextField(
-                                  decoration: InputDecoration(
+                                child: TextField(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => BlocProvider(
+                                                  create: (context) =>
+                                                      SearchBloc(context),
+                                                  child: SearchPage(
+                                                    user: user,
+                                                  ),
+                                                )));
+                                  },
+                                  readOnly: true,
+                                  decoration: const InputDecoration(
                                     hintText: "Buscar restaurante",
                                     hintStyle: TextStyle(
                                       fontSize: 19,
