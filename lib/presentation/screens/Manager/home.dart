@@ -1,11 +1,14 @@
 import 'dart:convert';
-
 import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/owned_restaurant.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/booking_requests/booking_requests_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/bookings_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/CurrentRestaurant/bloc/current_restaurant_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/Tables/bloc/tables_bloc.dart';
-import 'package:bookify/presentation/screens/Manager/booking_items.dart';
-import 'package:bookify/presentation/screens/Manager/booking_requests.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/views/booking_items.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/views/booking_requests.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/view/owned_restaurants.dart';
 import 'package:bookify/presentation/screens/Manager/Tables/views/restaurant_tables.dart';
 import 'package:bookify/presentation/screens/home/tabs/profile_tab.dart';
@@ -24,6 +27,19 @@ class _ManagerViewState extends State<ManagerView> {
   User user = User();
   int _currentIndex = 0;
   List _children = [];
+  OwnedRestaurantModel currentRestaurant = OwnedRestaurantModel(
+      id: "",
+      logo: "",
+      name: "",
+      description: "",
+      phone: "",
+      address: "",
+      postalCode: "",
+      municipality: "",
+      province: "",
+      country: "",
+      web: "",
+      rating: "");
 
   @override
   void initState() {
@@ -31,8 +47,29 @@ class _ManagerViewState extends State<ManagerView> {
     Utils().startSharedPreferences().then((prefs) {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {
+        BlocProvider.of<OwnedRestaurantsBloc>(context)
+            .add(LoadOwnedRestaurants());
         setState(() {
           user = user.fromJson(jsonDecode(userModelString!));
+          try {
+            currentRestaurant = OwnedRestaurantModel.fromJson(
+                jsonDecode(prefs.getString("current_restaurant")!));
+
+            print("Current: " + currentRestaurant.id);
+            if (currentRestaurant.id.isNotEmpty) {
+              BlocProvider.of<CurrentRestaurantBloc>(context)
+                  .add(SetCurrentRestaurant(restaurant: currentRestaurant));
+              BlocProvider.of<BookingRequestsBloc>(context).add(
+                  LoadUnconfirmedBookings(restaurantId: currentRestaurant.id));
+              BlocProvider.of<BookingsBloc>(context).add(
+                  LoadConfirmedBookings(restaurantId: currentRestaurant.id));
+
+              BlocProvider.of<TablesBloc>(context).add(
+                  LoadRestaurantTables(restaurantId: currentRestaurant.id));
+            }
+          } catch (e) {
+            print("Couldn't get the restaurant");
+          }
         });
         if ((user.id)!.isEmpty) {
           //logout;
@@ -44,15 +81,10 @@ class _ManagerViewState extends State<ManagerView> {
           BookingRequests(),
           BookingItems(),
           RestaurantTables(user: user),
-          MyOwnedRestaurants(user: user),
+          MyOwnedRestaurants(),
           MiCuenta1Screen()
         ];
       });
-
-      BlocProvider.of<OwnedRestaurantsBloc>(context)
-          .add(LoadOwnedRestaurants());
-      BlocProvider.of<TablesBloc>(context)
-          .add(LoadRestaurantTables(user: user, restaurantId: ""));
     });
   }
 

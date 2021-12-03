@@ -498,7 +498,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                               child: LoadWidget(),
                             );
                           } else if ((state is ReadyUpdatingOwnedRestaurant) ||
-                              (state is ReadyCreatingRestaurant)) {
+                              (state is DoneCreatingRestaurant)) {
                             BlocProvider.of<OwnedRestaurantsBloc>(context)
                                 .add(LoadOwnedRestaurants());
 

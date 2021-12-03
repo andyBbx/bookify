@@ -7,8 +7,9 @@ abstract class CurrentRestaurantEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadCurrentRestaurantData extends CurrentRestaurantEvent {
-  const LoadCurrentRestaurantData();
+class SetCurrentRestaurant extends CurrentRestaurantEvent {
+  final OwnedRestaurantModel restaurant;
+  const SetCurrentRestaurant({required this.restaurant});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [restaurant];
 }

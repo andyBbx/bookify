@@ -50,4 +50,4 @@ class FailedCreatingOwnedRestaurant extends OwnedRestaurantsState {
   @override
   List<Object> get props => [message];
 }
-class ReadyCreatingRestaurant extends OwnedRestaurantsState {}
+class DoneCreatingRestaurant extends OwnedRestaurantsState {}

@@ -9,29 +9,26 @@ class TableModel {
   String id;
   String restaurant_id;
   String name;
-  int quantity;
-  String status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String quantity;
+  int available;
+  int status;
 
   TableModel({
     required this.id,
     required this.restaurant_id,
     required this.name,
     required this.quantity,
+    required this.available,
     required this.status,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory TableModel.fromJson(Map<String, dynamic> json) => TableModel(
         id: json["id"],
         restaurant_id: json["restaurant_id"],
         name: json["name"],
-        quantity: int.parse(json["quantity"]),
-        status: json["status"].toString(),
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        quantity: json["quantity"],
+        available: json["available"] ?? 0,
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,8 +36,7 @@ class TableModel {
         "restaurant_id": restaurant_id,
         "name": name,
         "quantity": quantity,
+        "available": available,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String()
       };
 }

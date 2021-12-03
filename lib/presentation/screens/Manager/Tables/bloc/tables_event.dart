@@ -9,10 +9,10 @@ abstract class TablesEvent extends Equatable {
 
 class LoadRestaurantTables extends TablesEvent {
   final String restaurantId;
-  final User user;
 
-  const LoadRestaurantTables({required this.user, required this.restaurantId});
+  const LoadRestaurantTables({required this.restaurantId});
 
   @override
-  List<Object> get props => [user, restaurantId];
+  List<Object> get props => [restaurantId];
 }
+

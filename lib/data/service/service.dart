@@ -83,7 +83,7 @@ Future<Map<String, dynamic>> getService(String url, String token) async {
           //logout;
         } else {
           authToken = user.auth_key!;
-          //print(authToken);
+          print(authToken);
         }
       }
     });

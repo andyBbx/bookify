@@ -1,4 +1,9 @@
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/booking_requests/booking_requests_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/bookings_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/CurrentRestaurant/bloc/current_restaurant_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Table/bloc/table_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/TableBookings/bloc/table_bookings_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/Tables/bloc/tables_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/home.dart';
 import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
@@ -41,6 +46,21 @@ Route? appRouteGaneragte(RouteSettings _routeSettings) {
                 ),
                 BlocProvider(
                   create: (context) => TablesBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => TableBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => BookingsBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => BookingRequestsBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => TableBookingsBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => CurrentRestaurantBloc(),
                 ),
               ], child: ManagerView()));
     default:

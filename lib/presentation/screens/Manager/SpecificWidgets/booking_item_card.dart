@@ -1,14 +1,21 @@
+import 'dart:convert';
+
+import 'package:bookify/data/models/reservation.dart';
+import 'package:bookify/data/models/table.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BookingItemCard extends StatefulWidget {
-  final String id;
+  final ReservationModel booking;
   Function onTableChangeButton;
   Function onCancelButton;
+  Function assignedTables;
   BookingItemCard(
       {Key? key,
-      required this.id,
+      required this.booking,
       required this.onCancelButton,
-      required this.onTableChangeButton})
+      required this.onTableChangeButton,
+      required this.assignedTables})
       : super(key: key);
 
   @override
@@ -16,6 +23,18 @@ class BookingItemCard extends StatefulWidget {
 }
 
 class _BookingItemCardState extends State<BookingItemCard> {
+  DateFormat dateFormat = DateFormat('EEEE, d MMM, yyyy', 'es_ES');
+  String tableNames = "";
+
+  @override
+  void initState() {
+    super.initState();
+    widget.booking.tables.forEach((tableItem) {
+      TableModel table = TableModel.fromJson(tableItem);
+      tableNames += "${table.name}, ";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +47,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -49,7 +68,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "2",
+                            widget.booking.quantity.toString(),
                             style: TextStyle(color: Colors.black, fontSize: 30),
                           ),
                           Icon(Icons.person)
@@ -72,7 +91,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("2 Personas")
+                          Text(widget.booking.quantity.toString() + " Personas")
                         ],
                       ),
                       Row(
@@ -84,7 +103,9 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           SizedBox(
                             width: 10,
                           ),
-                          Flexible(child: Text("7 de Noviembre de 2021"))
+                          Flexible(
+                              child:
+                                  Text(dateFormat.format(widget.booking.date)))
                         ],
                       ),
                       Row(
@@ -96,10 +117,12 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("A las 10:30 hrs")
+                          Text("A las " +
+                              DateFormat.jm().format(DateFormat("hh:mm:ss")
+                                  .parse(widget.booking.time)))
                         ],
                       ),
-                      Row(
+                      /* Row(
                         children: [
                           Icon(
                             Icons.table_chart,
@@ -108,12 +131,79 @@ class _BookingItemCardState extends State<BookingItemCard> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("Mesa sin asignar")
+                          Flexible(
+                            child: InkWell(
+                              onTap: () => widget.assignedTables(),
+                              child: Text(
+                                "Mesas: " +
+                                    ((widget.booking.tables.isNotEmpty)
+                                        ? tableNames /* widget.booking.tables.join(', ') */
+                                        : "Sin asignar"),
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
                         ],
-                      ),
+                      ), */
                     ],
                   ),
                 )
+              ],
+            ),
+          ),
+          Container(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.table_chart,
+                        color: Colors.orange,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: InkWell(
+                          onTap: () => widget.assignedTables(),
+                          child: Text(
+                            "Mesas: " +
+                                ((widget.booking.tables.isNotEmpty)
+                                    ? tableNames /* widget.booking.tables.join(', ') */
+                                    : "Sin asignar"),
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                    flex: 2,
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextButton(
+                          onPressed: () => widget.assignedTables(),
+                          child: Text(
+                            "Eliminar mesa(s)",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          )),
+                    ))
               ],
             ),
           ),
@@ -127,7 +217,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
                       padding: const EdgeInsets.all(10),
                       color: Colors.red,
                       child: const Text(
-                        "Eliminar",
+                        "Cancelar reserva",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       )),
@@ -147,7 +237,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
