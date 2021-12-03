@@ -131,36 +131,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: backgroundColor,
-            bottomNavigationBar: TabBar(
-              controller: _tabController,
-              indicatorColor: Colors.transparent,
-              labelColor: Colors.black,
-              labelStyle: const TextStyle(fontSize: 13, fontFamily: 'poppins'),
-              labelPadding: EdgeInsets.zero,
-              unselectedLabelColor: Colors.grey,
-              indicatorSize: TabBarIndicatorSize.label,
-              tabs: [
-                Tab(
-                  text: "Inicio",
-                  icon: SvgPicture.asset("assets/images/icons/home.svg",
-                      color: seletcedTab == 0 ? textBold : tabunsellected),
-                ),
-                Tab(
-                  text: "Reservas",
-                  icon: SvgPicture.asset("assets/images/icons/calender.svg",
-                      color: seletcedTab == 1 ? textBold : tabunsellected),
-                ),
-                Tab(
-                  text: "Favoritos",
-                  icon: SvgPicture.asset("assets/images/icons/heart.svg",
-                      color: seletcedTab == 2 ? textBold : tabunsellected),
-                ),
-                Tab(
-                  text: "Mi cuenta",
-                  icon: SvgPicture.asset("assets/images/icons/profile.svg",
-                      color: seletcedTab == 3 ? textBold : tabunsellected),
-                ),
-              ],
+            bottomNavigationBar: SafeArea(
+              child: TabBar(
+                controller: _tabController,
+                indicatorColor: Colors.transparent,
+                labelColor: Colors.black,
+                labelStyle:
+                    const TextStyle(fontSize: 13, fontFamily: 'poppins'),
+                labelPadding: EdgeInsets.zero,
+                unselectedLabelColor: Colors.grey,
+                indicatorSize: TabBarIndicatorSize.label,
+                tabs: [
+                  Tab(
+                    text: "Inicio",
+                    icon: SvgPicture.asset("assets/images/icons/home.svg",
+                        color: seletcedTab == 0 ? textBold : tabunsellected),
+                  ),
+                  Tab(
+                    text: "Reservas",
+                    icon: SvgPicture.asset("assets/images/icons/calender.svg",
+                        color: seletcedTab == 1 ? textBold : tabunsellected),
+                  ),
+                  Tab(
+                    text: "Favoritos",
+                    icon: SvgPicture.asset("assets/images/icons/heart.svg",
+                        color: seletcedTab == 2 ? textBold : tabunsellected),
+                  ),
+                  Tab(
+                    text: "Mi cuenta",
+                    icon: SvgPicture.asset("assets/images/icons/profile.svg",
+                        color: seletcedTab == 3 ? textBold : tabunsellected),
+                  ),
+                ],
+              ),
             ),
             body: user.auth_key!.isEmpty
                 ? const LoadWidget()

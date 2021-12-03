@@ -6,6 +6,7 @@ import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
+import 'package:bookify/presentation/screens/pre_login_screen.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -191,7 +192,7 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                         iconTheme: IconThemeData(
                           color: splash_background,
                         ),
-                        collapsedHeight: isTab() ? height / 4 : height / 3,
+                        collapsedHeight: 220,
                         backgroundColor: Colors.white,
                         pinned: true,
                         title: Text(
@@ -428,7 +429,7 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                               ),
                               BotonGuardar,
                               const SizedBox(
-                                height: 30,
+                                height: 15,
                               ),
                               SizedBox(
                                   child: LargeButton(
@@ -464,6 +465,27 @@ class _MiCuenta1ScreenState extends State<MiCuenta1Screen> {
                                                         Colors.transparent,
                                                     child: passwordBox(user))));
                                       })),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Utils()
+                                      .startSharedPreferences()
+                                      .then((prefs) {
+                                    prefs.clear();
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PreLoginScreen()));
+                                  });
+                                },
+                                child: Text("Cerrar sesión",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Colors.black87)),
+                              ),
                             ],
                           ),
                         ),

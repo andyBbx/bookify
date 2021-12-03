@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/data/models/table.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/booking_requests/booking_requests_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/Bookings/bloc/bookings_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/Bookings/views/booking_items.dart';
 import 'package:bookify/presentation/screens/Manager/Bookings/views/booking_items_for_tables.dart';
@@ -413,6 +414,10 @@ class _RestaurantTablesState extends State<RestaurantTables> {
                                               BlocProvider.value(
                                                   value: BlocProvider.of<
                                                           BookingsBloc>(
+                                                      baseContext)),
+                                              BlocProvider.value(
+                                                  value: BlocProvider.of<
+                                                          BookingRequestsBloc>(
                                                       baseContext)),
                                               BlocProvider.value(
                                                   value: BlocProvider.of<

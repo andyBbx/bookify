@@ -56,6 +56,7 @@ class User {
         password: parsedJson["password"].toString(),
         phone: parsedJson["phone"] ?? "",
         favorite_restaurants: parsedJson["favorite_restaurants"],
+        isManager: parsedJson["is_manager"] ?? false,
         status: parsedJson["status"] ?? 0);
   }
 }
