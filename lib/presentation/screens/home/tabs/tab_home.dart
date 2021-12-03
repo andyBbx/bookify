@@ -4,8 +4,10 @@ import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/chip_item.dart';
+import 'package:bookify/data/models/location.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/data/service/place_service.dart';
 import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/offers.dart';
@@ -42,6 +44,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   int currentFiler = 0;
   User user = User();
+  Location location = Location();
 
   List<CheapItem> cheapitems = [
     CheapItem(
@@ -87,6 +90,10 @@ class _HomeTabState extends State<HomeTab> {
         setState(() {
           user = user.fromJson(jsonDecode(userModelString!));
         });
+        String? locationModel = prefs.getString("location");
+        if (Utils().checkJsonArray(locationModel)) {
+          location = location.fromJson(jsonDecode(locationModel!));
+        }
         if ((user.id)!.isEmpty) {
           //logout;
         }
@@ -96,6 +103,28 @@ class _HomeTabState extends State<HomeTab> {
     super.initState();
     // populateDat();
   }
+
+//   searchLoc() async {
+//     // generate a new token here
+//     // final sessionToken = Uuid().v4();
+//     final Suggestion? result = await showSearch(
+//       context: context,
+//       delegate: AddressSearch(),
+//     );
+//     // This will change the text displayed in the TextField
+//     if (result != null) {
+//       setState(() {
+//         String miDir = result.description;
+//         // _controller.text = result.description;
+//       });
+
+//       final query = result.description;
+//       var addresses = await Geolocation.local.findAddressesFromQuery(query);
+//       var first = addresses.first;
+//       print("${first.featureName} : ${first.coordinates.latitude}");
+// // TODO: guardad lg y lat
+//     }
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -168,37 +197,83 @@ class _HomeTabState extends State<HomeTab> {
                                       );
                                     },
                                   ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/images/icons/location.svg",
-                                        fit: BoxFit.scaleDown,
+                                  GestureDetector(
+                                    onTap: () async {
+                                      // generate a new token here
+                                      // final sessionToken = Uuid().v4();
+                                      final Suggestion? result =
+                                          await showSearch(
+                                        context: context,
+                                        delegate: AddressSearch(),
+                                      );
+                                      // This will change the text displayed in the TextField
+                                      if (result != null) {
+                                        final placeDetails =
+                                            await PlaceApiProvider('12345')
+                                                .getPlaceDetailFromId(
+                                                    result.placeId);
+                                        setState(() {
+                                          location = Location(
+                                              adresss: placeDetails.city != null
+                                                  ? "${placeDetails.street}, ${placeDetails.city}"
+                                                  : placeDetails.street != null
+                                                      ? "${placeDetails.street}"
+                                                      : null,
+                                              lat: placeDetails.long != null &&
+                                                      placeDetails.lat != null
+                                                  ? "${placeDetails.lat}"
+                                                  : "",
+                                              long: placeDetails.long != null &&
+                                                      placeDetails.lat != null
+                                                  ? "${placeDetails.long}"
+                                                  : "");
+
+                                          saveUserUbi(
+                                              '{"adresss": "${placeDetails.city != null ? "${placeDetails.street}, ${placeDetails.city}" : placeDetails.street != null ? "${placeDetails.street}" : null}", "long": "${placeDetails..long}", "lat": "${placeDetails.lat}"}');
+                                        });
+                                      }
+                                    },
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.3,
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/images/icons/location.svg",
+                                            fit: BoxFit.scaleDown,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                                location.adresss == null
+                                                    ? 'Escribe tu dirección'
+                                                    : location.adresss!,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: textDrkgray)),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          Icon(Icons.arrow_drop_down,
+                                              color: splash_background)
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("Av. de Barcelona 3",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: textDrkgray)),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      SvgPicture.asset(
-                                        "assets/arrow_down.svg",
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: 10,
-                                width: widhth / 3,
-                              ),
+                              // SizedBox(
+                              //   height: 10,
+                              //   width: widhth / 3,
+                              // ),
                               const SizedBox(
-                                height: 30,
+                                height: 15,
                               ),
                               Container(
                                 padding:
@@ -472,6 +547,74 @@ class _HomeTabState extends State<HomeTab> {
               )
             ]));
       },
+    );
+  }
+}
+
+class AddressSearch extends SearchDelegate<Suggestion> {
+  // final sessionToken;
+
+  // PlaceApiProvider apiClient;
+
+  // var sessionToken = '123456';
+  PlaceApiProvider apiClient = PlaceApiProvider('1234');
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        tooltip: 'Clear',
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      tooltip: 'Back',
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, Suggestion('', ''));
+      },
+    );
+  }
+
+  @override
+  String get searchFieldLabel => 'Escribe tu dirección...';
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return FutureBuilder(
+      future: query == ""
+          ? null
+          : apiClient.fetchSuggestions(
+              query, Localizations.localeOf(context).languageCode),
+      builder: (context, AsyncSnapshot snapshot) => query == ''
+          ? Container(
+              // padding: EdgeInsets.all(16.0),
+              // child: Text('Enter your address'),
+              )
+          : snapshot.hasData
+              ? ListView.builder(
+                  itemBuilder: (context, index) => ListTile(
+                    title:
+                        Text((snapshot.data![index] as Suggestion).description),
+                    onTap: () {
+                      close(context, snapshot.data[index] as Suggestion);
+                    },
+                  ),
+                  itemCount: snapshot.data!.length,
+                )
+              : Container(),
     );
   }
 }

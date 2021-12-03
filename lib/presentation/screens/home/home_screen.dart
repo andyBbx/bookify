@@ -12,7 +12,6 @@ import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'tabs/mis_reservas_screen.dart';
 import 'tabs/profile_tab.dart';
 

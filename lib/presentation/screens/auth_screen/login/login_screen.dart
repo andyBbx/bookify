@@ -9,6 +9,7 @@ import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'auth_repository.dart';
 import 'repo/form_submission_status.dart';
@@ -155,7 +156,9 @@ class FormLogin extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -166,8 +169,8 @@ class FormLogin extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => ManagerView()));
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => ManagerView()));
                   },
                   child: Text(" Dirígete aquí.",
                       style: TextStyle(
