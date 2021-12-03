@@ -39,36 +39,40 @@ class _TableItemState extends State<TableItem> {
           SizedBox(
             height: 5,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(widget.tableModel.name),
-              SizedBox(
-                width: 10,
-              ),
-              Icon(
-                Icons.person,
-                color: Colors.orange,
-              ),
-              Text("x"+widget.tableModel.quantity.toString())
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                    child: Text(
+                  widget.tableModel.name,
+                  textAlign: TextAlign.right,
+                )),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.person,
+                  color: Colors.orange,
+                ),
+                Text("x" + widget.tableModel.quantity.toString())
+              ],
+            ),
           ),
-          int.parse(widget.tableModel.status) == 0
+          (widget.tableModel.available) != 2
               ? Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                   child: InkWell(
-                    onTap: () => widget.onAvailableTap(),
+                    //onTap: () => widget.onAvailableTap(),
                     child: Container(
                       width: double.infinity,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 9),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(width: 2, color: Colors.orange)),
-                      child: Text(
-                        "Libre",
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                      child: const Text(
+                        "Mesa sin asignar",
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.orange),
+                        style: TextStyle(color: Colors.grey),
                       ),
                     ),
                   ),
@@ -76,28 +80,28 @@ class _TableItemState extends State<TableItem> {
               : Column(
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       child: InkWell(
                         onTap: () => widget.onBusyTap(),
                         child: Container(
                           width: double.infinity,
                           padding:
-                              EdgeInsets.symmetric(horizontal: 30, vertical: 9),
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                           decoration: BoxDecoration(
                               color: Colors.orange,
-                              borderRadius: BorderRadius.circular(100),
+                              borderRadius: BorderRadius.circular(50),
                               border:
                                   Border.all(width: 2, color: Colors.orange)),
                           child: Text(
-                            "Ocupada",
+                            "Ver reservas",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
                     ),
-                    InkWell(
+                    /* InkWell(
                       onTap: () => widget.onExchangeTap(),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +113,7 @@ class _TableItemState extends State<TableItem> {
                           Text("Intercambiar"),
                         ],
                       ),
-                    )
+                    ) */
                   ],
                 )
         ],

@@ -1,16 +1,19 @@
 import 'dart:convert';
-
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/owned_restaurant.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/booking_requests/booking_requests_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/bookings_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/CommonWidgets/restaurant_header.dart';
+import 'package:bookify/presentation/screens/Manager/CurrentRestaurant/bloc/current_restaurant_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/SpecificWidgets/booking_item_card.dart';
 import 'package:bookify/presentation/screens/Manager/SpecificWidgets/booking_request_card.dart';
 import 'package:bookify/presentation/screens/Manager/SpecificWidgets/table_item_card.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/view/owned_restaurant_details.dart';
+import 'package:bookify/presentation/screens/Manager/Tables/bloc/tables_bloc.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/large_button.dart';
 import 'package:bookify/presentation/widgets/resturants_list.dart';
@@ -20,14 +23,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyOwnedRestaurants extends StatefulWidget {
-  final User user;
-  const MyOwnedRestaurants({Key? key, required this.user}) : super(key: key);
+  const MyOwnedRestaurants({Key? key}) : super(key: key);
 
   @override
   _MyOwnedRestaurantsState createState() => _MyOwnedRestaurantsState();
 }
 
 class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
+  String currentRestaurantId = "";
+  CurrentRestaurantBloc currentRestaurantBloc = CurrentRestaurantBloc();
+
   RestaurantModel rm = RestaurantModel(
       id: "id",
       logo: "",
@@ -158,7 +163,7 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
         ));
   }
 
-  _addNewTable() {
+  _addNewTable(context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -181,13 +186,14 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext myContext) {
+    currentRestaurantBloc = BlocProvider.of(myContext);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(myContext).push(MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-              value: BlocProvider.of<OwnedRestaurantsBloc>(context),
+              value: BlocProvider.of<OwnedRestaurantsBloc>(myContext),
               child: OwnedRestaurantDetails(
                 restaurante: OwnedRestaurantModel(
                     id: "",
@@ -219,10 +225,32 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
         color: Colors.grey[100],
         child: Column(
           children: [
-            RestaurantHeader(
-              title: "Mis Restaurantes",
-              subtitle: "",
-            ),
+            BlocBuilder<CurrentRestaurantBloc, CurrentRestaurantState>(
+                bloc: currentRestaurantBloc,
+                builder: (context, state) {
+                  if (state is SettingCurrentRestaurant) {
+                    return RestaurantHeader(
+                      title: "Mis Restaurantes",
+                      subtitle: "...",
+                    );
+                  } else if (state is DoneSettingCurrentRestaurant) {
+                    if (currentRestaurantId.isEmpty) {
+                      currentRestaurantId = state.restaurant.id;
+                    }
+
+                    return RestaurantHeader(
+                      title: "Mis Restaurantes",
+                      subtitle:
+                          "Restaurante seleccionado: ${state.restaurant.name}",
+                    );
+                  } else {
+                    return RestaurantHeader(
+                      title: "Mis Restaurantes",
+                      subtitle:
+                          "Selecciona un restaurante para poder gestionar sus reservas, solicitudes, etc.",
+                    );
+                  }
+                }),
             BlocBuilder<OwnedRestaurantsBloc, OwnedRestaurantsState>(
               builder: (context, state) {
                 if (state is FailedLoadingOwnedRestaurants) {
@@ -270,7 +298,7 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 15),
                       itemCount: state.restaurants.length,
-                      itemBuilder: (context, index) {
+                      itemBuilder: (listContext, index) {
                         OwnedRestaurantModel restaurant =
                             state.restaurants[index];
                         return Container(
@@ -294,122 +322,175 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                 ),
                               ));
                             },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            child: Stack(
                               children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Container(
-                                    width: 120,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                      image: DecorationImage(
-                                        image: (restaurant.logo).isNotEmpty
-                                            ? NetworkImage(restaurant.logo)
-                                            : const AssetImage(
-                                                    "assets/halfPattern.png")
-                                                as ImageProvider, // <-- BACKGROUND IMAGE
-                                        fit: BoxFit.cover,
-                                      ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        width: 120,
+                                        height: 120,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[300],
+                                          image: DecorationImage(
+                                            image: (restaurant.logo).isNotEmpty
+                                                ? NetworkImage(restaurant.logo)
+                                                : const AssetImage(
+                                                        "assets/halfPattern.png")
+                                                    as ImageProvider, // <-- BACKGROUND IMAGE
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ), /* state.restaurants[index].name.isNotEmpty
+                                            ? Image.network(
+                                                state.restaurants[index].logo)
+                                            : logo(250) */
                                     ),
-                                  ), /* state.restaurants[index].name.isNotEmpty
-                                        ? Image.network(
-                                            state.restaurants[index].logo)
-                                        : logo(250) */
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Column(
+                                    Expanded(
+                                      flex: 5,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          // mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                            Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
+                                              // mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                          state
+                                                              .restaurants[
+                                                                  index]
+                                                              .name,
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                            color: textDrkgray,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                                RatingBarIndicator(
+                                                  rating: double.parse(
+                                                      restaurant.rating
+                                                          .toString()),
+                                                  itemBuilder:
+                                                      (context, index) => Icon(
+                                                    Icons.star,
+                                                    color: textBold,
+                                                  ),
+                                                  itemCount: 5,
+                                                  itemSize: 20.0,
+                                                  direction: Axis.horizontal,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  "assets/images/icons/location.svg",
+                                                  fit: BoxFit.scaleDown,
+                                                  width: 12,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
                                                 Flexible(
                                                   child: Text(
-                                                      state.restaurants[index]
-                                                          .name,
-                                                      maxLines: 2,
+                                                      restaurant.address,
                                                       overflow:
                                                           TextOverflow.ellipsis,
+                                                      maxLines: 1,
                                                       style: TextStyle(
                                                         color: textDrkgray,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.w500,
+                                                            FontWeight.normal,
                                                       )),
                                                 ),
                                               ],
                                             ),
-                                            RatingBarIndicator(
-                                              rating: double.parse(
-                                                  restaurant.rating.toString()),
-                                              itemBuilder: (context, index) =>
-                                                  Icon(
-                                                Icons.star,
-                                                color: textBold,
-                                              ),
-                                              itemCount: 5,
-                                              itemSize: 20.0,
-                                              direction: Axis.horizontal,
-                                            ),
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
+                                            Text(restaurant.description,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                  color: textDrkgray
+                                                      .withOpacity(0.5),
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.normal,
+                                                ))
                                           ],
                                         ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset(
-                                              "assets/images/icons/location.svg",
-                                              fit: BoxFit.scaleDown,
-                                              width: 12,
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Flexible(
-                                              child: Text(restaurant.address,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                    color: textDrkgray,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  )),
-                                            ),
-                                          ],
-                                        ),
-                                        // const SizedBox(
-                                        //   height: 5,
-                                        // ),
-                                        Text(restaurant.description,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                              color:
-                                                  textDrkgray.withOpacity(0.5),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.normal,
-                                            ))
-                                      ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: InkWell(
+                                    onTap: () {
+                                      /* BlocProvider.of<BookingRequestsBloc>(
+                                              myContext)
+                                          .add(LoadUnconfirmedBookings(
+                                              restaurantId: restaurant.id)); */
+                                      BlocProvider.of<BookingRequestsBloc>(
+                                              myContext)
+                                          .add(LoadUnconfirmedBookings(
+                                              restaurantId:
+                                                  restaurant.id));
+                                      BlocProvider.of<BookingsBloc>(myContext)
+                                          .add(LoadConfirmedBookings(
+                                              restaurantId:
+                                                  restaurant.id));
+                                      BlocProvider.of<TablesBloc>(myContext)
+                                          .add(LoadRestaurantTables(
+                                              restaurantId:
+                                                  restaurant.id));
+                                      BlocProvider.of<BookingsBloc>(myContext)
+                                          .add(LoadConfirmedBookings(
+                                              restaurantId:
+                                                  restaurant.id));
+                                      BlocProvider.of<CurrentRestaurantBloc>(
+                                              myContext)
+                                          .add(SetCurrentRestaurant(
+                                              restaurant: restaurant));
+                                      setState(() {
+                                        currentRestaurantId = restaurant.id;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Icon(
+                                        Icons.star,
+                                        color:
+                                            currentRestaurantId == restaurant.id
+                                                ? Colors.orange
+                                                : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ),

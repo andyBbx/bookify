@@ -827,7 +827,8 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                                                                     DateTime
                                                                         .now(),
                                                                 quantity:
-                                                                    myQuantity),
+                                                                    myQuantity,
+                                                                tables: []),
                                                           ))));
                                         } else {
                                           ScaffoldMessenger.of(context)

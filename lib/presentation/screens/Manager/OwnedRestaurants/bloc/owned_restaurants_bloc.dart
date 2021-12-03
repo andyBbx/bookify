@@ -61,11 +61,8 @@ class OwnedRestaurantsBloc
       var data = model;
       var response = await postService(data, '/restaurant/create', "");
       if (response['code'] >= 200 && response['code'] < 300) {
-        print("Readyy: ");
-        print(response);
-        yield ReadyCreatingRestaurant();
+        yield DoneCreatingRestaurant();
       } else {
-        print("Hubo un error para crear el restaurante");
         var error = jsonDecode(response['message']);
         yield FailedUpdatingOwnedRestaurant(
             message: error['message'].toString());

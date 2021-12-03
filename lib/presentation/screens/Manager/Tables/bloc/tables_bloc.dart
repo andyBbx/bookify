@@ -17,7 +17,8 @@ class TablesBloc extends Bloc<TablesEvent, TablesState> {
     if (event is LoadRestaurantTables) {
       yield LoadingRestaurantTables();
 
-      var response = await getService('/table', '');
+      var response = await getService(
+          '/table?filter[restaurant_id]=' + event.restaurantId, '');
       if (response['code'] == 401) {
         yield FailedLoadingRestaurantTables(message: response['message']);
       } else if (response['code'] == 200) {
@@ -27,6 +28,7 @@ class TablesBloc extends Bloc<TablesEvent, TablesState> {
         for (var i = 0; i < jsonRest.length; i++) {
           myRest.add(TableModel.fromJson(jsonRest[i]));
         }
+        print(jsonEncode(myRest));
         yield ReadyRestaurantTables(tables: myRest);
       } else {
         yield FailedLoadingRestaurantTables(message: response.toString());

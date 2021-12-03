@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Utils {
   late SharedPreferences prefs;
 
-  Future startSharedPreferences() async {
+  Future<SharedPreferences> startSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
     return prefs;
   }
@@ -33,6 +33,10 @@ class Utils {
     //print('Decoding succeeded: $decodeSucceeded');
 
     return decodeSucceeded;
+  }
+
+  successfulHTTPCode(int httpCode) {
+    return (httpCode >= 200 && httpCode < 300);
   }
 }
 

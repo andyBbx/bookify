@@ -23,6 +23,7 @@ class ReservationModel {
     this.status,
     this.createdAt,
     this.updatedAt,
+    required this.tables,
     required this.quantity,
   });
 
@@ -37,6 +38,7 @@ class ReservationModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic quantity;
+  List tables;
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) =>
       ReservationModel(
@@ -51,6 +53,7 @@ class ReservationModel {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         quantity: json["quantity"],
+        tables: json["tables"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,6 +68,7 @@ class ReservationModel {
         "status": status,
         "created_at": createdAt!.toIso8601String(),
         "updated_at": updatedAt!.toIso8601String(),
-        "quantity": quantity
+        "quantity": quantity,
+        "tables": tables
       };
 }

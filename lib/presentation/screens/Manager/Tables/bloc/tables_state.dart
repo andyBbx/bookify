@@ -12,7 +12,7 @@ class TablesInitial extends TablesState {}
 class LoadingRestaurantTables extends TablesState {}
 
 class ReadyRestaurantTables extends TablesState {
-  final List tables;
+  final List<TableModel> tables;
 
   const ReadyRestaurantTables({required this.tables});
 

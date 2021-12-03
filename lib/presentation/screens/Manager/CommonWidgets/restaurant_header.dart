@@ -16,7 +16,6 @@ class _RestaurantHeaderState extends State<RestaurantHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -32,7 +31,7 @@ class _RestaurantHeaderState extends State<RestaurantHeader> {
         children: [
           SafeArea(
             child: Container(
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
