@@ -1,9 +1,17 @@
 import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/booking_requests/booking_requests_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Bookings/bloc/bookings_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/CurrentRestaurant/bloc/current_restaurant_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Table/bloc/table_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/TableBookings/bloc/table_bookings_bloc.dart';
+import 'package:bookify/presentation/screens/Manager/Tables/bloc/tables_bloc.dart';
 import 'package:bookify/presentation/screens/Manager/home.dart';
 import 'package:bookify/presentation/screens/auth_screen/signup/register_screen.dart';
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/home/home_screen.dart';
+import 'package:bookify/presentation/screens/miCuenta/bloc/micuenta_bloc.dart';
 import 'package:bookify/presentation/screens/restaurant/bloc/restaurant_bloc.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -78,18 +86,23 @@ class FormLogin extends StatelessWidget {
       listener: (cc, state1) {
         final statusform = state1.formStatus;
         if (statusform is SubmissionSuccess) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MultiBlocProvider(providers: [
-                        BlocProvider(
-                          create: (context) => RestaurantBloc(context),
-                        ),
-                        BlocProvider(
-                          create: (context) => HomeBloc(context),
-                        ),
-                      ], child: const HomeScreen())),
-              (route) => false);
+          if (statusform.isManager) {
+            Navigator.pushNamedAndRemoveUntil(
+                                context, "/managerView", (Route route) => false);
+          } else {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiBlocProvider(providers: [
+                          BlocProvider(
+                            create: (context) => RestaurantBloc(context),
+                          ),
+                          BlocProvider(
+                            create: (context) => HomeBloc(context),
+                          ),
+                        ], child: const HomeScreen())),
+                (route) => false);
+          }
         } else if (statusform is SubmissionFailed) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -156,7 +169,7 @@ class FormLogin extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            /* SizedBox(
               height: 10,
             ),
             Row(
@@ -177,7 +190,7 @@ class FormLogin extends StatelessWidget {
                           fontWeight: FontWeight.bold, color: textDrkgray)),
                 ),
               ],
-            ),
+            ), */
           ],
         ),
       ),

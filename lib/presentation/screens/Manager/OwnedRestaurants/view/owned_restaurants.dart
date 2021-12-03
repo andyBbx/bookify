@@ -285,8 +285,29 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                 text: "Registra tu restaurante",
                                 isWhite: false,
                                 onTap: () {
-                                  // if ()
-                                  // Navigator.of(context).pop();
+                                  Navigator.of(myContext)
+                                      .push(MaterialPageRoute(
+                                    builder: (_) => BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<OwnedRestaurantsBloc>(
+                                              myContext),
+                                      child: OwnedRestaurantDetails(
+                                        restaurante: OwnedRestaurantModel(
+                                            id: "",
+                                            logo: "",
+                                            name: "",
+                                            description: "",
+                                            phone: "",
+                                            address: "",
+                                            postalCode: "",
+                                            municipality: "",
+                                            province: "",
+                                            country: "",
+                                            web: "",
+                                            rating: ""),
+                                      ),
+                                    ),
+                                  ));
                                 })
                           ],
                         ),
@@ -460,20 +481,16 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                       BlocProvider.of<BookingRequestsBloc>(
                                               myContext)
                                           .add(LoadUnconfirmedBookings(
-                                              restaurantId:
-                                                  restaurant.id));
+                                              restaurantId: restaurant.id));
                                       BlocProvider.of<BookingsBloc>(myContext)
                                           .add(LoadConfirmedBookings(
-                                              restaurantId:
-                                                  restaurant.id));
+                                              restaurantId: restaurant.id));
                                       BlocProvider.of<TablesBloc>(myContext)
                                           .add(LoadRestaurantTables(
-                                              restaurantId:
-                                                  restaurant.id));
+                                              restaurantId: restaurant.id));
                                       BlocProvider.of<BookingsBloc>(myContext)
                                           .add(LoadConfirmedBookings(
-                                              restaurantId:
-                                                  restaurant.id));
+                                              restaurantId: restaurant.id));
                                       BlocProvider.of<CurrentRestaurantBloc>(
                                               myContext)
                                           .add(SetCurrentRestaurant(

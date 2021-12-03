@@ -236,7 +236,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             borderSide: BorderSide(color: splash_background),
                           ),
                           fillColor: Colors.red,
-                          label: const Text('"Correo"'),
+                          label: const Text('Correo'),
                           prefixIcon: SvgPicture.asset(
                             "assets/images/icons/mail.svg",
                             fit: BoxFit.scaleDown,
@@ -304,8 +304,13 @@ class _RegisterScreen extends State<RegisterScreen> {
                     BlocConsumer<SignupCubit, SignupState>(
                       listener: (context, state) {
                         if (state is SignupSuccess) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, "/home", (Route route) => false);
+                          if (user.isManager) {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/managerView", (Route route) => false);
+                          } else {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/home", (Route route) => false);
+                          }
                         }
                         if (state is SignupFailed) {
                           // Navigator.popAndPushNamed(context, "\home");

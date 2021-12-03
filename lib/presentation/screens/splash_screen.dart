@@ -48,8 +48,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(Duration(milliseconds: 2000), () {
       if ((user.id)!.isNotEmpty) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/home", (Route route) => false);
+        if (user.isManager) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/managerView", (Route route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/home", (Route route) => false);
+        }
       } else {
         Navigator.pushAndRemoveUntil(
             context,

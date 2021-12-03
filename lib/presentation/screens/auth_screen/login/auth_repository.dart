@@ -6,11 +6,11 @@ import 'package:bookify/data/service/service.dart';
 import 'package:geolocator/geolocator.dart';
 
 class AuthRepository {
-  Future<void> login(user, password) async {
+  Future<bool> login(user, password) async {
     var data = {"email": user, "password": password};
+    bool isManager = false;
     await postService(data, '/user/login', "").then((value) async {
       if (value['code'] != 200) {
-        print("Situation");
         var error = jsonDecode(value['message']);
         throw Exception(error['message']);
       } else {
@@ -19,7 +19,10 @@ class AuthRepository {
         await setLocation();
         saveUserModel(value['model']);
         // await setLocation();
+        var userData = jsonDecode(value['model']);
+        isManager = userData["is_manager"] ?? false;
       }
     });
+    return isManager;
   }
 }

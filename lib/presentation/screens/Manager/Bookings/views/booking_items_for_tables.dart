@@ -70,16 +70,14 @@ class BookingItemsForTables extends StatelessWidget {
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(10)),
                             padding: EdgeInsets.all(10),
-                            height: 300.0, // Change as per your requirement
-                            width: 300.0, // Change as per your requirement
+                            height: 300.0,
+                            width: 300.0,
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: restaurantBookingList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 swapTable(
                                     destinationBookingId, destinationTableId) {
-                                  /* print(destinationBookingId);
-                            print(destinationTableId); */
                                   BlocProvider.of<TableBloc>(baseContext).add(
                                       SwapTable(
                                           originBookingId: booking.id,
@@ -199,6 +197,17 @@ class BookingItemsForTables extends StatelessWidget {
     tablesBloc = BlocProvider.of(baseContext);
     tableBloc = BlocProvider.of(baseContext);
 
+    reloadLists() {
+      BlocProvider.of<TableBookingsBloc>(baseContext)
+          .add(LoadTableBookings(tableId: table.id));
+      BlocProvider.of<TablesBloc>(baseContext)
+          .add(LoadRestaurantTables(restaurantId: table.restaurant_id));
+      BlocProvider.of<BookingRequestsBloc>(baseContext)
+          .add(LoadUnconfirmedBookings(restaurantId: table.restaurant_id));
+      BlocProvider.of<BookingsBloc>(baseContext)
+          .add(LoadConfirmedBookings(restaurantId: table.restaurant_id));
+    }
+
     return BlocBuilder<TablesBloc, TablesState>(
         bloc: tablesBloc,
         builder: (context, state) {
@@ -302,32 +311,11 @@ class BookingItemsForTables extends StatelessWidget {
                                                   );
                                                 } else if (state
                                                     is DoneSwappingTable) {
+                                                  reloadLists();
                                                   WidgetsBinding.instance!
                                                       .addPostFrameCallback(
                                                           (_) {
                                                     Navigator.pop(context);
-                                                    BlocProvider.of<
-                                                                TableBookingsBloc>(
-                                                            baseContext)
-                                                        .add(LoadTableBookings(
-                                                            tableId: table.id));
-                                                    BlocProvider.of<TablesBloc>(
-                                                            baseContext)
-                                                        .add(LoadRestaurantTables(
-                                                            restaurantId: table
-                                                                .restaurant_id));
-                                                    BlocProvider.of<
-                                                                BookingRequestsBloc>(
-                                                            context)
-                                                        .add(LoadUnconfirmedBookings(
-                                                            restaurantId: table
-                                                                .restaurant_id));
-                                                    BlocProvider.of<
-                                                                BookingsBloc>(
-                                                            context)
-                                                        .add(LoadConfirmedBookings(
-                                                            restaurantId: table
-                                                                .restaurant_id));
                                                   });
                                                   return SizedBox();
                                                 } else {
@@ -459,28 +447,7 @@ class BookingItemsForTables extends StatelessWidget {
                                                       .addPostFrameCallback(
                                                           (_) {
                                                     Navigator.pop(context);
-                                                    BlocProvider.of<
-                                                                TableBookingsBloc>(
-                                                            baseContext)
-                                                        .add(LoadTableBookings(
-                                                            tableId: table.id));
-                                                    BlocProvider.of<TablesBloc>(
-                                                            baseContext)
-                                                        .add(LoadRestaurantTables(
-                                                            restaurantId: table
-                                                                .restaurant_id));
-                                                    BlocProvider.of<
-                                                                BookingRequestsBloc>(
-                                                            baseContext)
-                                                        .add(LoadUnconfirmedBookings(
-                                                            restaurantId: table
-                                                                .restaurant_id));
-                                                    BlocProvider.of<
-                                                                BookingsBloc>(
-                                                            baseContext)
-                                                        .add(LoadConfirmedBookings(
-                                                            restaurantId: table
-                                                                .restaurant_id));
+                                                    reloadLists();
                                                   });
                                                   return SizedBox();
                                                 } else if (state

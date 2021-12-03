@@ -8,7 +8,12 @@ class InitialFormStatus extends FormSubmissionStatus {
 
 class FormSubmitting extends FormSubmissionStatus {}
 
-class SubmissionSuccess extends FormSubmissionStatus {}
+class SubmissionSuccess extends FormSubmissionStatus {
+  final bool isManager;
+  const SubmissionSuccess({required this.isManager});
+  @override
+  List<Object> get props => [isManager];
+}
 
 class SubmissionFailed extends FormSubmissionStatus {
   final dynamic exception;
