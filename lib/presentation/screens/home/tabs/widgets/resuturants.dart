@@ -11,7 +11,7 @@ class RestaurantesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return restaurantes.length == 0
-        ? ErrorBlocWidget(errorText: 'No se encontraron restaurantes')
+        ? const ErrorBlocWidget(errorText: 'No se encontraron restaurantes')
         : GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             shrinkWrap: true,

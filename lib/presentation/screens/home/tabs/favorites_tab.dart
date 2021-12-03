@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/chip_item.dart';
 import 'package:bookify/data/models/resturant.dart';
+import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavTab extends StatefulWidget {
   final List<RestaurantModel> favRestaurant;
@@ -55,6 +61,7 @@ class _FavTabState extends State<FavTab> {
   }
 
   bool nowActive = true;
+  User user = User();
 
   @override
   void initState() {
@@ -65,6 +72,17 @@ class _FavTabState extends State<FavTab> {
 
   @override
   Widget build(BuildContext context) {
+    Utils().startSharedPreferences().then((prefs) {
+      String? userModelString = prefs.getString("user");
+      if (Utils().checkJsonArray(userModelString)) {
+        setState(() {
+          user = user.fromJson(jsonDecode(userModelString!));
+        });
+        if ((user.id)!.isEmpty) {
+          //logout;
+        }
+      }
+    });
     for (int i = 0; i < widget.favRestaurant.length; i++) {
       if (widget.favRestaurant[i].favorite != 1) {
         widget.favRestaurant.remove(widget.favRestaurant[i]);

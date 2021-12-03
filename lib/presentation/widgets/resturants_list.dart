@@ -129,17 +129,17 @@ class _ResturantListItemState extends State<ResturantListItem> {
                               onTap: () {
                                 if (widget.restaurante.favorite == 1) {
                                   //
-                                  // setState(() {
-                                  widget.restaurante.favorite = 0;
-                                  // });
+                                  setState(() {
+                                    widget.restaurante.favorite = 0;
+                                  });
                                   BlocProvider.of<HomeBloc>(context).add(
                                       RemoveFavorite(
                                           restId: widget.restaurante.id!,
                                           user: user));
                                 } else {
-                                  // setState(() {
-                                  widget.restaurante.favorite = 1;
-                                  // });
+                                  setState(() {
+                                    widget.restaurante.favorite = 1;
+                                  });
                                   //
                                   BlocProvider.of<HomeBloc>(context).add(
                                       AddFavorite(

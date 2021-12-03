@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
@@ -173,15 +172,15 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                     onPressed: () {
                       if (widget.restaurante.favorite == 1) {
                         //
-                        // setState(() {
-                        widget.restaurante.favorite = 0;
-                        // });
+                        setState(() {
+                          widget.restaurante.favorite = 0;
+                        });
                         BlocProvider.of<HomeBloc>(context).add(RemoveFavorite(
                             restId: widget.restaurante.id!, user: user));
                       } else {
-                        // setState(() {
-                        widget.restaurante.favorite = 1;
-                        // });
+                        setState(() {
+                          widget.restaurante.favorite = 1;
+                        });
                         //
                         BlocProvider.of<HomeBloc>(context).add(AddFavorite(
                             restId: widget.restaurante.id!, user: user));

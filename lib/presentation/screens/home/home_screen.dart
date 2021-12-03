@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             loadScreen = false;
           } else if (state is HomeLoadFavorites) {
             List<RestaurantModel> myRestFav = [];
-            rest = state.rest;
+            // rest = state.rest;
 
             for (var i = 0; i < rest.length; i++) {
               if (rest[i].favorite == 1) {
