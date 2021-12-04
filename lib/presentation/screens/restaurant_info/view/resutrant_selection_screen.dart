@@ -338,16 +338,28 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             )),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Ver dirección",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: textBold,
-                          fontWeight: FontWeight.w700),
-                    ),
+                    widget.restaurante.latitude != null &&
+                            widget.restaurante.longitude != null
+                        ? GestureDetector(
+                            onTap: () {
+                              if (widget.restaurante.latitude != null &&
+                                  widget.restaurante.longitude != null) {
+                                launchURL(
+                                    "https://www.google.com/maps/search/?api=1&query=${widget.restaurante.latitude},${widget.restaurante.longitude}");
+                              }
+                            },
+                            child: Text(
+                              "Ver dirección",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: textBold,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        : Container(),
                     SizedBox(
                       height: 20,
                     ),
