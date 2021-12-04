@@ -229,7 +229,7 @@ class _HomeTabState extends State<HomeTab> {
                                                   : "");
 
                                           saveUserUbi(
-                                              '{"adresss": "${placeDetails.city != null ? "${placeDetails.street}, ${placeDetails.city}" : placeDetails.street != null ? "${placeDetails.street}" : null}", "long": "${placeDetails..long}", "lat": "${placeDetails.lat}"}');
+                                              '{"adresss": "${placeDetails.city != null ? "${placeDetails.street}, ${placeDetails.city}" : placeDetails.street != null ? "${placeDetails.street}" : null}", "long": "${placeDetails.long}", "lat": "${placeDetails.lat}"}');
                                         });
                                       }
                                     },

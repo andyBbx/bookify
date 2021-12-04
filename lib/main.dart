@@ -2,6 +2,7 @@ import 'package:bookify/logics/cubit/signup_cubit.dart';
 import 'package:bookify/constants/route.dart';
 import 'package:bookify/presentation/screens/auth_screen/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'presentation/screens/auth_screen/login/auth_repository.dart';
 import 'presentation/screens/splash_screen.dart';
@@ -14,7 +15,8 @@ import 'package:flutter/services.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+      .then((_) async {
+    await Geolocator.requestPermission();
     runApp(MyApp());
   });
 }

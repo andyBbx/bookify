@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/category.dart';
+import 'package:bookify/data/models/location.dart';
 import 'package:bookify/data/models/offer.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/resturant.dart';
@@ -78,9 +79,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
           var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
 
-          var responseRest = await getService(
-              '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1',
-              event.user.auth_key!);
+          Location location = Location();
+          String? locationModel = prefs.getString("location");
+          if (Utils().checkJsonArray(locationModel)) {
+            location = location.fromJson(jsonDecode(locationModel!));
+          }
+
+          String url;
+          if (location.lat == null || location.long == null) {
+            url =
+                '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+          } else {
+            url =
+                '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+          }
+
+          var responseRest = await getService(url, event.user.auth_key!);
           if (responseRest['code'] == 401) {
             yield HomeFail(message: responseRest['message']);
           } else if (responseRest['code'] == 200) {
@@ -200,9 +214,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // TODO: verficiar con productos reales
 
-      var response = await getService(
-          '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1',
-          event.user.auth_key!);
+      Location location = Location();
+      String? locationModel = prefs.getString("location");
+      if (Utils().checkJsonArray(locationModel)) {
+        location = location.fromJson(jsonDecode(locationModel!));
+      }
+
+      String url;
+      if (location.lat == null || location.long == null) {
+        url =
+            '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1';
+      } else {
+        url =
+            '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+      }
+
+      var response = await getService(url, event.user.auth_key!);
       if (response['code'] == 401) {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
@@ -275,8 +302,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else if (responsResv['code'] == 200) {
         // load restaurants
         // TODO: cargar restaurantes "ahora"
-        var responseRest = await getService(
-            '/restaurant?filter[status]=1', event.user.auth_key!);
+
+        Location location = Location();
+        String? locationModel = prefs.getString("location");
+        if (Utils().checkJsonArray(locationModel)) {
+          location = location.fromJson(jsonDecode(locationModel!));
+        }
+
+        String url;
+        if (location.lat == null || location.long == null) {
+          url = '/restaurant?filter[status]=1';
+        } else {
+          url =
+              '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+        }
+
+        var responseRest = await getService(url, event.user.auth_key!);
         if (responseRest['code'] == 401) {
           yield HomeFail(message: responseRest['message']);
         } else if (responseRest['code'] == 200) {
@@ -370,9 +411,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
       var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
 
-      String url = event.nowActive
-          ? '/restaurant?filter[status]=1'
-          : '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1';
+      Location location = Location();
+      String? locationModel = prefs.getString("location");
+      if (Utils().checkJsonArray(locationModel)) {
+        location = location.fromJson(jsonDecode(locationModel!));
+      }
+      String url;
+      if (location.lat == null || location.long == null) {
+        url = event.nowActive
+            ? '/restaurant?filter[status]=1'
+            : '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1';
+      } else {
+        url = event.nowActive
+            ? '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}'
+            : '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+      }
 
       var response = await getService(url, event.user.auth_key!);
       if (response['code'] == 401) {

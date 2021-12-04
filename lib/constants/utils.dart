@@ -90,8 +90,6 @@ void launchURL(String url) async {
 }
 
 setLocation() async {
-  await Geolocator.requestPermission();
-
   await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best,
           forceAndroidLocationManager: true)
