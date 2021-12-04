@@ -212,6 +212,8 @@ class _HomeTabState extends State<HomeTab> {
                                             await PlaceApiProvider('12345')
                                                 .getPlaceDetailFromId(
                                                     result.placeId);
+                                        BlocProvider.of<HomeBloc>(context)
+                                            .add(LoadData(user: user));
                                         setState(() {
                                           location = Location(
                                               adresss: placeDetails.city != null
