@@ -19,7 +19,7 @@ class BookingRequestsBloc
       yield LoadingUnconfirmedBookings();
 
       var response = await getService(
-          '/solicitude/?filter[restaurant_id]=' +
+          '/solicitude/?filter[status]=1&filter[restaurant_id]=' +
               event.restaurantId,
           "");
       if (response['code'] == 401) {

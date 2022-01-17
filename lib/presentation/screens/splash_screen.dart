@@ -23,9 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
     Utils().startSharedPreferences().then((prefs) {
+      print("Test 1");
       String? userModelString = prefs.getString("user");
+      print(userModelString);
       if (Utils().checkJsonArray(userModelString)) {
         user = user.fromJson(jsonDecode(userModelString!));
         if ((user.id)!.isEmpty) {
@@ -34,9 +37,28 @@ class _SplashScreenState extends State<SplashScreen> {
         } else {
           print("login");
         }
+        Future.delayed(Duration(milliseconds: 2000), () {
+          if ((user.id)!.isNotEmpty) {
+            if (user.isManager) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/managerView", (Route route) => false);
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/home", (Route route) => false);
+            }
+          } else {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const PreLoginScreen()),
+                (route) => false);
+          }
+        });
+      } else {
+        /* print("Pollo"); */
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const PreLoginScreen()),
+            (route) => false);
       }
     });
-    super.initState();
   }
 
   @override
@@ -45,24 +67,6 @@ class _SplashScreenState extends State<SplashScreen> {
     double height = MediaQuery.of(context).size.height;
     bool isLandccape =
         (MediaQuery.of(context).orientation == Orientation.landscape);
-
-    Future.delayed(Duration(milliseconds: 2000), () {
-      if ((user.id)!.isNotEmpty) {
-        if (user.isManager) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/managerView", (Route route) => false);
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/home", (Route route) => false);
-        }
-      } else {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => PreLoginScreen()),
-            ModalRoute.withName('/'));
-      }
-    });
 
     return Scaffold(
       backgroundColor: splash_background,

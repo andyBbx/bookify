@@ -68,10 +68,6 @@ class _FavTabState extends State<FavTab> {
     _isSearching = false;
     super.initState();
     // populateDat();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     Utils().startSharedPreferences().then((prefs) {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {
@@ -88,6 +84,17 @@ class _FavTabState extends State<FavTab> {
         widget.favRestaurant.remove(widget.favRestaurant[i]);
       }
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
 
     populateDat();
 

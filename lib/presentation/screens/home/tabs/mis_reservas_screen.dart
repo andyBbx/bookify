@@ -27,9 +27,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
   User user = User();
   @override
   void initState() {
-    BlocProvider.of<HomeBloc>(context).add(LoadReservationData(
-      user: user,
-    ));
+    
 
     for (var i = 0; i < widget.reservations.length; i++) {
       if (widget.reservations[i].date.isAfter(DateTime.now())) {

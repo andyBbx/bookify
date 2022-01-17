@@ -19,7 +19,7 @@ class BookingItems extends StatelessWidget {
   BookingsBloc bookingsBloc = BookingsBloc();
   List<ReservationModel> bookingList = [];
   List<TableModel> tables = [];
-  String currentRestaurantId = "";
+  String currentRestaurantId = "--";
 
   TablesBloc tablesBloc = TablesBloc();
 

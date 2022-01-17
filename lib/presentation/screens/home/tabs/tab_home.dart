@@ -14,8 +14,10 @@ import 'package:bookify/presentation/screens/home/tabs/widgets/offers.dart';
 import 'package:bookify/presentation/screens/home/tabs/widgets/resuturants.dart';
 import 'package:bookify/presentation/screens/search/bloc/search_bloc.dart';
 import 'package:bookify/presentation/screens/search/view/search_page.dart';
+import 'package:bookify/presentation/widgets/bloc_widgets/error_widget.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
+import 'package:bookify/presentation/widgets/no_data_yet.dart';
 import 'package:bookify/presentation/widgets/reservar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -27,7 +29,7 @@ class HomeTab extends StatefulWidget {
   final dynamic categories;
   final dynamic restaurant;
   final dynamic restaurantCat;
-  final dynamic offers;
+  final List offers;
   const HomeTab(
       {Key? key,
       required this.user,
@@ -191,7 +193,7 @@ class _HomeTabState extends State<HomeTab> {
                                         // "Hola, ",
                                         'Hola, ' + user.firstname.toString(),
                                         style: TextStyle(
-                                            fontSize: 29,
+                                            fontSize: 22,
                                             fontWeight: FontWeight.bold,
                                             color: textDrkgray),
                                       );
@@ -255,12 +257,12 @@ class _HomeTabState extends State<HomeTab> {
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: textDrkgray)),
                                           ),
                                           const SizedBox(
-                                            width: 20,
+                                            width: 10,
                                           ),
                                           Icon(Icons.arrow_drop_down,
                                               color: splash_background)
@@ -498,8 +500,23 @@ class _HomeTabState extends State<HomeTab> {
                                   return RestaurantesWidget(
                                       restaurantes: widget.restaurant);
                                 } else if (currentFiler == 0) {
-                                  return Offers(
-                                      offers: widget.offers, user: user);
+                                  if (widget.offers.isNotEmpty) {
+                                    return Offers(
+                                        offers: widget.offers, user: user);
+                                  } else {
+                                    return const ErrorBlocWidget(
+                                        errorText:
+                                            '¡Parece que aún no hay ofertas!');
+                                    /* return Container(
+                                        height: 200,
+                                        width: double.infinity,
+                                        child: NotDataYet(
+                                            message: "Aún no hay ofertas",
+                                            retryAction: () {
+                                              BlocProvider.of<HomeBloc>(context)
+                                                  .add(LoadData(user: user));
+                                            })); */
+                                  }
                                 } else {
                                   return RestaurantesWidget(
                                       restaurantes: widget.restaurantCat);

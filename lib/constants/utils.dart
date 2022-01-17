@@ -5,7 +5,6 @@ import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -93,20 +92,20 @@ void launchURL(String url) async {
   if (!await launch(url)) throw 'Could not launch $url';
 }
 
-setLocation() async {
-  await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best,
-          forceAndroidLocationManager: true)
-      .then((Position position) async {
-    if (position != null) {
-      var place = await PlaceApiProvider('12345')
-          .getPlaceFromGeo(position.latitude, position.longitude);
-      saveUserUbi(
-          '{"adresss": "${place.adresss}", "long": "${place.long}", "lat": "${place.lat}"}');
-    } else {
-      await prefs.setString("location", "");
-    }
-  }).catchError((e) {
-    print(e);
-  });
-}
+// setLocation() async {
+//   await Geolocator.getCurrentPosition(
+//           desiredAccuracy: LocationAccuracy.best,
+//           forceAndroidLocationManager: true)
+//       .then((Position position) async {
+//     if (position != null) {
+//       var place = await PlaceApiProvider('12345')
+//           .getPlaceFromGeo(position.latitude, position.longitude);
+//       saveUserUbi(
+//           '{"adresss": "${place.adresss}", "long": "${place.long}", "lat": "${place.lat}"}');
+//     } else {
+     
+//     }
+//   }).catchError((e) {
+//     print(e);
+//   });
+// }

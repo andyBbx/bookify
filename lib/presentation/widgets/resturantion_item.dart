@@ -74,12 +74,12 @@ Widget resturantionItem(context, reservation, history) {
                           user, reservation))));
         };
       } else {
-        colorStatus = Colors.green;
+        colorStatus = Colors.green[400];
         textStatus = 'Confirmada';
       }
       break;
     case 3:
-      colorStatus = Colors.red[700];
+      colorStatus = Colors.red;
       textStatus = 'Cancelada';
       break;
     case 4:
@@ -104,6 +104,7 @@ Widget resturantionItem(context, reservation, history) {
         child: Column(
           children: [
             Container(
+              clipBehavior: Clip.hardEdge,
               width: widhth,
               height: reservation.rated == '0.00' ? 130 : 150,
               decoration: BoxDecoration(
@@ -142,9 +143,9 @@ Widget resturantionItem(context, reservation, history) {
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
                                               restaurantData.logo!)),
-                                  borderRadius: const BorderRadius.only(
+                                  /* borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15))),
+                                      bottomLeft: Radius.circular(15)) */),
                               // child: Image.network(
                               //   widget.restaurante.logo!,
                               //   fit: BoxFit.cover,

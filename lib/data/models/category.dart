@@ -26,7 +26,7 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         id: json["id"],
-        image: json["image"],
+        image: json["image"]??"",
         name: json["name"],
         description: json["description"],
         status: json["status"],

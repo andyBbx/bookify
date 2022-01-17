@@ -79,8 +79,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
           var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
 
+          String? locationModel;
           Location location = Location();
-          String? locationModel = prefs.getString("location");
+          Utils().startSharedPreferences().then((prefs) {
+            locationModel = prefs.getString("location");
+          });
           if (Utils().checkJsonArray(locationModel)) {
             location = location.fromJson(jsonDecode(locationModel!));
           }
@@ -215,7 +218,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // TODO: verficiar con productos reales
 
       Location location = Location();
-      String? locationModel = prefs.getString("location");
+      String? locationModel;
+      await Utils().startSharedPreferences().then((prefs) {
+        locationModel = prefs.getString("location");
+      });
+
       if (Utils().checkJsonArray(locationModel)) {
         location = location.fromJson(jsonDecode(locationModel!));
       }
@@ -412,7 +419,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
 
       Location location = Location();
-      String? locationModel = prefs.getString("location");
+      String? locationModel;
+      await Utils().startSharedPreferences().then((prefs) {
+        locationModel = prefs.getString("location");
+      });
+      
       if (Utils().checkJsonArray(locationModel)) {
         location = location.fromJson(jsonDecode(locationModel!));
       }

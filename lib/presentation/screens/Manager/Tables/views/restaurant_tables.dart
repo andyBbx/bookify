@@ -41,7 +41,7 @@ class _RestaurantTablesState extends State<RestaurantTables> {
       available: 0,
       status: 0);
   final _formKey = GlobalKey<FormState>();
-  String currentRestaurantId = "";
+  String currentRestaurantId = "--";
   List<TableModel> tableList = [];
 
   @override

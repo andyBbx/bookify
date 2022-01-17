@@ -19,7 +19,7 @@ class BookingRequests extends StatelessWidget {
   List<ReservationModel> bookingList = [];
   BookingsBloc bookingsBloc = BookingsBloc();
   BookingRequestsBloc bookingRequestsBloc = BookingRequestsBloc();
-  String currentRestaurantId = "";
+  String currentRestaurantId = "--";
 
   Widget tableListDialog(state) {
     if (state is ReadyRestaurantTables) {

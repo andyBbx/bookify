@@ -17,7 +17,6 @@ import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'auth_repository.dart';
 import 'repo/form_submission_status.dart';
@@ -150,25 +149,35 @@ class FormLogin extends StatelessWidget {
             SizedBox(
               height: height / 35,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "¿Aún no tienes cuenta?",
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal, color: textDrkgray),
-                ),
-                InkWell(
+             InkWell(
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => RegisterScreen()));
                   },
-                  child: Text(" Regístrate.",
+                  child: Text("¿Aún no tienes cuenta?, Regístrate.",
+                  textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: textDrkgray)),
                 ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Text(
+            //       "¿Aún no tienes cuenta?",
+            //       style: TextStyle(
+            //           fontWeight: FontWeight.normal, color: textDrkgray),
+            //     ),
+            //     InkWell(
+            //       onTap: () {
+            //         Navigator.of(context).pushReplacement(MaterialPageRoute(
+            //             builder: (context) => RegisterScreen()));
+            //       },
+            //       child: Text("¿Aún no tienes cuenta?, Regístrate.",
+            //           style: TextStyle(
+            //               fontWeight: FontWeight.bold, color: textDrkgray)),
+            //     ),
+            //   ],
+            // ),
             /* SizedBox(
               height: 10,
             ),
