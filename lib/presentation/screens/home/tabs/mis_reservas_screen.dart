@@ -27,8 +27,6 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
   User user = User();
   @override
   void initState() {
-    
-
     for (var i = 0; i < widget.reservations.length; i++) {
       if (widget.reservations[i].date.isAfter(DateTime.now())) {
         historial_reservationList.add(widget.reservations[i]);
@@ -62,9 +60,12 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
     for (var i = 0; i < widget.reservations.length; i++) {
       var myDay =
           widget.reservations[i].date.day.toString().length == 1 ? '0' : '';
+      var myMonth =
+          widget.reservations[i].date.month.toString().length == 1 ? '0' : '';
       DateTime reservationDate = DateTime.parse(
           widget.reservations[i].date.year.toString() +
               "-" +
+              myMonth +
               widget.reservations[i].date.month.toString() +
               '-' +
               myDay +
@@ -123,7 +124,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text("Consulta todas tus reservaciones",
+                                Text("Consulta todas tus reservas",
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,
@@ -143,7 +144,7 @@ class _MisReservasScreenState extends State<MisReservasScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Text("Próximas Reservaciones",
+                        child: Text("Próximas Reservas",
                             style: TextStyle(
                                 fontSize: 21,
                                 color: textDrkgray,

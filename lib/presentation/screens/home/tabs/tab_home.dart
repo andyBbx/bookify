@@ -82,7 +82,7 @@ class _HomeTabState extends State<HomeTab> {
   //   ]);
   // }
 
-  bool nowActive = true;
+  bool nowActive = false;
 
   @override
   void initState() {
@@ -443,7 +443,8 @@ class _HomeTabState extends State<HomeTab> {
                                           setState(() {
                                             currentFiler = ii;
                                           });
-                                          if (ii == 1) {
+                                          if (ii == 1 &&
+                                              widget.offers.isNotEmpty) {
                                             setState(() {
                                               myRest = widget.restaurant;
                                             });
@@ -454,7 +455,8 @@ class _HomeTabState extends State<HomeTab> {
                                             //             .categories[ii].id,
                                             //         user: widget.user));
 
-                                          } else if (ii == 0) {
+                                          } else if (ii == 0 &&
+                                              widget.offers.isNotEmpty) {
                                             BlocProvider.of<HomeBloc>(context)
                                                 .add(GetOffers(
                                                     user: widget.user));
@@ -496,10 +498,16 @@ class _HomeTabState extends State<HomeTab> {
                               if (state is HomeCategoryLoading) {
                                 return const Center(child: LoadWidget());
                               } else {
-                                if (currentFiler == 1) {
+                                if (currentFiler == 1 &&
+                                    widget.offers.isNotEmpty) {
                                   return RestaurantesWidget(
                                       restaurantes: widget.restaurant);
-                                } else if (currentFiler == 0) {
+                                } else if (currentFiler == 0 &&
+                                    widget.offers.isEmpty) {
+                                  return RestaurantesWidget(
+                                      restaurantes: widget.restaurant);
+                                } else if (currentFiler == 0 &&
+                                    widget.offers.isNotEmpty) {
                                   if (widget.offers.isNotEmpty) {
                                     return Offers(
                                         offers: widget.offers, user: user);

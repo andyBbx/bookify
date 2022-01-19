@@ -183,18 +183,18 @@ class BookingItems extends StatelessWidget {
                     builder: (context, state) {
                   if (state is SettingCurrentRestaurant) {
                     return RestaurantHeader(
-                      title: "Reservaciones",
+                      title: "Reservas",
                       subtitle: "...",
                     );
                   } else if (state is DoneSettingCurrentRestaurant) {
                     currentRestaurantId = state.restaurant.id;
                     return RestaurantHeader(
-                      title: "Reservaciones",
+                      title: "Reservas",
                       subtitle: state.restaurant.name,
                     );
                   } else {
                     return RestaurantHeader(
-                      title: "Reservaciones",
+                      title: "Reservas",
                       subtitle:
                           "Selecciona un restaurante para poder gestionar sus reservas, solicitudes, etc.",
                     );

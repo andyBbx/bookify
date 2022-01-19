@@ -33,6 +33,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       List<RestaurantModel> myRestCat = [];
       List<ReservationModel> myReservations = [];
       List<OfferModel> myOffers = [];
+
+      // load offers
+
+      var response =
+          await getService('/ad?filter[status]=1', event.user.auth_key!);
+      if (response['code'] == 401) {
+        yield HomeFail(message: response['message']);
+      } else if (response['code'] == 200) {
+        var jsonRest = jsonDecode(response['model']);
+        for (var i = 0; i < jsonRest.length; i++) {
+          var restModel = OfferModel.fromJson(jsonRest[i]);
+          myOffers.add(restModel);
+        }
+
+        // yield HomeLoadOffers(offers: myOffers);
+      }
+
       // load categories
       var responseCat = await getService('/tag?filter[status]=1', '');
       if (responseCat['code'] == 401) {
@@ -40,13 +57,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else if (responseCat['code'] == 200) {
         var jsonRest = jsonDecode(responseCat['model']);
 
-        myCat.add(CategoryModel(
-            createdAt: DateTime.now(),
-            id: '',
-            image: '',
-            status: 1,
-            name: 'Ofertas',
-            updatedAt: DateTime.now()));
+        if (myOffers.isNotEmpty) {
+          myCat.add(CategoryModel(
+              createdAt: DateTime.now(),
+              id: '',
+              image: '',
+              status: 1,
+              name: 'Ofertas',
+              updatedAt: DateTime.now()));
+        }
 
         myCat.add(CategoryModel(
             createdAt: DateTime.now(),
@@ -74,7 +93,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             }
           }
           // load restaurants
-          // siempre ahora
+          // load con cualquier momento
 
           var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
           var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
@@ -89,12 +108,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           }
 
           String url;
-          if (location.lat == null || location.long == null) {
+          if (location.lat != null && location.long != null) {
             url =
-                '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+                '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
           } else {
-            url =
-                '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+            url = '/restaurant?filter[status]=1';
           }
 
           var responseRest = await getService(url, event.user.auth_key!);
@@ -121,20 +139,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 myReservations.add(reservationModel);
               }
 
-              // load offers
+              // // load offers
 
-              var response = await getService(
-                  '/ad?filter[status]=1', event.user.auth_key!);
-              if (response['code'] == 401) {
-                yield HomeFail(message: response['message']);
-              } else if (response['code'] == 200) {
-                var jsonRest = jsonDecode(response['model']);
-                for (var i = 0; i < jsonRest.length; i++) {
-                  var restModel = OfferModel.fromJson(jsonRest[i]);
-                  myOffers.add(restModel);
-                }
-                yield HomeLoadOffers(offers: myOffers);
-              }
+              // var response = await getService(
+              //     '/ad?filter[status]=1', event.user.auth_key!);
+              // if (response['code'] == 401) {
+              //   yield HomeFail(message: response['message']);
+              // } else if (response['code'] == 200) {
+              //   var jsonRest = jsonDecode(response['model']);
+              //   for (var i = 0; i < jsonRest.length; i++) {
+              //     var restModel = OfferModel.fromJson(jsonRest[i]);
+              //     myOffers.add(restModel);
+              //   }
+
+              //   yield HomeLoadOffers(offers: myOffers);
+              yield HomeLoadOffers(offers: myOffers);
+              // }
             }
           }
         }
@@ -229,11 +249,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       String url;
       if (location.lat == null || location.long == null) {
-        url =
-            '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1';
+        url = event.nowActive
+            ? '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1'
+            : '/restaurant?filter[tag_id]=${event.catId}&filter[status]=1';
       } else {
-        url =
-            '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+        url = event.nowActive
+            ? '/restaurant?filter[tag_id]=${event.catId}&filter[time]=$dateTime&filter[date]=$dateTime&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}'
+            : '/restaurant?filter[tag_id]=${event.catId}&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
       }
 
       var response = await getService(url, event.user.auth_key!);
@@ -423,7 +445,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await Utils().startSharedPreferences().then((prefs) {
         locationModel = prefs.getString("location");
       });
-      
+
       if (Utils().checkJsonArray(locationModel)) {
         location = location.fromJson(jsonDecode(locationModel!));
       }
