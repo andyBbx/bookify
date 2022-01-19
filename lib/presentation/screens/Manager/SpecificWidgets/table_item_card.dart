@@ -32,6 +32,14 @@ class _TableItemState extends State<TableItem> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            widget.tableModel.name,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+          ),
           Image.asset(
             "assets/table.png",
             width: 100,
@@ -44,19 +52,19 @@ class _TableItemState extends State<TableItem> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Flexible(
+                /* Flexible(
                     child: Text(
                   widget.tableModel.name,
                   textAlign: TextAlign.right,
                 )),
                 SizedBox(
                   width: 10,
-                ),
+                ), */
                 Icon(
                   Icons.person,
                   color: Colors.orange,
                 ),
-                Text("x" + widget.tableModel.quantity.toString())
+                Text("x" + widget.tableModel.quantity.toString(), style: TextStyle(fontSize: 18),)
               ],
             ),
           ),

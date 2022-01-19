@@ -23,8 +23,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class RestaurantTables extends StatefulWidget {
-  final User user;
-  const RestaurantTables({Key? key, required this.user}) : super(key: key);
+  final Function tabListener;
+  const RestaurantTables({Key? key, required this.tabListener}) : super(key: key);
 
   @override
   _RestaurantTablesState createState() => _RestaurantTablesState();
@@ -301,23 +301,27 @@ class _RestaurantTablesState extends State<RestaurantTables> {
   @override
   Widget build(BuildContext baseContext) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //WidgetsBinding.instance!.addPostFrameCallback((_) => _addNewTable(context));
-          /* BlocProvider.of<TablesBloc>(context)
-        .add(LoadRestaurantTables(user: widget.user, restaurantId: ""));
-        }, */
-          _addNewTable(context);
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 29,
-        ),
-        backgroundColor: Colors.orange,
-        tooltip: 'Agregar nueva mesa',
-        elevation: 5,
-      ),
+      floatingActionButton:
+          BlocBuilder<CurrentRestaurantBloc, CurrentRestaurantState>(
+              builder: (context, state) {
+        if (state is DoneSettingCurrentRestaurant) {
+          return FloatingActionButton(
+            onPressed: () {
+              _addNewTable(context);
+            },
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 29,
+            ),
+            backgroundColor: Colors.orange,
+            tooltip: 'Agregar nueva mesa',
+            elevation: 5,
+          );
+        } else {
+          return SizedBox();
+        }
+      }),
       body: Container(
         color: Colors.grey[100],
         child: Column(
@@ -341,6 +345,11 @@ class _RestaurantTablesState extends State<RestaurantTables> {
                   title: "Mesas",
                   subtitle:
                       "Selecciona un restaurante para poder gestionar sus reservas, solicitudes, etc.",
+                  hasAction: true,
+                  action: (){
+                    widget.tabListener(3);
+                  },
+                  actionText: "Administrar restaurante(s)",
                 );
               }
             }),
@@ -362,11 +371,11 @@ class _RestaurantTablesState extends State<RestaurantTables> {
                                   restaurantId: currentRestaurantId));
                         },
                         child: GridView.builder(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             gridDelegate:
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
                                     maxCrossAxisExtent: 200,
-                                    childAspectRatio: 0.9,
+                                    childAspectRatio: 0.75,
                                     crossAxisSpacing: 20,
                                     mainAxisSpacing: 5),
                             itemCount: tableList.length,

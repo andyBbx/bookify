@@ -29,10 +29,13 @@ class _BookingItemCardState extends State<BookingItemCard> {
   @override
   void initState() {
     super.initState();
+    List<String> tableNamesList = [];
     widget.booking.tables.forEach((tableItem) {
       TableModel table = TableModel.fromJson(tableItem);
-      tableNames += "${table.name}, ";
+      tableNamesList.add(table.name);
+
     });
+    tableNames = tableNamesList.join(', ');
   }
 
   @override

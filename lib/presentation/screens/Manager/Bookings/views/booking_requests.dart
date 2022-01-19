@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookingRequests extends StatelessWidget {
-  BookingRequests({Key? key}) : super(key: key);
+  final Function tabListener;
+  BookingRequests({Key? key, required this.tabListener}) : super(key: key);
   List<ReservationModel> bookingList = [];
   BookingsBloc bookingsBloc = BookingsBloc();
   BookingRequestsBloc bookingRequestsBloc = BookingRequestsBloc();
@@ -68,9 +69,14 @@ class BookingRequests extends StatelessWidget {
                 );
               } else {
                 return RestaurantHeader(
-                  title: "Solicitudes",
+                  title: "Mesas",
                   subtitle:
                       "Selecciona un restaurante para poder gestionar sus reservas, solicitudes, etc.",
+                  hasAction: true,
+                  action: (){
+                    tabListener(3);
+                  },
+                  actionText: "Administrar restaurante(s)",
                 );
               }
             }),

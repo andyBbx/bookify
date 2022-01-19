@@ -24,6 +24,7 @@ class ManagerView extends StatefulWidget {
 }
 
 class _ManagerViewState extends State<ManagerView> {
+  final GlobalKey<_ManagerViewState> _key = GlobalKey();
   User user = User();
   int _currentIndex = 0;
   List _children = [];
@@ -78,9 +79,9 @@ class _ManagerViewState extends State<ManagerView> {
 
       setState(() {
         _children = [
-          BookingRequests(),
-          BookingItems(),
-          RestaurantTables(user: user),
+          BookingRequests(tabListener: onTabTapped),
+          BookingItems(tabListener: onTabTapped),
+          RestaurantTables(tabListener: onTabTapped),
           MyOwnedRestaurants(),
           MiCuenta1Screen()
         ];

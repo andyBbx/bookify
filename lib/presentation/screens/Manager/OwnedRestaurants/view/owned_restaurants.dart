@@ -502,7 +502,7 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                     child: Container(
                                       padding: const EdgeInsets.all(20),
                                       child: Icon(
-                                        Icons.star,
+                                        Icons.check_box,
                                         color:
                                             currentRestaurantId == restaurant.id
                                                 ? Colors.orange

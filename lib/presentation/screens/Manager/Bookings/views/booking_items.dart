@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookingItems extends StatelessWidget {
-  BookingItems({Key? key}) : super(key: key);
+  final Function tabListener;
+  BookingItems({Key? key, required this.tabListener}) : super(key: key);
   BookingsBloc bookingsBloc = BookingsBloc();
   List<ReservationModel> bookingList = [];
   List<TableModel> tables = [];
@@ -106,6 +107,8 @@ class BookingItems extends StatelessWidget {
               Navigator.pop(context);
               BlocProvider.of<BookingsBloc>(baseContext).add(
                   LoadConfirmedBookings(restaurantId: currentRestaurantId));
+              BlocProvider.of<TablesBloc>(baseContext)
+                  .add(LoadRestaurantTables(restaurantId: currentRestaurantId));
             });
             return const SizedBox();
           } else if (state is LoadingConfirmedBookings) {
@@ -194,9 +197,14 @@ class BookingItems extends StatelessWidget {
                     );
                   } else {
                     return RestaurantHeader(
-                      title: "Reservas",
+                      title: "Mesas",
                       subtitle:
                           "Selecciona un restaurante para poder gestionar sus reservas, solicitudes, etc.",
+                      hasAction: true,
+                      action: () {
+                        tabListener(3);
+                      },
+                      actionText: "Administrar restaurante(s)",
                     );
                   }
                 }),
