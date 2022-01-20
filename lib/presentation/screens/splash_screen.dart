@@ -5,10 +5,14 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/presentation/widgets/splash_logo.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../main.dart';
 import 'pre_login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,10 +25,12 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   User user = User();
 
+
+
+
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
     Utils().startSharedPreferences().then((prefs) {
       print("Test 1");
       String? userModelString = prefs.getString("user");
@@ -40,23 +46,24 @@ class _SplashScreenState extends State<SplashScreen> {
         Future.delayed(Duration(milliseconds: 2000), () {
           if ((user.id)!.isNotEmpty) {
             if (user.isManager) {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, "/managerView", (Route route) => false);
+              Navigator.pushNamed(
+                context,
+                "/managerView",
+              );
             } else {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, "/home", (Route route) => false);
+              Navigator.pushNamed(context, "/home");
             }
           } else {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const PreLoginScreen()),
-                (route) => false);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const PreLoginScreen()));
           }
         });
       } else {
         /* print("Pollo"); */
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const PreLoginScreen()),
-            (route) => false);
+        Future.delayed(Duration(milliseconds: 1000), () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const PreLoginScreen()));
+        });
       }
     });
   }
