@@ -48,40 +48,6 @@ class _HomeTabState extends State<HomeTab> {
   User user = User();
   Location location = Location();
 
-  List<CheapItem> cheapitems = [
-    CheapItem(
-      text: "De Todo",
-      icon: "assets/images/icons/sushi.svg",
-      seleted: true,
-    ),
-  ];
-
-  // void populateDat() {
-  //   cheapitems.clear();
-  //   cheapitems.addAll([
-  //     CheapItem(
-  //       text: "De Todo",
-  //       icon: "",
-  //       seleted: currentFiler == 0,
-  //     ),
-  //     CheapItem(
-  //       text: "Sushi",
-  //       icon: "assets/images/icons/sushi.svg",
-  //       seleted: currentFiler == 1,
-  //     ),
-  //     CheapItem(
-  //       text: "Pizza",
-  //       icon: "assets/images/icons/pizza.svg",
-  //       seleted: currentFiler == 2,
-  //     ),
-  //     CheapItem(
-  //       text: "Hamburguesa",
-  //       icon: "assets/images/icons/one-hamburguer.svg",
-  //       seleted: currentFiler == 3,
-  //     ),
-  //   ]);
-  // }
-
   bool nowActive = false;
 
   @override

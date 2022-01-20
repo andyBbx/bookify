@@ -17,7 +17,6 @@ class AuthRepository {
         isManager = userData["is_manager"] ?? false;
         saveUserModel(value['model']);
         // await setLocation();
-
       }
     });
     return isManager;

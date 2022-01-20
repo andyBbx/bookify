@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:bookify/data/models/location.dart';
+import 'package:geolocator/geolocator.dart';
+
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/place_service.dart';
 import 'package:flutter/material.dart';
@@ -92,20 +94,22 @@ void launchURL(String url) async {
   if (!await launch(url)) throw 'Could not launch $url';
 }
 
-// setLocation() async {
-//   await Geolocator.getCurrentPosition(
-//           desiredAccuracy: LocationAccuracy.best,
-//           forceAndroidLocationManager: true)
-//       .then((Position position) async {
-//     if (position != null) {
-//       var place = await PlaceApiProvider('12345')
-//           .getPlaceFromGeo(position.latitude, position.longitude);
-//       saveUserUbi(
-//           '{"adresss": "${place.adresss}", "long": "${place.long}", "lat": "${place.lat}"}');
-//     } else {
-     
-//     }
-//   }).catchError((e) {
-//     print(e);
-//   });
-// }
+setLocation() async {
+  var permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+  }
+  await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best,
+          forceAndroidLocationManager: true)
+      .then((Position position) async {
+    if (position != null) {
+      var place = await PlaceApiProvider('12345')
+          .getPlaceFromGeo(position.latitude, position.longitude);
+      saveUserUbi(
+          '{"adresss": "${place.adresss}", "long": "${place.long}", "lat": "${place.lat}"}');
+    } else {}
+  }).catchError((e) {
+    print(e);
+  });
+}

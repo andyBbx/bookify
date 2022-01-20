@@ -9,6 +9,7 @@ import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 part 'home_event.dart';
@@ -100,11 +101,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
           String? locationModel;
           Location location = Location();
-          Utils().startSharedPreferences().then((prefs) {
+          await Utils().startSharedPreferences().then((prefs) {
             locationModel = prefs.getString("location");
           });
           if (Utils().checkJsonArray(locationModel)) {
             location = location.fromJson(jsonDecode(locationModel!));
+          } else {
+            await setLocation();
+            await Utils().startSharedPreferences().then((prefs) {
+              locationModel = prefs.getString("location");
+            });
+            if (Utils().checkJsonArray(locationModel)) {
+              location = location.fromJson(jsonDecode(locationModel!));
+            }
           }
 
           String url;
