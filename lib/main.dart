@@ -76,14 +76,15 @@ Future<void> main() async {
         ?.createNotificationChannel(channel);
     // Update the iOS foreground notification presentation options to allow
     // heads up notifications.
-    await FirebaseMessaging.instance
+    FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
-    );
-
-    localSetup();
+    )
+        .then((value) {
+      localSetup();
+    });
   }
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) async {
@@ -94,41 +95,28 @@ Future<void> main() async {
 }
 
 void localSetup() async {
-  const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('notificationlogo');
-
+  AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('notificationlogo');
 
   final InitializationSettings initializationSettings =
-  InitializationSettings(android: initializationSettingsAndroid);
+      InitializationSettings(android: initializationSettingsAndroid);
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
-        selectedNotificationPayload = payload;
-        selectNotificationSubject.add(payload!);
-        if (localdata != null) {}
-      });
+
+        print("ffffffff4444444");
+    selectedNotificationPayload = payload;
+    selectNotificationSubject.add(payload!);
+    if (localdata != null) {}
+  });
 
   if (!kIsWeb) {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+
+      print("ffffffff");
       if (message != null) {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
-        if (notification != null && android != null) {
-          flutterLocalNotificationsPlugin
-              .show(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channelDescription: channel.description,
-                  icon: 'notificationlogo',
-                ),
-              ))
-              .whenComplete(() {});
-        } else {}
       } else {
 
       }
@@ -137,55 +125,33 @@ void localSetup() async {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
+      print("ffffffffqqqq");
       if (message != null) {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
-
-        if (notification != null && android != null) {
-          flutterLocalNotificationsPlugin
-              .show(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channelDescription: channel.description,
-                  icon: 'notificationlogo',
-                ),
-              ))
-              .whenComplete(() {});
-        } else {}
-      } else {
-
-      }
+      } else {}
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       localdata = message.data;
-
+      print("ffffffff333333");
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin
             .show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                icon: 'notificationlogo',
-              ),
-            ))
+                notification.hashCode,
+                notification.title,
+                notification.body,
+                NotificationDetails(
+                  android: AndroidNotificationDetails(channel.id, channel.name,
+                      channelDescription: channel.description,
+                      icon: 'notificationlogo',
+                      color: Colors.orange),
+                ))
             .whenComplete(() {});
       } else {}
     });
-
-
   }
 }
 
@@ -196,8 +162,6 @@ Future<void> firebasetoken() async {
   _token = await messaging.getToken();
   print("firebasetoken :: ${_token}");
 }
-
-
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
