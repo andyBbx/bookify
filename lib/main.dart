@@ -103,8 +103,6 @@ void localSetup() async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
-
-        print("ffffffff4444444");
     selectedNotificationPayload = payload;
     selectNotificationSubject.add(payload!);
     if (localdata != null) {}
@@ -112,20 +110,15 @@ void localSetup() async {
 
   if (!kIsWeb) {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-
-      print("ffffffff");
       if (message != null) {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
-      } else {
-
-      }
+      } else {}
     });
 
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-      print("ffffffffqqqq");
       if (message != null) {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
@@ -136,7 +129,6 @@ void localSetup() async {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       localdata = message.data;
-      print("ffffffff333333");
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin
             .show(

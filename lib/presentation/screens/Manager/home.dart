@@ -121,7 +121,7 @@ class _ManagerViewState extends State<ManagerView> {
                 Icons.person,
                 color: Colors.grey,
               ),
-              title: Text('Mi Cuenta'))
+              title: Text('Cuenta'))
         ],
       ),
     );

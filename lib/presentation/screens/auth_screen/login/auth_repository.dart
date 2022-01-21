@@ -10,7 +10,7 @@ class AuthRepository {
 
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     var _token =  await messaging.getToken();
-    print("token ${_token}");
+    print("FCMtoken ${_token}");
     var data = {"email": user, "password": password , "token" : _token};
     bool isManager = false;
     await postService(data, '/user/login', "").then((value) async {

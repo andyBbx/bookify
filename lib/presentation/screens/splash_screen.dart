@@ -46,24 +46,32 @@ class _SplashScreenState extends State<SplashScreen> {
         Future.delayed(Duration(milliseconds: 2000), () {
           if ((user.id)!.isNotEmpty) {
             if (user.isManager) {
-              Navigator.pushNamed(
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/managerView", (Route route) => false);
+              /* Navigator.pushNamed(
                 context,
                 "/managerView",
-              );
+              ); */
             } else {
-              Navigator.pushNamed(context, "/home");
+              /* Navigator.pushNamed(context, "/home"); */
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/home", (Route route) => false);
             }
           } else {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const PreLoginScreen()));
+            /* Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const PreLoginScreen())); */
           }
         });
       } else {
         /* print("Pollo"); */
-        Future.delayed(Duration(milliseconds: 1000), () {
+        /* Future.delayed(Duration(milliseconds: 1000), () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const PreLoginScreen()));
-        });
+        }); */
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const PreLoginScreen()),
+            (route) => false);
+        
       }
     });
   }
