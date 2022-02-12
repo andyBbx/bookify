@@ -107,7 +107,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           if (Utils().checkJsonArray(locationModel)) {
             location = location.fromJson(jsonDecode(locationModel!));
           } else {
-            await setLocation();
+            try {
+              await setLocation();
+            } catch (e) {
+              await Utils().startSharedPreferences().then((prefs) {
+                locationModel = prefs.getString("location");
+              });
+            }
             await Utils().startSharedPreferences().then((prefs) {
               locationModel = prefs.getString("location");
             });
@@ -117,6 +123,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           }
 
           String url;
+
           if (location.lat != null && location.long != null) {
             url =
                 '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
@@ -468,6 +475,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             ? '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}'
             : '/restaurant?filter[time]=$timenow&filter[date]=$datenow&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
       }
+
+      print(url);
 
       var response = await getService(url, event.user.auth_key!);
       if (response['code'] == 401) {

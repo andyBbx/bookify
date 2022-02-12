@@ -4,6 +4,7 @@ import 'package:bookify/constants/color.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/reservation.dart';
 import 'package:bookify/data/models/user.dart';
+import 'package:bookify/presentation/screens/pre_login_screen.dart';
 import 'package:bookify/presentation/screens/restaurant_info/bloc/restaurant_info_bloc.dart';
 import 'package:bookify/presentation/widgets/large_button2.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +49,13 @@ class VerificarReservaScreen extends StatelessWidget {
                 reservationModel: reservationModel,
               );
             } else if (state is CreateReservationRestaurantFail) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message.toString())));
+              Utils().startSharedPreferences().then((prefs) {
+                prefs.clear();
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => PreLoginScreen()));
+              });
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(content: Text(state.message.toString())));
             }
             return Scaffold(
                 extendBodyBehindAppBar: true,

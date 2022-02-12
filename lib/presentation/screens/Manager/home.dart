@@ -106,22 +106,20 @@ class _ManagerViewState extends State<ManagerView> {
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.notifications_active),
-            title: Text('Nuevas'),
+            label: "Nuevas",
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.today),
-            title: Text('Reservas'),
-          ),
+              icon: Icon(Icons.today), label: "Reservas"),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.table_chart), title: Text('Mesas')),
+              icon: Icon(Icons.table_chart), label: "Mesas"),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.store), title: Text('Restaurante')),
+              icon: Icon(Icons.store), label: "Restaurante"),
           new BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,
                 color: Colors.grey,
               ),
-              title: Text('Cuenta'))
+              label: "Cuenta")
         ],
       ),
     );
