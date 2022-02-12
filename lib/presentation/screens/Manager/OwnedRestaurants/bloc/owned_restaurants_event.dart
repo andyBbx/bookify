@@ -10,17 +10,19 @@ abstract class OwnedRestaurantsEvent extends Equatable {
 class LoadOwnedRestaurants extends OwnedRestaurantsEvent {}
 
 class CreateRestaurant extends OwnedRestaurantsEvent {
-  const CreateRestaurant({required this.restaurantModel, required this.base64Logo});
+  const CreateRestaurant({required this.restaurantModel, required this.base64Logo, required this.base64MenuFile});
   final OwnedRestaurantModel restaurantModel;
   final String base64Logo;
+  final String base64MenuFile;
   @override
-  List<Object> get props => [restaurantModel, base64Logo];
+  List<Object> get props => [restaurantModel, base64Logo, base64MenuFile];
 }
 
 class UpdateOwnedRestaurant extends OwnedRestaurantsEvent {
-  const UpdateOwnedRestaurant({required this.restaurantModel, required this.base64Logo});
+  const UpdateOwnedRestaurant({required this.restaurantModel, required this.base64Logo, required this.base64MenuFile});
   final OwnedRestaurantModel restaurantModel;
   final String base64Logo;
+  final String base64MenuFile;
   @override
-  List<Object> get props => [restaurantModel, base64Logo];
+  List<Object> get props => [restaurantModel, base64Logo, base64MenuFile];
 }

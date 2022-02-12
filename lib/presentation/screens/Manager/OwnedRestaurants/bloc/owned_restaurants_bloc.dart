@@ -41,6 +41,7 @@ class OwnedRestaurantsBloc
       yield UpdatingOwnedRestaurant();
       var model = jsonDecode(jsonEncode(event.restaurantModel));
       model["imageFile"] = event.base64Logo;
+      model["menu_file"] = event.base64MenuFile;
       var data = model;
       var response = await postService(
           data, '/restaurant/${event.restaurantModel.id}/edit', "");
@@ -58,6 +59,7 @@ class OwnedRestaurantsBloc
       yield CreatingRestaurant();
       var model = jsonDecode(jsonEncode(event.restaurantModel));
       model["imageFile"] = event.base64Logo;
+      model["menu_file"] = event.base64MenuFile;
       var data = model;
       var response = await postService(data, '/restaurant/create', "");
       if (response['code'] >= 200 && response['code'] < 300) {

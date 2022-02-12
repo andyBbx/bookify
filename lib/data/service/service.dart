@@ -14,7 +14,6 @@ Future<Map<String, dynamic>> postService(
   String authToken = "";
 
   try {
-
     await Utils().startSharedPreferences().then((prefs) {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {
@@ -41,6 +40,7 @@ Future<Map<String, dynamic>> postService(
             "is_manager": userr.isManager
           }) */
         body: jsonEncode(data));
+    print(jsonEncode(data));
     var jsonResponse = jsonDecode(response.body);
     print(jsonEncode(jsonResponse).toString());
     if (response.statusCode == 200) {
@@ -74,7 +74,6 @@ Future<Map<String, dynamic>> getService(String url, String token) async {
   String authToken = "";
 
   try {
-
     await Utils().startSharedPreferences().then((prefs) {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {

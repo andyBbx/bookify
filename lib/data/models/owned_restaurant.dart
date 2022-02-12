@@ -7,21 +7,23 @@ String restaurantModelToJson(OwnedRestaurantModel data) =>
     json.encode(data.toJson());
 
 class OwnedRestaurantModel {
-  OwnedRestaurantModel(
-      {required this.id,
-      required this.logo,
-      required this.name,
-      required this.description,
-      required this.phone,
-      required this.address,
-      required this.postalCode,
-      required this.municipality,
-      required this.province,
-      required this.country,
-      required this.web,
-      required this.rating,
-      required this.latitude,
-      required this.longitude});
+  OwnedRestaurantModel({
+    required this.id,
+    required this.logo,
+    required this.name,
+    required this.description,
+    required this.phone,
+    required this.address,
+    required this.postalCode,
+    required this.municipality,
+    required this.province,
+    required this.country,
+    required this.web,
+    required this.rating,
+    required this.menuUrl,
+    required this.latitude,
+    required this.longitude
+  });
 
   String id;
   dynamic cover;
@@ -38,6 +40,7 @@ class OwnedRestaurantModel {
   dynamic rating;
   dynamic latitude;
   dynamic longitude;
+  String menuUrl;
 
   factory OwnedRestaurantModel.fromJson(Map<String, dynamic> json) =>
       OwnedRestaurantModel(
@@ -54,7 +57,9 @@ class OwnedRestaurantModel {
           web: json["web"] ?? "",
           rating: json["rating"],
           latitude: json["latitude"],
-          longitude: json["longitude"]);
+          longitude: json["longitude"],
+          menuUrl: json["menu_url"] ?? "",
+          );
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -72,5 +77,6 @@ class OwnedRestaurantModel {
         "rating": rating,
         "longitude": longitude,
         "latitude": latitude,
+        "menu_url": menuUrl
       };
 }

@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
+import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/owned_restaurant.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -34,6 +38,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
   TextEditingController province = TextEditingController();
   TextEditingController country = TextEditingController();
   TextEditingController web = TextEditingController();
+  String menuUrl = "";
 
   bool updateDone = false;
   bool isNewRestaurant = false;
@@ -51,6 +56,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
       province = TextEditingController(text: widget.restaurante.province);
       country = TextEditingController(text: widget.restaurante.country);
       web = TextEditingController(text: widget.restaurante.web);
+      menuUrl = widget.restaurante.menuUrl;
     } else {
       name = TextEditingController(text: "Test");
       description = TextEditingController(text: "Test");
@@ -107,25 +113,38 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
     });
   }
 
-  /* Widget renderInfoMessage() {
-    return BlocBuilder<OwnedRestaurantsBloc, OwnedRestaurantsState>(
-        builder: (context, state) {
-      if ((state is ReadyUpdatingOwnedRestaurant) ||
-          (state is ReadyOwnedRestaurants) ||
-          (state is LoadingOwnedRestaurants)) {
-        return Column(
-          children: const [
-            SizedBox(
-              height: 10,
-            ),
-            Text("Restaurante actualizado con éxito")
-          ],
-        );
-      } else {
-        return const SizedBox();
-      }
-    });
-  } */
+  bool pdfMenuSelected = false;
+  String menuFileName = "";
+  String base64File = "";
+
+  Future getFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'png'],
+    );
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      print(file.name);
+      print(file.bytes);
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+
+      final fileBytes = File(file.path.toString()).readAsBytesSync();
+      String mimeType = lookupMimeType(file.path.toString())!;
+      base64File = 'data:$mimeType;base64,' + base64Encode(fileBytes);
+
+      log(base64File);
+
+      setState(() {
+        menuFileName = file.name;
+      });
+    } else {
+      log("User cancelled file picking");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -514,6 +533,51 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                         const SizedBox(
                           height: 30,
                         ),
+                        menuUrl.isNotEmpty
+                            ? InkWell(
+                                onTap: () {
+                                  launchURL("https://balabox.com");
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  child: const Text(
+                                    "Ver menú actual",
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(5)),
+                          child: InkWell(
+                            onTap: getFile,
+                            child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  "Toca aquí para añadir ó editar tu Menú (PDF, JPG o PNG)",
+                                  textAlign: TextAlign.center,
+                                )),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        menuFileName.isNotEmpty
+                            ? Text(
+                                menuFileName,
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            : SizedBox(),
+                        const SizedBox(
+                          height: 30,
+                        ),
                         BlocBuilder<OwnedRestaurantsBloc,
                             OwnedRestaurantsState>(builder: (context, state) {
                           if (state is UpdatingOwnedRestaurant ||
@@ -544,14 +608,16 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                                             .add(CreateRestaurant(
                                                 restaurantModel:
                                                     widget.restaurante,
-                                                base64Logo: base64Image));
+                                                base64Logo: base64Image,
+                                                base64MenuFile: base64File));
                                       } else {
                                         BlocProvider.of<OwnedRestaurantsBloc>(
                                                 context)
                                             .add(UpdateOwnedRestaurant(
                                                 restaurantModel:
                                                     widget.restaurante,
-                                                base64Logo: base64Image));
+                                                base64Logo: base64Image,
+                                                base64MenuFile: base64File));
                                       }
                                     }));
                           }

@@ -42,7 +42,8 @@ class _ManagerViewState extends State<ManagerView> {
       web: "",
       rating: "",
       latitude: "",
-      longitude: "");
+      longitude: "",
+      menuUrl: "");
 
   @override
   void initState() {
