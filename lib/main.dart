@@ -62,6 +62,28 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
+  _token = await messaging.getToken();
+  print("firebasetoken :: ${_token}");
+
   if (!kIsWeb) {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
@@ -110,6 +132,7 @@ void localSetup() async {
 
   if (!kIsWeb) {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print(message);
       if (message != null) {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
@@ -126,6 +149,8 @@ void localSetup() async {
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       localdata = message.data;
@@ -142,7 +167,9 @@ void localSetup() async {
                       color: Colors.orange),
                 ))
             .whenComplete(() {});
-      } else {}
+      } else {
+        print("Received");
+      }
     });
   }
 }
