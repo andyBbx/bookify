@@ -40,7 +40,9 @@ class _ManagerViewState extends State<ManagerView> {
       province: "",
       country: "",
       web: "",
-      rating: "");
+      rating: "",
+      latitude: "",
+      longitude: "");
 
   @override
   void initState() {

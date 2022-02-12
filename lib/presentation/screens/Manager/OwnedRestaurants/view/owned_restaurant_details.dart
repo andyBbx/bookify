@@ -1,28 +1,19 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:bookify/constants/appconfig.dart';
 import 'package:bookify/constants/color.dart';
-import 'package:bookify/constants/utils.dart';
-import 'package:bookify/data/models/chip_item.dart';
 import 'package:bookify/data/models/owned_restaurant.dart';
-import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/presentation/screens/Manager/OwnedRestaurants/bloc/owned_restaurants_bloc.dart';
-import 'package:bookify/presentation/screens/verificar_reserv_screen.dart';
 import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
-import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mime/mime.dart';
+
+import '../../../../../data/service/place_service.dart';
 
 class OwnedRestaurantDetails extends StatefulWidget {
   const OwnedRestaurantDetails({Key? key, required this.restaurante})
@@ -100,13 +91,18 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
   String base64Image = "";
   final ImagePicker _picker = ImagePicker();
   Future getImage() async {
-    var pickedFile = await _picker.pickImage(source: ImageSource.gallery, maxWidth: 1000, maxHeight: 1000, imageQuality: 80);
-   /*  print(pickedFile.mimeType); */
+    var pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1000,
+        maxHeight: 1000,
+        imageQuality: 80);
+    /*  print(pickedFile.mimeType); */
 
     setState(() {
       _image = File(pickedFile!.path);
       String mimeType = lookupMimeType(_image.path)!;
-      base64Image = 'data:$mimeType;base64,'+base64Encode(_image.readAsBytesSync());
+      base64Image =
+          'data:$mimeType;base64,' + base64Encode(_image.readAsBytesSync());
       //print(base64Image);
     });
   }
@@ -206,7 +202,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                                   fontSize: 16,
                                   color: textDrkgray,
                                   fontWeight: FontWeight.w100)),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],
@@ -266,8 +262,8 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                                 style: TextStyle(
                                     fontSize: 11, color: textDrkgray)),
                             hintText: "Nombre del restaurante",
-                            prefixIcon:
-                                Icon(Icons.store_rounded, color: Colors.orange),
+                            prefixIcon: const Icon(Icons.store_rounded,
+                                color: Colors.orange),
                           ),
                         ),
                         TextField(
@@ -326,12 +322,39 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                           ),
                         ),
                         TextField(
-                          controller: address,
-                          onChanged: (value) {
-                            setState(() {
-                              widget.restaurante.address = value;
-                            });
+                          readOnly: true,
+                          maxLines: 2,
+                          onTap: () async {
+                            final Suggestion? result = await showSearch(
+                              context: context,
+                              delegate: AddressSearch(),
+                            );
+
+                            if (result != null) {
+                              final placeDetails =
+                                  await PlaceApiProvider('12345')
+                                      .getPlaceDetailFromId(result.placeId);
+                              setState(() {
+                                widget.restaurante.address = result.description;
+                                address.text = widget.restaurante.address;
+                                widget.restaurante.postalCode =
+                                    placeDetails.zipCode != null
+                                        ? placeDetails.zipCode!
+                                        : "";
+                                widget.restaurante.municipality =
+                                    placeDetails.city!;
+                                widget.restaurante.province =
+                                    placeDetails.province!;
+                                widget.restaurante.country =
+                                    placeDetails.country!;
+                                widget.restaurante.latitude =
+                                    placeDetails.lat!.toString();
+                                widget.restaurante.longitude =
+                                    placeDetails.long!.toString();
+                              });
+                            }
                           },
+                          controller: address,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: splash_background),
@@ -348,117 +371,119 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                                 style: TextStyle(
                                     fontSize: 11, color: textDrkgray)),
                             hintText: "Ubicación",
-                            prefixIcon:
-                                Icon(Icons.map_outlined, color: Colors.orange),
-                          ),
-                        ),
-                        TextField(
-                          controller: postalCode,
-                          onChanged: (value) {
-                            setState(() {
-                              widget.restaurante.postalCode = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            fillColor: Colors.red,
-                            label: Text("Código postal",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 11, color: textDrkgray)),
-                            hintText: "Código postal",
-                            prefixIcon: Icon(Icons.near_me_outlined,
+                            prefixIcon: const Icon(Icons.map_outlined,
                                 color: Colors.orange),
                           ),
                         ),
-                        TextField(
-                          controller: municipality,
-                          onChanged: (value) {
-                            setState(() {
-                              widget.restaurante.municipality = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            fillColor: Colors.red,
-                            label: Text("Ciudad",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 11, color: textDrkgray)),
-                            hintText: "Ciudad",
-                            prefixIcon:
-                                Icon(Icons.location_city, color: Colors.orange),
-                          ),
-                        ),
-                        TextField(
-                          controller: province,
-                          onChanged: (value) {
-                            setState(() {
-                              widget.restaurante.province = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            fillColor: Colors.red,
-                            label: Text("Provincia",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 11, color: textDrkgray)),
-                            hintText: "Provincia",
-                            prefixIcon:
-                                Icon(Icons.location_city, color: Colors.orange),
-                          ),
-                        ),
-                        TextField(
-                          controller: country,
-                          onChanged: (value) {
-                            setState(() {
-                              widget.restaurante.country = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: splash_background),
-                            ),
-                            fillColor: Colors.red,
-                            label: Text("País",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 11, color: textDrkgray)),
-                            hintText: "País",
-                            prefixIcon: Icon(Icons.flag, color: Colors.orange),
-                          ),
-                        ),
+                        // TextField(
+                        //   controller: postalCode,
+                        //   readOnly: true,
+                        //   // onChanged: (value) {
+                        //   //   setState(() {
+                        //   //     widget.restaurante.postalCode = value;
+                        //   //   });
+                        //   // },
+                        //   decoration: InputDecoration(
+                        //     enabledBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     focusedBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     fillColor: Colors.red,
+                        //     label: Text("Código postal",
+                        //         textAlign: TextAlign.start,
+                        //         style: TextStyle(
+                        //             fontSize: 11, color: textDrkgray)),
+                        //     hintText: "Código postal",
+                        //     prefixIcon: const Icon(Icons.near_me_outlined,
+                        //         color: Colors.orange),
+                        //   ),
+                        // ),
+                        // TextField(
+                        //   controller: municipality,
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       widget.restaurante.municipality = value;
+                        //     });
+                        //   },
+                        //   decoration: InputDecoration(
+                        //     enabledBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     focusedBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     fillColor: Colors.red,
+                        //     label: Text("Ciudad",
+                        //         textAlign: TextAlign.start,
+                        //         style: TextStyle(
+                        //             fontSize: 11, color: textDrkgray)),
+                        //     hintText: "Ciudad",
+                        //     prefixIcon: const Icon(Icons.location_city,
+                        //         color: Colors.orange),
+                        //   ),
+                        // ),
+                        // TextField(
+                        //   controller: province,
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       widget.restaurante.province = value;
+                        //     });
+                        //   },
+                        //   decoration: InputDecoration(
+                        //     enabledBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     focusedBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     fillColor: Colors.red,
+                        //     label: Text("Provincia",
+                        //         textAlign: TextAlign.start,
+                        //         style: TextStyle(
+                        //             fontSize: 11, color: textDrkgray)),
+                        //     hintText: "Provincia",
+                        //     prefixIcon: const Icon(Icons.location_city,
+                        //         color: Colors.orange),
+                        //   ),
+                        // ),
+                        // TextField(
+                        //   controller: country,
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       widget.restaurante.country = value;
+                        //     });
+                        //   },
+                        //   decoration: InputDecoration(
+                        //     enabledBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     focusedBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(color: splash_background),
+                        //     ),
+                        //     fillColor: Colors.red,
+                        //     label: Text("País",
+                        //         textAlign: TextAlign.start,
+                        //         style: TextStyle(
+                        //             fontSize: 11, color: textDrkgray)),
+                        //     hintText: "País",
+                        //     prefixIcon:
+                        //         const Icon(Icons.flag, color: Colors.orange),
+                        //   ),
+                        // ),
                         TextField(
                           controller: web,
                           onChanged: (value) {
@@ -482,7 +507,8 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                                 style: TextStyle(
                                     fontSize: 11, color: textDrkgray)),
                             hintText: "Web",
-                            prefixIcon: Icon(Icons.web, color: Colors.orange),
+                            prefixIcon:
+                                const Icon(Icons.web, color: Colors.orange),
                           ),
                         ),
                         const SizedBox(
@@ -541,6 +567,74 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
           ),
         );
       },
+    );
+  }
+}
+
+class AddressSearch extends SearchDelegate<Suggestion> {
+  // final sessionToken;
+
+  // PlaceApiProvider apiClient;
+
+  // var sessionToken = '123456';
+  PlaceApiProvider apiClient = PlaceApiProvider('1234');
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        tooltip: 'Clear',
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      tooltip: 'Back',
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, Suggestion('', ''));
+      },
+    );
+  }
+
+  @override
+  String get searchFieldLabel => 'Escribe tu dirección...';
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return FutureBuilder(
+      future: query == ""
+          ? null
+          : apiClient.fetchSuggestions(
+              query, Localizations.localeOf(context).languageCode),
+      builder: (context, AsyncSnapshot snapshot) => query == ''
+          ? Container(
+              // padding: EdgeInsets.all(16.0),
+              // child: Text('Enter your address'),
+              )
+          : snapshot.hasData
+              ? ListView.builder(
+                  itemBuilder: (context, index) => ListTile(
+                    title:
+                        Text((snapshot.data![index] as Suggestion).description),
+                    onTap: () {
+                      close(context, snapshot.data[index] as Suggestion);
+                    },
+                  ),
+                  itemCount: snapshot.data!.length,
+                )
+              : Container(),
     );
   }
 }

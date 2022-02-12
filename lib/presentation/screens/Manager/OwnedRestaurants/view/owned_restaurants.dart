@@ -207,7 +207,9 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                     province: "",
                     country: "",
                     web: "",
-                    rating: ""),
+                    rating: "",
+                    latitude: "",
+                    longitude: ""),
               ),
             ),
           ));
@@ -304,7 +306,9 @@ class _MyOwnedRestaurantsState extends State<MyOwnedRestaurants> {
                                             province: "",
                                             country: "",
                                             web: "",
-                                            rating: ""),
+                                            rating: "",
+                                            latitude: "",
+                                            longitude: ""),
                                       ),
                                     ),
                                   ));

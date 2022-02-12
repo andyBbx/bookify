@@ -8,17 +8,21 @@ class Place {
   String? streetNumber;
   String? street;
   String? city;
+  String? province;
   String? zipCode;
   dynamic lat;
   dynamic long;
+  String? country;
 
   Place(
       {this.streetNumber,
       this.street,
       this.city,
+      this.province,
       this.zipCode,
       this.lat,
-      this.long});
+      this.long,
+      this.country});
 }
 
 // For storing our result
@@ -102,6 +106,14 @@ class PlaceApiProvider {
           if (type.contains('locality')) {
             place.city = c['long_name'];
           }
+          if (type.contains('administrative_area_level_1')) {
+            place.province = c['long_name'];
+          }
+
+          if (type.contains('country')) {
+            place.country = c['long_name'];
+          }
+
           if (type.contains('postal_code')) {
             place.zipCode = c['long_name'];
           }
