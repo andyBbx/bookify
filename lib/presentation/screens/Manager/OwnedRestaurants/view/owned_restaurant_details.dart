@@ -536,7 +536,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                         menuUrl.isNotEmpty
                             ? InkWell(
                                 onTap: () {
-                                  launchURL("https://balabox.com");
+                                  launchURL(menuUrl);
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(5),
