@@ -136,13 +136,13 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
       String mimeType = lookupMimeType(file.path.toString())!;
       base64File = 'data:$mimeType;base64,' + base64Encode(fileBytes);
 
-      log(base64File);
+      /* log(base64File); */
 
       setState(() {
         menuFileName = file.name;
       });
     } else {
-      log("User cancelled file picking");
+      /* log("User cancelled file picking"); */
     }
   }
 

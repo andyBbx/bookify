@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1031644367269-em9gh8teni0tihot344aitfudr5hgkn4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1031644367269-em9gh8teni0tihot344aitfudr5hgkn4</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1031644367269-m7n2ktvjimvv5nqsi40p71tdkp6lgcd9.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDH2iYjME4pJX5q6yfoHUq3SrNbdLhvi7o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1031644367269</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.bkfyapp.bookifyapp</string>
+	<key>PROJECT_ID</key>
+	<string>bookify-8ea43</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bookify-8ea43.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1031644367269:ios:101f2c5b4fe4802f78404c</string>
+</dict>
+</plist>
