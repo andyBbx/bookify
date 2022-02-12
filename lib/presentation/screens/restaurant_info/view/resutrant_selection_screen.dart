@@ -15,7 +15,6 @@ import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -24,7 +23,6 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ResturantSelectionScreen extends StatefulWidget {
@@ -100,9 +98,6 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     double widhth = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    bool isLandccape =
-        (MediaQuery.of(context).orientation == Orientation.landscape);
 
     return BlocBuilder<RestaurantInfoInfoBloc, RestaurantInfoState>(
       builder: (context, state) {
@@ -319,24 +314,31 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/images/icons/location.svg",
-                          fit: BoxFit.scaleDown,
-                          width: 11,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(widget.restaurante.address!,
-                            style: TextStyle(
-                              color: textDrkgray,
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                            )),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/icons/location.svg",
+                            fit: BoxFit.scaleDown,
+                            width: 11,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Flexible(
+                            child: Text(widget.restaurante.address!,
+                                maxLines: 3,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: textDrkgray,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal,
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -360,100 +362,151 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             ),
                           )
                         : Container(),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(2, 2), // Shadow position
-                              ),
-                            ],
+                    widget.restaurante.menu_url == null
+                        ? const SizedBox()
+                        : GestureDetector(
+                            onTap: () {
+                              launchURL(widget.restaurante.menu_url!);
+                            },
+                            child: Center(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.restaurant,
+                                  color: textBold,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Ver menú',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: textBold,
+                                      fontWeight: FontWeight.w700),
+                                )
+                              ],
+                            )),
                           ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                                "assets/images/icons/world.svg"),
+                    widget.restaurante.menu_url == null
+                        ? const SizedBox()
+                        : const SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(2, 2), // Shadow position
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                                "assets/images/icons/facebook.svg"),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(2, 2), // Shadow position
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                                "assets/images/icons/phone2.svg"),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(2, 2), // Shadow position
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                                "assets/images/icons/instagram.svg"),
-                          ),
-                        ),
-                      ],
-                    ),
                     SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          widget.restaurante.web == null
+                              ? const SizedBox()
+                              : GestureDetector(
+                                  onTap: () {
+                                    launchURL(widget.restaurante.web!);
+                                  },
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 4,
+                                          offset:
+                                              Offset(2, 2), // Shadow position
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          "assets/images/icons/world.svg"),
+                                    ),
+                                  ),
+                                ),
+                          widget.restaurante.rss.length == 0
+                              ? const SizedBox()
+                              : Center(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        widget.restaurante.rss.length >= 5
+                                            ? 5
+                                            : widget.restaurante.rss.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return widget.restaurante.rss[index]
+                                                  ['value'] ==
+                                              null
+                                          ? const SizedBox()
+                                          : Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: (() => launchURL(widget
+                                                      .restaurante
+                                                      .rss[index]['value'])),
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black12,
+                                                          blurRadius: 4,
+                                                          offset: Offset(2,
+                                                              2), // Shadow position
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Center(
+                                                      child: Image.network(
+                                                        widget.restaurante
+                                                            .rss[index]['image']
+                                                            .toString(),
+                                                        fit: BoxFit.contain,
+                                                        errorBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Object
+                                                                    exception,
+                                                                StackTrace?
+                                                                    stackTrace) {
+                                                          return SvgPicture
+                                                              .asset(
+                                                            "assets/logo.svg",
+                                                            fit: BoxFit.contain,
+                                                            width: 35,
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                    },
+                                  ),
+                                ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
                       height: 20,
                     ),
                     Text(
@@ -463,7 +516,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                           fontWeight: FontWeight.w900,
                           color: textDrkgray),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Padding(
@@ -704,26 +757,26 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                           //     ),
                           //   ),
                           // ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       height: 1,
                       width: widhth,
                       color: devicerColor,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       width: widhth,
                       child: Text(
                         "Intolerancias ó alergias",
@@ -851,7 +904,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                                       })),
                             ],
                           ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],

@@ -34,7 +34,10 @@ class RestaurantModel {
       this.favorite,
       this.rating,
       this.schedule,
-      this.logo});
+      this.logo,
+      this.rss,
+      // ignore: non_constant_identifier_names
+      this.menu_url});
 
   String? id;
   dynamic? cover;
@@ -57,6 +60,8 @@ class RestaurantModel {
   dynamic? rating;
   dynamic? schedule;
   String? logo;
+  dynamic rss;
+  String? menu_url;
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(
@@ -82,7 +87,9 @@ class RestaurantModel {
           updatedAt: DateTime.parse(json["updated_at"]),
           favorite: json["favorite"] ?? 0,
           rating: json["rating"],
-          schedule: json["schedule"]);
+          schedule: json["schedule"],
+          rss: json["rss"],
+          menu_url: json["menu_url"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -106,7 +113,9 @@ class RestaurantModel {
         "favorite": favorite,
         "rating": rating,
         "schedule": schedule,
-        "logo": logo
+        "logo": logo,
+        "rss": rss,
+        "menu_url": menu_url
       };
 }
 
