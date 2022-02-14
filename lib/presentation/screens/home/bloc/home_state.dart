@@ -189,3 +189,4 @@ class HomeLoadOffers extends HomeState {
   @override
   List<Object> get props => [offers];
 }
+

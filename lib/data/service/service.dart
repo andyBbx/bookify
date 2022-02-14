@@ -82,7 +82,7 @@ Future<Map<String, dynamic>> getService(String url, String token) async {
           //logout;
         } else {
           authToken = user.auth_key!;
-          print(authToken);
+          print("Auth Token $authToken");
         }
       }
     });
@@ -95,7 +95,7 @@ Future<Map<String, dynamic>> getService(String url, String token) async {
       },
     );
     var jsonResponse = jsonDecode(response.body);
-    print(jsonEncode(jsonResponse).toString());
+    /* print(jsonEncode(jsonResponse).toString()); */
     if (response.statusCode == 200) {
       print('success');
       finalResponse = {

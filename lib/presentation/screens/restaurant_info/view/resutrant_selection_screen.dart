@@ -214,11 +214,13 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                           itemBuilder: (BuildContext context, int itemIndex,
                                   int pageViewIndex) =>
                               Image.asset(
-                            "assets/images/resturant2.png",
+                            "assets/images/resturant2.jpeg",
                             fit: BoxFit.cover,
                           ),
                           options: CarouselOptions(
-                            autoPlay: true,
+                            scrollPhysics: NeverScrollableScrollPhysics(),
+                            enableInfiniteScroll: false,
+                            autoPlay: false,
                             // enlargeCenterPage: true,
                             viewportFraction: 1,
                             aspectRatio: 1.4,
