@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1031644367269-em9gh8teni0tihot344aitfudr5hgkn4.apps.googleusercontent.com</string>
+	<string>1031644367269-pr5m9jir1nc8maq0qcct7p8a56tr13t7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1031644367269-em9gh8teni0tihot344aitfudr5hgkn4</string>
+	<string>com.googleusercontent.apps.1031644367269-pr5m9jir1nc8maq0qcct7p8a56tr13t7</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>1031644367269-m7n2ktvjimvv5nqsi40p71tdkp6lgcd9.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.bkfyapp.bookifyapp</string>
+	<string>com.bkfyapp.bookify</string>
 	<key>PROJECT_ID</key>
 	<string>bookify-8ea43</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1031644367269:ios:101f2c5b4fe4802f78404c</string>
+	<string>1:1031644367269:ios:27ebd812f1f7839f78404c</string>
 </dict>
 </plist>
