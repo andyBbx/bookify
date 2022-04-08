@@ -48,6 +48,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           myOffers.add(restModel);
         }
 
+        print("Ofertas cargadas");
+
         // yield HomeLoadOffers(offers: myOffers);
       }
 
@@ -79,13 +81,54 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         for (var i = 0; i < jsonRest.length; i++) {
           myCat.add(CategoryModel.fromJson(jsonRest[i]));
         }
-        // load favorites
-        var responseFav = await getService(
-            '/restaurant?filter[status]=1', event.user.auth_key!);
-        if (responseFav['code'] == 401) {
-          yield HomeFail(message: responseFav['message']);
-        } else if (responseFav['code'] == 200) {
-          var jsonRest = jsonDecode(responseFav['model']);
+
+        print("Categorías cargadas");
+
+        // load restaurants
+        // load con cualquier momento
+
+        var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
+
+        String? locationModel;
+        Location location = Location();
+        await Utils().startSharedPreferences().then((prefs) {
+          locationModel = prefs.getString("location");
+        });
+        if (Utils().checkJsonArray(locationModel)) {
+          location = location.fromJson(jsonDecode(locationModel!));
+        } else {
+          try {
+            await setLocation();
+          } catch (e) {
+            await Utils().startSharedPreferences().then((prefs) {
+              locationModel = prefs.getString("location");
+            });
+          }
+          await Utils().startSharedPreferences().then((prefs) {
+            locationModel = prefs.getString("location");
+          });
+          if (Utils().checkJsonArray(locationModel)) {
+            location = location.fromJson(jsonDecode(locationModel!));
+          }
+        }
+
+        String url;
+
+        String specificFields = "&fields=id,logo,menu_url,name,description,phone,address,postal_code,municipality,province,country,latitude,longitude,web,tags,gallery,favorite,rating,rss,status,created_at,updated_at";
+
+        if (location.lat != null && location.long != null) {
+          url =
+              '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}&$specificFields';
+        } else {
+          url = '/restaurant?filter[status]=1&$specificFields';
+        }
+
+        var responseRest = await getService(url, event.user.auth_key!);
+        if (responseRest['code'] == 401) {
+          yield HomeFail(message: responseRest['message']);
+        } else if (responseRest['code'] == 200) {
+          var jsonRest = jsonDecode(responseRest['model']);
 
           for (var i = 0; i < jsonRest.length; i++) {
             var restModel = RestaurantModel.fromJson(jsonRest[i]);
@@ -93,85 +136,45 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               myRestFav.add(restModel);
             }
           }
-          // load restaurants
-          // load con cualquier momento
 
-          var datenow = DateFormat('yyyy-MM-dd').format(DateTime.now());
-          var timenow = DateFormat('kk:mm:ss').format(DateTime.now());
-
-          String? locationModel;
-          Location location = Location();
-          await Utils().startSharedPreferences().then((prefs) {
-            locationModel = prefs.getString("location");
-          });
-          if (Utils().checkJsonArray(locationModel)) {
-            location = location.fromJson(jsonDecode(locationModel!));
-          } else {
-            try {
-              await setLocation();
-            } catch (e) {
-              await Utils().startSharedPreferences().then((prefs) {
-                locationModel = prefs.getString("location");
-              });
-            }
-            await Utils().startSharedPreferences().then((prefs) {
-              locationModel = prefs.getString("location");
-            });
-            if (Utils().checkJsonArray(locationModel)) {
-              location = location.fromJson(jsonDecode(locationModel!));
-            }
+          for (var i = 0; i < jsonRest.length; i++) {
+            var restModel = RestaurantModel.fromJson(jsonRest[i]);
+            myRest.add(restModel);
           }
 
-          String url;
+          print("Restaurantes cargados");
 
-          if (location.lat != null && location.long != null) {
-            url =
-                '/restaurant?filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
-          } else {
-            url = '/restaurant?filter[status]=1';
-          }
-
-          var responseRest = await getService(url, event.user.auth_key!);
-          if (responseRest['code'] == 401) {
-            yield HomeFail(message: responseRest['message']);
-          } else if (responseRest['code'] == 200) {
-            var jsonRest = jsonDecode(responseRest['model']);
+          // load reservations
+          var responseReservation =
+              await getService('/solicitude', event.user.auth_key!);
+          if (responseReservation['code'] == 401) {
+            yield HomeFail(message: responseReservation['message']);
+          } else if (responseReservation['code'] == 200) {
+            var jsonRest = jsonDecode(responseReservation['model']);
 
             for (var i = 0; i < jsonRest.length; i++) {
-              var restModel = RestaurantModel.fromJson(jsonRest[i]);
-              myRest.add(restModel);
+              var reservationModel = ReservationModel.fromJson(jsonRest[i]);
+              myReservations.add(reservationModel);
             }
 
-            // load reservations
-            var responseReservation =
-                await getService('/solicitude', event.user.auth_key!);
-            if (responseReservation['code'] == 401) {
-              yield HomeFail(message: responseReservation['message']);
-            } else if (responseReservation['code'] == 200) {
-              var jsonRest = jsonDecode(responseReservation['model']);
+            print("Reservas cargadas");
 
-              for (var i = 0; i < jsonRest.length; i++) {
-                var reservationModel = ReservationModel.fromJson(jsonRest[i]);
-                myReservations.add(reservationModel);
-              }
+            // // load offers
 
-              // // load offers
+            // var response = await getService(
+            //     '/ad?filter[status]=1', event.user.auth_key!);
+            // if (response['code'] == 401) {
+            //   yield HomeFail(message: response['message']);
+            // } else if (response['code'] == 200) {
+            //   var jsonRest = jsonDecode(response['model']);
+            //   for (var i = 0; i < jsonRest.length; i++) {
+            //     var restModel = OfferModel.fromJson(jsonRest[i]);
+            //     myOffers.add(restModel);
+            //   }
 
-              // var response = await getService(
-              //     '/ad?filter[status]=1', event.user.auth_key!);
-              // if (response['code'] == 401) {
-              //   yield HomeFail(message: response['message']);
-              // } else if (response['code'] == 200) {
-              //   var jsonRest = jsonDecode(response['model']);
-              //   for (var i = 0; i < jsonRest.length; i++) {
-              //     var restModel = OfferModel.fromJson(jsonRest[i]);
-              //     myOffers.add(restModel);
-              //   }
-
-              //   yield HomeLoadOffers(offers: myOffers);
-              yield HomeLoadOffers(offers: myOffers);
-              // }
-            }
+            //   yield HomeLoadOffers(offers: myOffers);
+            yield HomeLoadOffers(offers: myOffers);
+            // }
           }
         }
       }

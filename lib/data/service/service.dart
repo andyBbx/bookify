@@ -116,6 +116,6 @@ Future<Map<String, dynamic>> getService(String url, String token) async {
       "message": e.toString(),
     };
   }
-  print(finalResponse);
+  /* print(finalResponse); */
   return finalResponse;
 }

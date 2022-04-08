@@ -12,7 +12,7 @@ class RestaurantesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Is: {$nowActive}");
+    //print("Is: {$nowActive}");
     return restaurantes.length == 0
         ? const ErrorBlocWidget(errorText: 'No se encontraron restaurantes')
         : GridView.builder(
