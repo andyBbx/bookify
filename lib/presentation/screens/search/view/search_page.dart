@@ -13,6 +13,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String queryText = "";
     TextEditingController searchField = TextEditingController();
     // searchField.
     double widhth = MediaQuery.of(context).size.width;
@@ -102,14 +103,26 @@ class SearchPage extends StatelessWidget {
                                               .add(SearchLoadEvent(
                                                   searchStr: searchStr,
                                                   user: user)),
-                                      // onChanged: (value) => searchOperation(value),
-                                      decoration: const InputDecoration(
+                                      onChanged: (value) {
+                                        queryText = value;
+                                      },
+                                      decoration: InputDecoration(
                                         hintText: "Buscar restaurante",
                                         hintStyle: TextStyle(
                                           fontSize: 19,
                                         ),
-                                        suffixIcon: Icon(
-                                          Icons.search,
+                                        suffixIcon: InkWell(
+                                          onTap: () {
+                                            BlocProvider.of<SearchBloc>(context)
+                                                .add(SearchLoadEvent(
+                                                    searchStr: queryText,
+                                                    user: user));
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                          },
+                                          child: Icon(
+                                            Icons.search,
+                                          ),
                                         ),
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(

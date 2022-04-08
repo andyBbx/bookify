@@ -97,9 +97,10 @@ class _FilterChipItemState extends State<FilterChipItem> {
 }
 
 class FilterChipHour extends StatefulWidget {
-  const FilterChipHour({Key? key, required this.cheapItem}) : super(key: key);
+  const FilterChipHour({Key? key, required this.cheapItem, required this.enabledSlot}) : super(key: key);
 
   final CheapItem cheapItem;
+  final bool enabledSlot;
 
   @override
   _FilterChipHourState createState() => _FilterChipHourState();
@@ -121,7 +122,7 @@ class _FilterChipHourState extends State<FilterChipHour> {
             widget.cheapItem.text,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: textBold, fontSize: 19, fontWeight: FontWeight.w500),
+                color: widget.enabledSlot ? textBold : Colors.white, fontSize: 19, fontWeight: FontWeight.w500),
           ));
   }
 }

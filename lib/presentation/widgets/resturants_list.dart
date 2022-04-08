@@ -14,10 +14,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ResturantListItem extends StatefulWidget {
-  const ResturantListItem({Key? key, required this.restaurante})
-      : super(key: key);
-
   final RestaurantModel restaurante;
+  final bool nowActive;
+  const ResturantListItem({Key? key, required this.restaurante, this.nowActive = false})
+      : super(key: key);
 
   @override
   State<ResturantListItem> createState() => _ResturantListItemState();
@@ -67,6 +67,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                             ),
                           ],
                           child: ResturantSelectionScreen(
+                            nowActive: widget.nowActive,
                             restaurante: widget.restaurante,
                           ))));
         },

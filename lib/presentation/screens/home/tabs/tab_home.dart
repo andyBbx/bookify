@@ -334,6 +334,7 @@ class _HomeTabState extends State<HomeTab> {
                                               user: widget.user));
                                       setState(() {
                                         nowActive = !nowActive;
+                                        print("Set: $nowActive");
                                         currentFiler = 0;
                                       });
                                     }
@@ -354,6 +355,7 @@ class _HomeTabState extends State<HomeTab> {
                                             user: widget.user));
                                     setState(() {
                                       nowActive = !nowActive;
+                                      print("Set: $nowActive");
                                       currentFiler = 0;
                                     });
                                   }
@@ -467,10 +469,12 @@ class _HomeTabState extends State<HomeTab> {
                                 if (currentFiler == 1 &&
                                     widget.offers.isNotEmpty) {
                                   return RestaurantesWidget(
+                                    nowActive: nowActive,
                                       restaurantes: widget.restaurant);
                                 } else if (currentFiler == 0 &&
                                     widget.offers.isEmpty) {
                                   return RestaurantesWidget(
+                                    nowActive: nowActive,
                                       restaurantes: widget.restaurant);
                                 } else if (currentFiler == 0 &&
                                     widget.offers.isNotEmpty) {
@@ -493,6 +497,7 @@ class _HomeTabState extends State<HomeTab> {
                                   }
                                 } else {
                                   return RestaurantesWidget(
+                                      nowActive: nowActive,
                                       restaurantes: widget.restaurantCat);
                                 }
                               }

@@ -46,6 +46,7 @@ class VerificarReservaScreen extends StatelessWidget {
             } else if (state is CreateReservationSuccess) {
               reservationLoad = false;
               return ConfirmandoScreen(
+                nowActive: state.nowActive,
                 reservationModel: reservationModel,
               );
             } else if (state is CreateReservationRestaurantFail) {

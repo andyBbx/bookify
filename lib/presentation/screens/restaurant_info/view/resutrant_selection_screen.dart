@@ -15,6 +15,7 @@ import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -26,9 +27,11 @@ import 'package:bookify/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ResturantSelectionScreen extends StatefulWidget {
-  const ResturantSelectionScreen({Key? key, required this.restaurante})
-      : super(key: key);
   final RestaurantModel restaurante;
+  final bool nowActive;
+  const ResturantSelectionScreen(
+      {Key? key, required this.restaurante, this.nowActive = false})
+      : super(key: key);
 
   @override
   State<ResturantSelectionScreen> createState() =>
@@ -68,7 +71,9 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
     });
 
     BlocProvider.of<RestaurantInfoInfoBloc>(context).add(LoadDate(
-        selectDate: DateTime.now(), times: widget.restaurante.schedule));
+        restaurantId: widget.restaurante.id!,
+        selectDate: DateTime.now(),
+        times: widget.restaurante.schedule));
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels < 150) {
@@ -107,6 +112,10 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
           if (state.listHours.length > 0) {
             hourData = true;
 
+            if (selextedIndex == 0) {
+              myHour = state.listHours[0]["slot"];
+            }
+
             hoursData = GridView.count(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -115,6 +124,37 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 children: List.generate(state.listHours.length, (index) {
+                  bool enabledSlot = state.listHours[index]["enabled"] ?? false;
+                  /* if (!state.listHours[index]["enabled"]) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                          color:
+                              selextedIndex == index ? Colors.grey : Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(
+                            color: Colors.grey,
+                          )),
+                      child: InkWell(
+                        onTap: () {
+                        },
+                        child: FilterChipHour(
+                          cheapItem: CheapItem(
+                              text: DateFormat('HH:mm')
+                                  .format(state.listHours[index]["slot"]),
+                              icon: "icon",
+                              seleted: selextedIndex == index ? true : false),
+                        ),
+                      ),
+                    );
+                  } */
+
                   return Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -123,22 +163,29 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                       horizontal: 10,
                     ),
                     decoration: BoxDecoration(
-                        color: selextedIndex == index ? textBold : Colors.white,
+                        color: enabledSlot
+                            ? selextedIndex == index
+                                ? textBold
+                                : Colors.white
+                            : Colors.grey,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         border: Border.all(
-                          color: textBold,
+                          color: enabledSlot ? textBold : Colors.grey,
                         )),
                     child: InkWell(
                       onTap: () {
-                        selextedIndex = index;
-                        myHour = state.listHours[index];
-                        setState(() {});
+                        if (enabledSlot) {
+                          selextedIndex = index;
+                          myHour = state.listHours[index]["slot"];
+                          setState(() {});
+                        }
                       },
                       child: FilterChipHour(
+                        enabledSlot: enabledSlot,
                         cheapItem: CheapItem(
                             text: DateFormat('HH:mm')
-                                .format(state.listHours[index]),
+                                .format(state.listHours[index]["slot"]),
                             icon: "icon",
                             seleted: selextedIndex == index ? true : false),
                       ),
@@ -643,6 +690,7 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                                 });
                                 BlocProvider.of<RestaurantInfoInfoBloc>(context)
                                     .add(LoadDate(
+                                        restaurantId: widget.restaurante.id!,
                                         selectDate: tempDate,
                                         times: widget.restaurante.schedule));
                               }, currentTime: tempDate, locale: LocaleType.en);

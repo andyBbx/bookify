@@ -16,7 +16,9 @@ import 'home/bloc/home_bloc.dart';
 
 class ConfirmandoScreen extends StatelessWidget {
   final ReservationModel reservationModel;
-  const ConfirmandoScreen({Key? key, required this.reservationModel})
+  final bool nowActive;
+  const ConfirmandoScreen(
+      {Key? key, required this.reservationModel, this.nowActive = false})
       : super(key: key);
 
   @override
@@ -88,43 +90,92 @@ class ConfirmandoScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text("Confirmando",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: textBold,
-                                fontWeight: FontWeight.w700)),
-                        Image.asset(
-                          "assets/images/icons/threedots.png",
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 120),
-                          child: Text("El restaurante tiene hasta las",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: textDrkgray,
-                                  fontWeight: FontWeight.w700)),
-                        ),
-                        Text(
-                            DateFormat().add_jm().format(
-                                DateTime.parse(reservationModel.time)
-                                    .add(const Duration(minutes: 2))),
-                            style: TextStyle(
-                                fontSize: 40,
-                                color: textBold,
-                                fontWeight: FontWeight.w900)),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 100),
-                          child: Text("para confirmar tu reserva",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: textDrkgray,
-                                  fontWeight: FontWeight.w700)),
-                        ),
+                        !nowActive
+                            ? Column(
+                                children: [
+                                  Text("Reserva confirmada",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: textBold,
+                                          fontWeight: FontWeight.w700)),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0),
+                                    child: Text(
+                                        "Hora de la reserva:",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: textDrkgray,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                  Text(
+                                      DateFormat().add_jm().format(
+                                          DateTime.parse(reservationModel.time)
+                                              .add(const Duration(minutes: 0))),
+                                      style: TextStyle(
+                                          fontSize: 40,
+                                          color: textBold,
+                                          fontWeight: FontWeight.w900)),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50),
+                                    child: Text("Puedes administrarla desde el apartado de reservas",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: textDrkgray,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  Text("Confirmando",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: textBold,
+                                          fontWeight: FontWeight.w700)),
+                                  Image.asset(
+                                    "assets/images/icons/threedots.png",
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 120),
+                                    child: Text(
+                                        "El restaurante tiene hasta las",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: textDrkgray,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                  Text(
+                                      DateFormat().add_jm().format(
+                                          DateTime.parse(reservationModel.time)
+                                              .add(const Duration(minutes: 5))),
+                                      style: TextStyle(
+                                          fontSize: 40,
+                                          color: textBold,
+                                          fontWeight: FontWeight.w900)),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 100),
+                                    child: Text("para confirmar tu reserva",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: textDrkgray,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                ],
+                              ),
                         SizedBox(
                           height: height / 15,
                         ),

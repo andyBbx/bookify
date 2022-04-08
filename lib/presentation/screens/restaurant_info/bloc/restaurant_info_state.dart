@@ -62,6 +62,8 @@ class CreateReservationLoad extends RestaurantInfoState {
 }
 
 class CreateReservationSuccess extends RestaurantInfoState {
+  final bool nowActive;
+  const CreateReservationSuccess({required this.nowActive});
   @override
   List<Object> get props => [];
 }

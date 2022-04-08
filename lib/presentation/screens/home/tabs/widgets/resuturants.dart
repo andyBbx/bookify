@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 
 class RestaurantesWidget extends StatelessWidget {
   final dynamic restaurantes;
-  const RestaurantesWidget({Key? key, required this.restaurantes})
+  final bool nowActive;
+  const RestaurantesWidget(
+      {Key? key, required this.restaurantes, this.nowActive = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("Is: {$nowActive}");
     return restaurantes.length == 0
         ? const ErrorBlocWidget(errorText: 'No se encontraron restaurantes')
         : GridView.builder(
@@ -24,7 +27,8 @@ class RestaurantesWidget extends StatelessWidget {
             ),
             itemCount: restaurantes.length,
             itemBuilder: (BuildContext ctx, index) {
-              return ResturantListItem(restaurante: restaurantes[index]);
+              return ResturantListItem(
+                  nowActive: nowActive, restaurante: restaurantes[index]);
             });
   }
 }

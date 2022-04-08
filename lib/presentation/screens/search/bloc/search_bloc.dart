@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookify/constants/utils.dart';
+import 'package:bookify/data/models/location.dart';
 import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
@@ -24,8 +26,25 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield SearchLoading();
       List<RestaurantModel> myRestCat = [];
 
-      String url =
-          '/restaurant?filter[status]=1&filter[name]=${event.searchStr}';
+      Location location = Location();
+      String? locationModel;
+      await Utils().startSharedPreferences().then((prefs) {
+        locationModel = prefs.getString("location");
+      });
+
+      if (Utils().checkJsonArray(locationModel)) {
+        location = location.fromJson(jsonDecode(locationModel!));
+      }
+
+      String url;
+      if (location.lat == null || location.long == null) {
+        url = '/restaurant?filter[status]=1&filter[name]=${event.searchStr}';
+      } else {
+        url = '/restaurant?&filter[name]=${event.searchStr}&filter[status]=1&filter[latitude]=${location.lat}&filter[longitude]=${location.long}';
+      }
+
+      /* String url =
+          '/restaurant?filter[status]=1&filter[name]=${event.searchStr}'; */
 
       var response = await getService(url, event.user.auth_key!);
       if (response['code'] == 401) {

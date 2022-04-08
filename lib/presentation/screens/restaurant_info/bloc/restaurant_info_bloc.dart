@@ -47,7 +47,39 @@ class RestaurantInfoInfoBloc
 
       List<dynamic> hoursList = [];
 
-      for (var i = 0; i < event.times.length; i++) {
+      var data = {
+        "restaurant_id": event.restaurantId,
+        "date": DateFormat('yyyy-MM-dd').format(event.selectDate)
+      };
+
+      print(data);
+
+      var response = await postService(data, '/restaurant/hours', '');
+      if (response['code'] != 200) {
+        print(response);
+      } else if (response['code'] == 200) {
+        print(response);
+        var jsonRest = jsonDecode(response['model']);
+        jsonRest.forEach((key, value) {
+          var splited = key.split(':');
+          int slotHour = int.parse(splited[0]);
+          int slotMinute = int.parse(splited[1]);
+          DateTime timeSlot = DateTime(DateTime.now().year,
+              DateTime.now().month, DateTime.now().day, slotHour, slotMinute);
+          if (timeSlot.isAfter(DateTime.now())) {
+            /* print("Is after: "+timeSlot.toString()); */
+            /* if (value == 1) {
+              hoursList.add(timeSlot);
+            } */
+            bool slotEnabled = value == 1 ? true : false;
+            hoursList.add({"slot": timeSlot, "enabled": slotEnabled});
+          }
+          /* print('key is $key');
+          print('value is $value '); */
+        });
+      }
+
+      /* for (var i = 0; i < event.times.length; i++) {
         const interval = Duration(minutes: 15);
 
         if (event.selectDate.weekday == event.times[i]["day"]) {
@@ -78,15 +110,63 @@ class RestaurantInfoInfoBloc
             }
           }
         }
-      }
+      } */
       yield RestaurantInfoHoursLoaded(listHours: hoursList);
     } else if (event is CreateReservation) {
       yield CreateReservationLoad();
       // yield CreateReservationSuccess();
+      bool nowActive = false;
+
+      String bookingTimeString = DateFormat()
+          .add_Hms()
+          .format(DateTime.parse(event.reservationModel.time))
+          .toString();
+
+      TimeOfDay bookingTime = TimeOfDay(
+          hour: int.parse(bookingTimeString.split(":")[0]),
+          minute: int.parse(bookingTimeString.split(":")[1]));
+
+      Utils().bprint(bookingTime);
+
+      TimeOfDay nowTime = TimeOfDay.now();
+      TimeOfDay nowPlusOneHour =
+          nowTime.replacing(hour: nowTime.hour + 1, minute: nowTime.minute);
+
+      Utils().bprint(nowPlusOneHour);
+      Utils().bprint(nowPlusOneHour.format(context));
+
+      DateTime bookingDate = DateTime.parse(
+          DateFormat('yyyy-MM-dd').format(event.reservationModel.date));
+      DateTime nowDate =
+          DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+
+      /* print("Fecha reserva");
+      print(bookingDate);
+      print("Fecha ahora");
+      print(nowDate); */
+
+      var nowPlusOneHourParsedTime =
+          DateTime.parse('2022-01-01 ${nowPlusOneHour.format(context)}');
+      var bookingParsedTime =
+          DateTime.parse('2022-01-01 ${bookingTime.format(context)}');
+      Utils().bprint(bookingParsedTime.isAfter(nowPlusOneHourParsedTime));
+
+      int bookingStatus = 1;
+      if (bookingDate.isAfter(nowDate)) {
+        bookingStatus = 2;
+      } else {
+        if (bookingParsedTime.isAfter(nowPlusOneHourParsedTime)) {
+          bookingStatus = 2;
+        } else {
+          nowActive = true;
+        }
+      }
+
       var data = {
         "client_id": event.reservationModel.clientId,
         "restaurant_id": event.reservationModel.restaurantData.id,
         "quantity": event.reservationModel.quantity,
+        "status": bookingStatus,
         "time": DateFormat()
             .add_Hms()
             .format(DateTime.parse(event.reservationModel.time))
@@ -98,7 +178,7 @@ class RestaurantInfoInfoBloc
       if (response['code'] == 401) {
         yield CreateReservationRestaurantFail(message: response['message']);
       } else if (response['code'] == 200 || response['code'] == 201) {
-        yield CreateReservationSuccess();
+        yield CreateReservationSuccess(nowActive: nowActive);
       } else {
         yield CreateReservationRestaurantFail(message: response['message']);
       }

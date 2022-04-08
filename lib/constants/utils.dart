@@ -12,10 +12,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
   late SharedPreferences prefs;
+  bool allowPrinting = false;
 
   Future<SharedPreferences> startSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
     return prefs;
+  }
+
+  bprint(value){
+    if(allowPrinting){
+      print(value);
+    }
   }
 
   checkJsonArray(data) {

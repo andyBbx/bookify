@@ -13,9 +13,10 @@ class LoadData extends RestaurantInfoEvent {
 }
 
 class LoadDate extends RestaurantInfoEvent {
-  const LoadDate({required this.times, required this.selectDate});
+  const LoadDate({required this.times, required this.selectDate, required this.restaurantId});
   final dynamic times;
   final DateTime selectDate;
+  final  String restaurantId;
 
   @override
   List<Object> get props => [times, selectDate];
