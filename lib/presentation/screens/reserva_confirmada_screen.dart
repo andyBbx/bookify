@@ -181,7 +181,7 @@ class ReservaConfirmadaScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Reservación para",
+                                  Text("Reserva para",
                                       style: TextStyle(
                                           fontSize: 17,
                                           color: textDrkgray,

@@ -181,7 +181,7 @@ class BookingItemsForTables extends StatelessWidget {
                 width: 100.0,
                 child: Center(
                     child: Text(
-                  "La reservación aún no tiene mesas asignadas",
+                  "La reserva aún no tiene mesas asignadas",
                   textAlign: TextAlign.center,
                 )),
               );

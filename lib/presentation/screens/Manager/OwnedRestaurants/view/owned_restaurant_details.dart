@@ -12,6 +12,7 @@ import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -163,7 +164,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                   iconTheme: IconThemeData(
                     color: splash_background,
                   ),
-                  collapsedHeight: isTab() ? height / 5 : height / 4,
+                  collapsedHeight: 210,
                   backgroundColor: Colors.white,
                   pinned: true,
                   title: Text(
@@ -505,6 +506,8 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                         // ),
                         TextField(
                           controller: web,
+                          keyboardType: TextInputType.url,
+                          inputFormatters: [FilteringTextInputFormatter.deny(' ')],
                           onChanged: (value) {
                             setState(() {
                               widget.restaurante.web = value;
@@ -525,7 +528,7 @@ class _OwnedRestaurantDetailsState extends State<OwnedRestaurantDetails> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 11, color: textDrkgray)),
-                            hintText: "Web",
+                            hintText: "https://tusitioweb.es",
                             prefixIcon:
                                 const Icon(Icons.web, color: Colors.orange),
                           ),

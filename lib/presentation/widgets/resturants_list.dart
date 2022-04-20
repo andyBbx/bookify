@@ -174,23 +174,24 @@ class _ResturantListItemState extends State<ResturantListItem> {
                       ],
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
                           "assets/images/icons/location.svg",
                           fit: BoxFit.scaleDown,
-                          width: 9,
+                          width: 13,
                         ),
                         const SizedBox(
                           width: 5,
                         ),
                         Flexible(
                           child: Text(widget.restaurante.address!,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                              maxLines: 2,
                               style: TextStyle(
                                 color: textDrkgray,
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.normal,
                               )),
                         ),

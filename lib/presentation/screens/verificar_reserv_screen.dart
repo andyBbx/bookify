@@ -61,7 +61,7 @@ class VerificarReservaScreen extends StatelessWidget {
             return Scaffold(
                 extendBodyBehindAppBar: true,
                 appBar: AppBar(
-                  title: Text("Confirmar reservación",
+                  title: Text("Confirmar reserva",
                       style: TextStyle(
                           fontSize: 15,
                           color: textDrkgray,
@@ -119,7 +119,7 @@ class VerificarReservaScreen extends StatelessWidget {
                                 Text(reservationModel.restaurantData.address,
                                     style: TextStyle(
                                       color: textDrkgray,
-                                      fontSize: 11,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                     )),
                               ],
@@ -151,7 +151,7 @@ class VerificarReservaScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Reservación para",
+                            Text("Reserva para",
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: textDrkgray,
@@ -173,7 +173,7 @@ class VerificarReservaScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                " ${DateFormat.yMMMMd('en_US').format(reservationModel.date)}",
+                                " ${DateFormat.yMMMMd('es_ES').format(reservationModel.date)}",
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: textBold,
@@ -194,7 +194,13 @@ class VerificarReservaScreen extends StatelessWidget {
                             const SizedBox(
                               width: 2,
                             ),
-                            Text(
+                            Text(DateFormat().add_Hm().format(
+                                        DateTime.parse(reservationModel.time))+" hrs.",
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: textBold,
+                                    fontWeight: FontWeight.w700)),
+                            /* Text(
                                 DateFormat()
                                     .add_jm()
                                     .format(
@@ -203,7 +209,7 @@ class VerificarReservaScreen extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: textBold,
-                                    fontWeight: FontWeight.w700)),
+                                    fontWeight: FontWeight.w700)), */
                           ],
                         ),
                         const SizedBox(
@@ -221,7 +227,7 @@ class VerificarReservaScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 50),
                           child: Text(
-                              "*Al confirmar la reservación aceptas los términos y condiciones, así como las políticas de cancelación y reembolsos.",
+                              "*Al confirmar la reserva aceptas los términos y condiciones, así como las políticas de cancelación y reembolsos.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 12,

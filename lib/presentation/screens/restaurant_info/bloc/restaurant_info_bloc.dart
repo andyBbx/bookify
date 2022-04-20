@@ -66,14 +66,12 @@ class RestaurantInfoInfoBloc
           int slotMinute = int.parse(splited[1]);
           DateTime timeSlot = DateTime(DateTime.now().year,
               DateTime.now().month, DateTime.now().day, slotHour, slotMinute);
-          if (timeSlot.isAfter(DateTime.now())) {
-            /* print("Is after: "+timeSlot.toString()); */
-            /* if (value == 1) {
-              hoursList.add(timeSlot);
-            } */
+          /* if (timeSlot.isAfter(DateTime.now())) {
             bool slotEnabled = value == 1 ? true : false;
             hoursList.add({"slot": timeSlot, "enabled": slotEnabled});
-          }
+          } */
+          bool slotEnabled = value == 1 ? true : false;
+          hoursList.add({"slot": timeSlot, "enabled": slotEnabled});
           /* print('key is $key');
           print('value is $value '); */
         });

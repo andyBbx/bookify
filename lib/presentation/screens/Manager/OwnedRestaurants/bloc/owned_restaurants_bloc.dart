@@ -6,6 +6,7 @@ import 'package:bookify/data/models/resturant.dart';
 import 'package:bookify/data/models/user.dart';
 import 'package:bookify/data/service/service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'owned_restaurants_event.dart';
 part 'owned_restaurants_state.dart';
@@ -15,6 +16,13 @@ class OwnedRestaurantsBloc
   final context;
 
   OwnedRestaurantsBloc(this.context) : super(OwnedRestaurantsInitial());
+
+  bool hasValidUrl(String url) {
+    String pattern =
+        r'(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(url);
+  }
 
   @override
   Stream<OwnedRestaurantsState> mapEventToState(
@@ -40,6 +48,17 @@ class OwnedRestaurantsBloc
     } else if (event is UpdateOwnedRestaurant) {
       yield UpdatingOwnedRestaurant();
       var model = jsonDecode(jsonEncode(event.restaurantModel));
+
+      if(!hasValidUrl(event.restaurantModel.web)){
+        String errorMessage =
+            "La URL de la página web es incorrecta, debe contener http:// ó https://";
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(errorMessage),
+        ));
+        yield FailedUpdatingOwnedRestaurant(message: errorMessage);
+        return;
+
+      }
       model["imageFile"] = event.base64Logo;
       model["menu_file"] = event.base64MenuFile;
       var data = model;
@@ -47,9 +66,25 @@ class OwnedRestaurantsBloc
           data, '/restaurant/${event.restaurantModel.id}/edit', "");
       if (response['code'] != 200) {
         print("Hubo un error para actualizar el restaurante");
-        var error = jsonDecode(response['message']);
-        yield FailedUpdatingOwnedRestaurant(
-            message: error['message'].toString());
+        var errorResponse = jsonDecode(response['message']);
+        String finalErrorMessage = "";
+        if (!errorResponse.isEmpty) {
+          for (var errorElement in errorResponse) {
+            finalErrorMessage += errorElement['message'].toString() + ", ";
+          }
+
+          if (finalErrorMessage.length >= 2) {
+            finalErrorMessage =
+                finalErrorMessage.substring(0, finalErrorMessage.length - 2);
+          }
+        }
+
+        print(finalErrorMessage);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(finalErrorMessage),
+        ));
+
+        yield FailedUpdatingOwnedRestaurant(message: finalErrorMessage);
       } else {
         print("Readyy: ");
         print(response);

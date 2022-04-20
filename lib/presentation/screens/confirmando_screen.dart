@@ -113,9 +113,9 @@ class ConfirmandoScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w700)),
                                   ),
                                   Text(
-                                      DateFormat().add_jm().format(
+                                      DateFormat().add_Hm().format(
                                           DateTime.parse(reservationModel.time)
-                                              .add(const Duration(minutes: 0))),
+                                              .add(const Duration(minutes: 0)))+" hrs.",
                                       style: TextStyle(
                                           fontSize: 40,
                                           color: textBold,
@@ -157,9 +157,9 @@ class ConfirmandoScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w700)),
                                   ),
                                   Text(
-                                      DateFormat().add_jm().format(
+                                      DateFormat().add_Hm().format(
                                           DateTime.parse(reservationModel.time)
-                                              .add(const Duration(minutes: 5))),
+                                              .add(const Duration(minutes: 5))) + "hrs.",
                                       style: TextStyle(
                                           fontSize: 40,
                                           color: textBold,

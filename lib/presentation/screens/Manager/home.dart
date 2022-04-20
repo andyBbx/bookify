@@ -52,7 +52,7 @@ class _ManagerViewState extends State<ManagerView> {
       String? userModelString = prefs.getString("user");
       if (Utils().checkJsonArray(userModelString)) {
         BlocProvider.of<OwnedRestaurantsBloc>(context)
-            .add(LoadOwnedRestaurants());
+            .add( LoadOwnedRestaurants());
         setState(() {
           user = user.fromJson(jsonDecode(userModelString!));
           try {
@@ -78,6 +78,10 @@ class _ManagerViewState extends State<ManagerView> {
         if ((user.id)!.isEmpty) {
           //logout;
         }
+      }
+
+      if (context.read<OwnedRestaurantsBloc>().state is ReadyOwnedRestaurants) {
+        print("WTF");
       }
 
       setState(() {

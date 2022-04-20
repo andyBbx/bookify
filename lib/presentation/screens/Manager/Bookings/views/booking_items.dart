@@ -161,7 +161,7 @@ class BookingItems extends StatelessWidget {
                 width: 100.0,
                 child: Center(
                     child: Text(
-                  "La reservación aún no tiene mesas asignadas",
+                  "La reserva aún no tiene mesas asignadas",
                   textAlign: TextAlign.center,
                 )),
               );
@@ -360,7 +360,7 @@ class BookingItems extends StatelessWidget {
                                                   title: const Text(
                                                       '¿Quieres cancelar esta reserva?'),
                                                   content: const Text(
-                                                      "Una vez cancelada esta reservación no se podrá recuperar"),
+                                                      "Una vez cancelada esta reserva no se podrá recuperar"),
                                                   actions: [
                                                     TextButton(
                                                       child: const Text(

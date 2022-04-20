@@ -133,19 +133,20 @@ Widget resturantionItem(context, reservation, history) {
                           ? logo(200)
                           : Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  image: onError
-                                      ? null
-                                      : DecorationImage(
-                                          onError: (value, v) {
-                                            onError = true;
-                                          },
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              restaurantData.logo!)),
-                                  /* borderRadius: const BorderRadius.only(
+                                color: Colors.grey[300],
+                                image: onError
+                                    ? null
+                                    : DecorationImage(
+                                        onError: (value, v) {
+                                          onError = true;
+                                        },
+                                        fit: BoxFit.cover,
+                                        image:
+                                            NetworkImage(restaurantData.logo!)),
+                                /* borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15)) */),
+                                      bottomLeft: Radius.circular(15)) */
+                              ),
                               // child: Image.network(
                               //   widget.restaurante.logo!,
                               //   fit: BoxFit.cover,
@@ -154,7 +155,7 @@ Widget resturantionItem(context, reservation, history) {
                   Expanded(
                     flex: 4,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 15),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +167,7 @@ Widget resturantionItem(context, reservation, history) {
                                 style: TextStyle(
                                   color: textDrkgray,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.bold,
                                 )),
                           ),
                           reservation.rated == '0.00'
@@ -191,12 +192,12 @@ Widget resturantionItem(context, reservation, history) {
                                 color: textBold,
                               ),
                               const SizedBox(
-                                width: 5,
+                                width: 10,
                               ),
                               Text("${reservation.quantity} Personas",
                                   style: TextStyle(
                                     color: textDrkgray,
-                                    fontSize: 10,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w700,
                                   )),
                             ],
@@ -216,12 +217,12 @@ Widget resturantionItem(context, reservation, history) {
                               ),
                               Flexible(
                                 child: Text(
-                                    " ${DateFormat().add_MMMd().format(reservation.date)}",
+                                    "${DateFormat.yMMMMd('es_ES').format(reservation.date)}",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: TextStyle(
                                       color: textDrkgray,
-                                      fontSize: 10,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.w700,
                                     )),
                               ),
@@ -235,13 +236,18 @@ Widget resturantionItem(context, reservation, history) {
                                 width: 20,
                                 color: textBold,
                               ),
-                              Text(
-                                  " ${DateFormat().add_jm().format(DateTime.parse("2019-07-19 ${reservation.time}"))}",
-                                  style: TextStyle(
-                                    color: textDrkgray,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w700,
-                                  )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: Text(
+                                    "${reservation.time.substring(0, 5)} hrs.",
+                                    style: TextStyle(
+                                      color: textDrkgray,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                    )),
+                              ),
                             ],
                           ),
                         ],
@@ -397,7 +403,7 @@ deleteBox(context, restaurant, user, reservation) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Text(
-              '¿Desea cancelar su reservación?',
+              '¿Desea cancelar su reserva?',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),

@@ -19,8 +19,8 @@ class Utils {
     return prefs;
   }
 
-  bprint(value){
-    if(allowPrinting){
+  bprint(value) {
+    if (allowPrinting) {
       print(value);
     }
   }
@@ -102,21 +102,25 @@ void launchURL(String url) async {
 }
 
 setLocation() async {
-  var permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
+  try {
+    var permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) async {
+      if (position != null) {
+        var place = await PlaceApiProvider('12345')
+            .getPlaceFromGeo(position.latitude, position.longitude);
+        saveUserUbi(
+            '{"adresss": "${place.adresss}", "long": "${place.long}", "lat": "${place.lat}"}');
+      } else {}
+    }).catchError((e) {
+      print(e);
+    });
+  } catch (e) {
+    print("Error para obtener la ubicación");
   }
-  await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best,
-          forceAndroidLocationManager: true)
-      .then((Position position) async {
-    if (position != null) {
-      var place = await PlaceApiProvider('12345')
-          .getPlaceFromGeo(position.latitude, position.longitude);
-      saveUserUbi(
-          '{"adresss": "${place.adresss}", "long": "${place.long}", "lat": "${place.lat}"}');
-    } else {}
-  }).catchError((e) {
-    print(e);
-  });
 }

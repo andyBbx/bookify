@@ -115,7 +115,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         String url;
 
-        String specificFields = "&fields=id,logo,menu_url,name,description,phone,address,postal_code,municipality,province,country,latitude,longitude,web,tags,gallery,favorite,rating,rss,status,created_at,updated_at";
+        String specificFields =
+            "&fields=id,logo,menu_url,name,description,phone,address,postal_code,municipality,province,country,latitude,longitude,web,tags,favorite,rating,rss,status,created_at,updated_at";
 
         if (location.lat != null && location.long != null) {
           url =

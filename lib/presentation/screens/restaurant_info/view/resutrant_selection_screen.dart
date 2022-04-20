@@ -398,8 +398,10 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                             onTap: () {
                               if (widget.restaurante.latitude != null &&
                                   widget.restaurante.longitude != null) {
-                                launchURL(
-                                    "https://www.google.com/maps/search/?api=1&query=${widget.restaurante.latitude},${widget.restaurante.longitude}");
+                                /* launchURL(
+                                    "https://www.google.com/maps/search/?api=1&query=${widget.restaurante.latitude},${widget.restaurante.longitude}"); */
+                                    launchURL(
+                                    "https://www.google.com/maps/search/?api=1&query=${widget.restaurante.name}%20${widget.restaurante.address}");
                               }
                             },
                             child: Text(
