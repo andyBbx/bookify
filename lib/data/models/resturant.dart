@@ -37,7 +37,9 @@ class RestaurantModel {
       this.logo,
       this.rss,
       // ignore: non_constant_identifier_names
-      this.menu_url});
+      this.menu_url,
+      this.currentlyOpen: true,
+      this.closestOpeningDate: ""});
 
   String? id;
   dynamic? cover;
@@ -62,6 +64,8 @@ class RestaurantModel {
   String? logo;
   dynamic rss;
   String? menu_url;
+  bool currentlyOpen = true;
+  String closestOpeningDate = "";
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(
@@ -89,7 +93,9 @@ class RestaurantModel {
           rating: json["rating"],
           schedule: json["schedule"],
           rss: json["rss"],
-          menu_url: json["menu_url"]);
+          menu_url: json["menu_url"],
+          currentlyOpen: json["currently_open"] ?? true,
+          closestOpeningDate: json["closest_opening_date"] ?? "");
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -115,7 +121,9 @@ class RestaurantModel {
         "schedule": schedule,
         "logo": logo,
         "rss": rss,
-        "menu_url": menu_url
+        "menu_url": menu_url,
+        "currently_open": currentlyOpen,
+        "closest_opening_date": closestOpeningDate
       };
 }
 

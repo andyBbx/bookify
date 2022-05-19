@@ -16,7 +16,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ResturantListItem extends StatefulWidget {
   final RestaurantModel restaurante;
   final bool nowActive;
-  const ResturantListItem({Key? key, required this.restaurante, this.nowActive = false})
+  const ResturantListItem(
+      {Key? key, required this.restaurante, this.nowActive = false})
       : super(key: key);
 
   @override
@@ -47,8 +48,10 @@ class _ResturantListItemState extends State<ResturantListItem> {
     return Container(
       // margin: const EdgeInsets.symmetric(horizontal: 20),
       width: widhth,
-      decoration: const BoxDecoration(
-          color: Colors.white,
+      decoration: BoxDecoration(
+          color: widget.restaurante.currentlyOpen
+              ? Colors.white
+              : Colors.grey[200],
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -170,7 +173,7 @@ class _ResturantListItemState extends State<ResturantListItem> {
                           itemCount: 5,
                           itemSize: 20.0,
                           direction: Axis.horizontal,
-                        ),
+                        ),                    
                       ],
                     ),
                     Row(
@@ -200,7 +203,27 @@ class _ResturantListItemState extends State<ResturantListItem> {
                     // const SizedBox(
                     //   height: 5,
                     // ),
-                    Text(widget.restaurante.description!,
+                    !widget.restaurante.currentlyOpen
+                            ? Container(
+                                color: Colors.red[500],
+                                padding: EdgeInsets.symmetric(horizontal: 5,vertical: 1),
+                                margin: EdgeInsets.symmetric(vertical: 3),
+                                child: Text(
+                                  "Cerrado",
+                                  style: TextStyle(color: Colors.white, fontSize: 12),
+                                ))
+                            : SizedBox(),
+                        !widget.restaurante.currentlyOpen
+                            ? Text(
+                                "Próxima fecha y hora de apertura:",
+                                style: TextStyle(fontSize: 11),
+                              )
+                            : SizedBox(),
+                        !widget.restaurante.currentlyOpen
+                            ? Text(widget.restaurante.closestOpeningDate,
+                                style: TextStyle(fontSize: 12))
+                            : SizedBox(),
+                    !widget.restaurante.currentlyOpen ? SizedBox() : Text(widget.restaurante.description!,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(

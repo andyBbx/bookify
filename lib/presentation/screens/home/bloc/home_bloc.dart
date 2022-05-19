@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:bookify/constants/utils.dart';
 import 'package:bookify/data/models/category.dart';
@@ -130,6 +131,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield HomeFail(message: responseRest['message']);
         } else if (responseRest['code'] == 200) {
           var jsonRest = jsonDecode(responseRest['model']);
+
+          print(jsonRest);
 
           for (var i = 0; i < jsonRest.length; i++) {
             var restModel = RestaurantModel.fromJson(jsonRest[i]);
@@ -487,6 +490,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield HomeFail(message: response['message']);
       } else if (response['code'] == 200) {
         var jsonRest = jsonDecode(response['model']);
+        print("URL:");
+        print(url);
+        print("Ahora:");
+        print(event.nowActive);
+        print("Response:");
+        log(jsonEncode(jsonRest));
         for (var i = 0; i < jsonRest.length; i++) {
           var restModel = RestaurantModel.fromJson(jsonRest[i]);
           myRestCat.add(restModel);

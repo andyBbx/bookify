@@ -20,7 +20,7 @@ class RestaurantesWidget extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: isTab() ? 2.5 : 2.5,
+              childAspectRatio: isTab() ? 2.0 : 2.0,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
               crossAxisCount: isTab() ? 2 : 1,

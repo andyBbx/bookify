@@ -14,6 +14,7 @@ import 'package:bookify/presentation/widgets/bloc_widgets/load_widget.dart';
 import 'package:bookify/presentation/widgets/filter_chip.dart';
 import 'package:bookify/presentation/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -400,8 +401,18 @@ class _ResturantSelectionScreenState extends State<ResturantSelectionScreen> {
                                   widget.restaurante.longitude != null) {
                                 /* launchURL(
                                     "https://www.google.com/maps/search/?api=1&query=${widget.restaurante.latitude},${widget.restaurante.longitude}"); */
-                                    launchURL(
-                                    "https://www.google.com/maps/search/?api=1&query=${widget.restaurante.name}%20${widget.restaurante.address}");
+                                    /* launchURL(
+                                    "https://www.google.com/maps/search/?api=1&query="+widget.restaurante.name.toString().replaceAll(' ', "%20")+"%20"+widget.restaurante.address.toString().replaceAll(' ', "%20")); */
+                                    String baseLocationUrl = "https://www.google.com/maps/search/?api=1&query=";
+                                    String queryLocationUrl = widget.restaurante.name.toString()+"%20"+widget.restaurante.address.toString();
+                                    queryLocationUrl = removeDiacritics(queryLocationUrl);
+                                    //String uriEncodedlocationUrl = Uri.encodeFull(locationUrl);
+                                    //String uriEncodedlocationUrl = queryLocationUrl.replaceAll(RegExp('[^A-Za-z0-9]'), '');
+                                    String uriEncodedlocationUrl = Uri.encodeFull(baseLocationUrl+queryLocationUrl);
+
+                                    /* print(locationUrl); */
+                                    /* print(uriEncodedlocationUrl); */
+                                    launchURL(uriEncodedlocationUrl);
                               }
                             },
                             child: Text(
